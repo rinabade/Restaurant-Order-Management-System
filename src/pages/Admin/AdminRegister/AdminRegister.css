@@ -1,0 +1,22 @@
+.glass{
+    backdrop-filter: blur(20px) saturate(180%);
+    background-color: rgba(110, 63, 139, 0.2);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, .25);
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
+    width: 60%;
+}
+.btn1{
+   background-color: rgba(57, 41, 148, 0.705) !important;
+   color: aliceblue !important;
+   margin-left: 25%;
+}
+ .btn3{
+    background-color: rgba(57, 41, 148, 0.705) !important;
+    color: aliceblue !important;
+ }
+ .dropdown-toggle {
+      background-color: white!important;
+      color: gray!important;
+      border-color: white !important;
+ }
