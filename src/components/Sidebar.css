@@ -4,7 +4,7 @@
   position: relative;
   padding-top: 2rem;
   transition: all 300ms ease;
- 
+  background-color: #ffcfd1;
 }
 /* logo */
 .bars{
