@@ -20,6 +20,9 @@ import Payment from './pages/Admin/Payment/Payment';
 import Suppliers_payment from './pages/Admin/Suppliers_payment/Suppliers_payment';
 import Admin_profile from './pages/Admin/Admin_profile/Admin_profile';
 import Suppliers from './pages/Admin/Suppliers/Suppliers';
+import Permission from './pages/Admin/Permission/Permission';
+import AdminRole from './pages/Admin/AdminRole/AdminRole';
+import AdminLogin from './pages/Admin/AdminLogin/AdminLogin';
 
 function App() {
   return (
@@ -44,8 +47,10 @@ function App() {
             <Route path="Admin_profile" element={<Admin_profile/>} />
             <Route path="Suppliers" element={<Suppliers/>} />
             <Route path="Category" element={<Category/>} />
-
+            <Route path="Permission" element={<Permission/>} />
+            <Route path="AdminRole" element={<AdminRole/>} />
           </Route>
+          <Route path="/AdminLogin" element={<AdminLogin/>} />
         </Routes>
         {/* {(!location.pathname.includes("/admin")) && <Footer />} */}
       </div>

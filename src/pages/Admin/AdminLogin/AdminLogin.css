@@ -1,10 +1,14 @@
-.glass1{
+.login{
+    background-color: rgba(27, 4, 82, 0.596);
+}
+
+.glass{
     backdrop-filter: blur(20px) saturate(180%);
-    background-color: rgba(110, 63, 139, 0.2);
+    background-color: rgba(202, 183, 224, 0.747);
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, .25);
     box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
-    width: 60%;
+    width: 30%;
 }
 .btn1{
    background-color: rgba(57, 41, 148, 0.705) !important;
@@ -14,6 +18,7 @@
  .btn3{
     background-color: rgba(57, 41, 148, 0.705) !important;
     color: aliceblue !important;
+    width: 20%;
  }
  .dropdown-toggle {
       background-color: white!important;

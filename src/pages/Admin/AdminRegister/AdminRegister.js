@@ -29,8 +29,10 @@ function AdminRegister() {
   }
   return (
     <div className='register d-flex justify-content-center align-items-center vh-110'>
-      <div className='glass p-3 rounded'>
+      <div className='glass1 p-3 rounded'>
+        <div className='mb-5'>
         <h2>Register</h2>
+        </div>
         <form onSubmit={handleSubmit}>
           <div className='d-flex flex-row justify-content-around'>
             <div className='mb-3'>
@@ -76,11 +78,11 @@ function AdminRegister() {
           <div className='mb-3 d-flex justify-content-around'>
             <label htmlFor="gender" className=' mr-5'><strong>Gender:</strong></label>
 
-            <div class="form-check form-check-inline">
+            <div class="form-check form-check-inline mb-3">
               <input className="form-check-input" type="radio" value="option1" />
               <label className="form-check-label" for="inlineCheckbox1">Male</label>
             </div>
-            <div className="form-check form-check-inline">
+            <div className="form-check form-check-inline mb-3">
               <input className="form-check-input" type="radio" value="option2" />
               <label classNmae="form-check-label" for="inlineCheckbox2">Female</label>
             </div>
@@ -122,14 +124,14 @@ function AdminRegister() {
               <input className="form-check-input" type="radio" value="option1" />
               <label className="form-check-label" for="inlineCheckbox1">Part-time</label>
             </div>
-            <div class="form-check form-check-inline">
+            <div class="form-check form-check-inline mb-3">
               <input className="form-check-input" type="radio" value="option1" />
               <label className="form-check-label" for="inlineCheckbox1">Full-time</label>
             </div>
           </div>
-          <p><input className="form-check-input" type="checkbox" value="option1" /> &nbsp; I have read and accept the terms and policies</p>
+          <p><input className="form-check-input mb-3" type="checkbox" value="option1" /> &nbsp; I have read and accept the terms and policies</p>
           <button type='submit' className='btn btn1 w-50 rounded-12 mb-3'>Register</button>
-          <p> Already have an account? <Link to="/Adminlogin" className='text-primary'>Login</Link></p>
+        
 
         </form>
       </div>

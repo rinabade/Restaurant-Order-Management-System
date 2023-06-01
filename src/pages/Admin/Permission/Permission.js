@@ -24,14 +24,14 @@ const rows = [
 export default function BasicTable() {
   return (
       <div className="Table ">
-      <h3 className="mb-5">Category</h3>
+      <h3 className="mb-5">Permissions</h3>
          
          <form>
          <div className='mb-5'>
           
-            <label htmlFor="name"><strong>Category name</strong></label>
+            {/* <label htmlFor="name"><strong>Permission</strong></label> */}
            <div className="d-flex">
-                <input type="name" placeholder='Enter Category name' name='name'
+                <input type="name" placeholder='Enter Permission' name='name'
                   className="form-control rounded-0 w-50" required/>
                  
               
@@ -51,8 +51,8 @@ export default function BasicTable() {
             <TableHead>
               <TableRow>
                 
-                <TableCell align="left">Category ID</TableCell>
-                <TableCell align="left">Category Name</TableCell>
+                <TableCell align="left">Permission ID</TableCell>
+                <TableCell align="left">Permissions</TableCell>
                 <TableCell align="left">Action</TableCell>
               </TableRow>
             </TableHead>

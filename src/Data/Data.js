@@ -23,10 +23,6 @@ export const SidebarData = [
     heading: "Employee",
     path: "/admin/Employees",
   
-  //   {
-  //   heading: "Employee details",
-  //   path: "/UserDB",
-  // }
   },
   {
     icon: FaCalendarMinus,
@@ -37,6 +33,16 @@ export const SidebarData = [
     icon: FaClipboard,
     heading: "Category",
     path: "/admin/Category",
+  },
+  {
+    icon: FaClipboard,
+    heading: "AdminRole",
+    path: "/admin/AdminRole",
+  },
+  {
+    icon: FaClipboard,
+    heading: "Permission",
+    path: "/admin/Permission",
   },
   {
     icon: FaClipboardList,

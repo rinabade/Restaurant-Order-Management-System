@@ -64,7 +64,7 @@ export default function BasicTable() {
             <h3>Menu </h3>
             <div className="registerbtn mb-5 mt-5">
                 <Button variant="contained" color="primary" onClick={handleOpen}>
-                    Add Item
+                    Create Menu
                 </Button>
             </div>
             <TableContainer
@@ -114,7 +114,7 @@ export default function BasicTable() {
                         p: 4,
                     }}
                 >
-                    <h2>Add Item</h2>
+                    <h2>Add Menu</h2>
                     <form>
                         <TextField
                             name="category"
