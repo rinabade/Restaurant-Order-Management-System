@@ -23,6 +23,7 @@ import Suppliers from './pages/Admin/Suppliers/Suppliers';
 import Permission from './pages/Admin/Permission/Permission';
 import AdminRole from './pages/Admin/AdminRole/AdminRole';
 import AdminLogin from './pages/Admin/AdminLogin/AdminLogin';
+import Menu from './pages/User/Menu/Menu';
 
 function App() {
   return (
@@ -32,25 +33,27 @@ function App() {
         <Navbar isAuth={false} logoData={undefined} />
       )} */}
         <Routes>
+          <Route path="/Menu" element={<Menu />} />
 
           <Route path="/admin" element={<Dashboard />}>
-
             <Route path="MainDash" element={<MainDash />} />
             <Route path="Employees" element={<Employees />} />
             <Route path="AdminRegister" element={<AdminRegister />} />
             <Route path="AdminMenu" element={<AdminMenu />} />
-            <Route path="Orders" element={<Orders/>} />
-            <Route path="Inventory" element={<Inventory/>} />
-            <Route path="Feedback" element={<Feedback/>} />
-            <Route path="Payment" element={<Payment/>} />
-            <Route path="Suppliers_payment" element={<Suppliers_payment/>} />
-            <Route path="Admin_profile" element={<Admin_profile/>} />
-            <Route path="Suppliers" element={<Suppliers/>} />
-            <Route path="Category" element={<Category/>} />
-            <Route path="Permission" element={<Permission/>} />
-            <Route path="AdminRole" element={<AdminRole/>} />
+            <Route path="Orders" element={<Orders />} />
+            <Route path="Inventory" element={<Inventory />} />
+            <Route path="Feedback" element={<Feedback />} />
+            <Route path="Payment" element={<Payment />} />
+            <Route path="Suppliers_payment" element={<Suppliers_payment />} />
+            <Route path="Admin_profile" element={<Admin_profile />} />
+            <Route path="Suppliers" element={<Suppliers />} />
+            <Route path="Category" element={<Category />} />
+            <Route path="Permission" element={<Permission />} />
+            <Route path="AdminRole" element={<AdminRole />} />
           </Route>
-          <Route path="/AdminLogin" element={<AdminLogin/>} />
+          
+          <Route path="/AdminLogin" element={<AdminLogin />} />
+
         </Routes>
         {/* {(!location.pathname.includes("/admin")) && <Footer />} */}
       </div>

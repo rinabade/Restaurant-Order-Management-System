@@ -1,6 +1,6 @@
 import '../../../App.css'
-import MainDash from '../MainDash/MainDash';
-import Sidebar from '../../../components/Sidebar';
+
+import Sidebar from '../../../components/Sidebar/Sidebar';
 import {Outlet} from 'react-router-dom';
 
 function Dashboard() {
