@@ -15,7 +15,11 @@ import { getAllUsers, deleteUser } from "../../../api/userAction";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Dropdown from "react-bootstrap/Dropdown";
-import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import "../Table.css";
 
 // function createData(Firstname,Lastname,Email,Password,Address,Phone,Gender, Jobtitle,Date,Salary,Status,Action ) {
@@ -28,6 +32,9 @@ import "../Table.css";
 
 export default function BasicTable() {
   const [data, setData] = useState([]);
+
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState(null);
 
   const navigate = useNavigate();
 
@@ -62,21 +69,33 @@ export default function BasicTable() {
   }, []);
 
   const handleDeleteClick = (id) => {
-    deleteUser(id)
-      .then((response) => {
-        // Handle the response if needed
-        console.log("User deleted successfully");
-        // Update the UI or fetch updated data
+    setDeleteItemId(id);
+    setConfirmDialogOpen(true);
+  }
 
-        // Filtering data
-        setData((prevData) =>
-          prevData.filter((dataItem) => dataItem.employee_id !== id)
-        );
-      })
-      .catch((error) => {
-        // Handle the error if needed
-        console.log("An error occurred while deleting the user");
-      });
+  const handleConfirmDelete = () => {
+    // Perform the delete operation
+    if (deleteItemId) {
+      deleteUser(deleteItemId)
+        .then((response) => {
+          console.log("User deleted successfully");
+          setData((prevData) =>
+            prevData.filter((dataItem) => dataItem.employee_id !== deleteItemId)
+          );
+          setDeleteItemId(null);
+          setConfirmDialogOpen(false);
+        })
+        .catch((error) => {
+          console.log("An error occurred while deleting the user");
+          setDeleteItemId(null);
+          setConfirmDialogOpen(false);
+        });
+    }
+  };
+  
+  const handleCancelDelete = () => {
+    setDeleteItemId(null);
+    setConfirmDialogOpen(false);
   };
 
   const handleEditClick = (item) => {
@@ -402,6 +421,23 @@ export default function BasicTable() {
           </Box>
         </Modal>
       </div>
+       {/* Confirmation Dialog */}
+       <Dialog
+        open={confirmDialogOpen}
+        onClose={handleCancelDelete}
+        maxWidth="xs"
+      >
+        <DialogTitle>Delete Confirmation</DialogTitle>
+        <DialogContent>
+          Are you sure you want to delete this user?
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancelDelete}>Cancel</Button>
+          <Button onClick={handleConfirmDelete} color="error">
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }

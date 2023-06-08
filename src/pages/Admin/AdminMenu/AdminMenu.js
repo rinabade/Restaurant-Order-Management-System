@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,6 +11,10 @@ import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
 import "../Table.css";
 
 function createData(Category, Item, Description, Price, Image, Action) {
@@ -24,6 +29,11 @@ const rows = [
 export default function BasicTable() {
     const [open, setOpen] = React.useState(false);
     const [newItem, setNewItem] = React.useState({ category: "", item: "", description: "", price: "", image: "" });
+
+    const [deleteItemId, setDeleteItemId] = useState(null);
+    const [editItemId, setEditItemId] = useState(null);
+    const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false);
+    const [confirmEditDialogOpen, setConfirmEditDialogOpen] = useState(false);
 
     const handleOpen = () => {
         setOpen(true);
@@ -59,6 +69,48 @@ export default function BasicTable() {
         }));
     };
 
+    const handleDeleteClick = (row) => {
+        setDeleteItemId(row);
+        setConfirmDeleteDialogOpen(true);
+    };
+
+    const handleEditClick = (row) => {
+        setEditItemId(row);
+        setConfirmEditDialogOpen(true);
+    };
+
+    const handleConfirmDelete = () => {
+        // Perform the delete operation
+        if (deleteItemId) {
+            // Add your delete logic here
+            console.log("Delete item with ID:", deleteItemId);
+
+            setDeleteItemId(null);
+            setConfirmDeleteDialogOpen(false);
+        }
+    };
+
+    const handleConfirmEdit = () => {
+        // Perform the edit operation
+        if (editItemId) {
+            // Add your edit logic here
+            console.log("Edit item with ID:", editItemId);
+
+            setEditItemId(null);
+            setConfirmEditDialogOpen(false);
+        }
+    };
+
+    const handleCancelDelete = () => {
+        setDeleteItemId(null);
+        setConfirmDeleteDialogOpen(false);
+    };
+
+    const handleCancelEdit = () => {
+        setEditItemId(null);
+        setConfirmEditDialogOpen(false);
+    };
+
     return (
         <div className="Table">
             <h3>Menu </h3>
@@ -83,16 +135,16 @@ export default function BasicTable() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row) => (
-                            <TableRow key={row.name}>
+                        {rows.map((row, index) => (
+                            <TableRow key={index}>
                                 <TableCell align="left">{row.Category}</TableCell>
                                 <TableCell align="left">{row.Item}</TableCell>
                                 <TableCell align="left">{row.Description}</TableCell>
                                 <TableCell align="left">{row.Price}</TableCell>
                                 <TableCell align="left">{row.Image}</TableCell>
                                 <TableCell align="left">
-                                    <Button className=" bg-success" style={{ border: "none", color: "white" }}>Edit</Button>
-                                    <Button style={{ marginLeft: "10px", backgroundColor: "#CD5C5C", border: "none", color: "white" }}>Delete</Button>
+                                    <Button className=" bg-success" style={{ border: "none", color: "white" }} onClick={() => handleEditClick(row)}>Edit</Button>
+                                    <Button style={{ marginLeft: "10px", backgroundColor: "#CD5C5C", border: "none", color: "white" }} onClick={() => handleDeleteClick(row)}>Delete</Button>
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -173,6 +225,89 @@ export default function BasicTable() {
                     </form>
                 </Box>
             </Modal>
+            {/* Confirmation Dialog for Delete */}
+            <Dialog
+                open={confirmDeleteDialogOpen}
+                onClose={handleCancelDelete}
+                maxWidth="xs"
+            >
+                <DialogTitle>Delete Confirmation</DialogTitle>
+                <DialogContent>
+                    Are you sure you want to delete this item?
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCancelDelete} style={{ color: "white", backgroundColor: "#CD5C5C", border: "none" }}>Cancel</Button>
+                    <Button onClick={handleConfirmDelete} style={{ color: "white", backgroundColor: "#044cd0", border: "none" }}>
+                        Delete
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            {/* Confirmation Dialog for Edit */}
+            <Dialog
+                open={confirmEditDialogOpen}
+                onClose={handleCancelEdit}
+                maxWidth="xs"
+            >
+                <DialogTitle>Edit Menu</DialogTitle>
+                <DialogContent>
+                    <form>
+                        <TextField
+                            name="category"
+                            label="Enter Category"
+                            value={newItem.category}
+                            onChange={handleInputChange}
+                            fullWidth
+                            margin="normal"
+                        />
+                        <TextField
+                            name="item"
+                            label="Enter Item Name"
+                            value={newItem.item}
+                            onChange={handleInputChange}
+                            fullWidth
+                            margin="normal"
+                        />
+                        <TextField
+                            name="description"
+                            label="write description"
+                            value={newItem.description}
+                            onChange={handleInputChange}
+                            fullWidth
+                            margin="normal"
+                        />
+                        <TextField
+                            name="price"
+                            label="Enter Price"
+                            value={newItem.price}
+                            onChange={handleInputChange}
+                            fullWidth
+                            margin="normal"
+                        />
+                        <div className="upload-image-container">
+                            <input
+                                type="file"
+                                name="image"
+                                accept="image/*"
+                                onChange={handleImageUpload}
+                                className="upload-image-input"
+                                id="upload-image"
+                            />
+                            <label htmlFor="upload-image" className="upload-image-label">
+                                Choose Image
+                            </label>
+                            <br></br>
+                            <span className="upload-image-text">{newItem.image ? newItem.image.name : "No file chosen"}</span>
+                        </div>
+                    </form>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCancelEdit} style={{ color: "white", backgroundColor: "#CD5C5C", border: "none" }}>Cancel</Button>
+                    <Button onClick={handleConfirmEdit} style={{ color: "white", backgroundColor: "#044cd0", border: "none" }}>
+                        Edit
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 }
