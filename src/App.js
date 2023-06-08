@@ -33,7 +33,7 @@ function App() {
         <Navbar isAuth={false} logoData={undefined} />
       )} */}
         <Routes>
-          <Route path="/Menu" element={<Menu />} />
+          <Route path="/" element={<Menu />} />
 
           <Route path="/admin" element={<Dashboard />}>
             <Route path="MainDash" element={<MainDash />} />
