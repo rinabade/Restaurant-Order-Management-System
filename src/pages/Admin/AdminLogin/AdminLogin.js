@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import axios from 'axios'
 
+
 function AdminLogin() {
     const navigate = useNavigate();
     const [values, setValues] = useState({
@@ -16,7 +17,7 @@ function AdminLogin() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios.post('', values)
+        axios.post('http://localhost:5000/api/login', values)
             .then(res => {
                 if (res.data.Status === "Success") {
                     navigate("/admin/Dashboard");
@@ -62,11 +63,11 @@ function AdminLogin() {
                         <input type="password" placeholder='Enter Password' name='name'
                             onChange={e => setValues({ ...values, password: e.target.value })} className="form-control rounded-0" required />
                     </div >
-                    <div className="align-items-center d-flex justify-content-center">
-                        <button type='submit' className='btn btn3 w-50 rounded-12  mt-3 mb-3'>Log in</button>
-                    </div>
                     <div className='forget text-primary'>
                         <p onClick={() => setShowPopup(true)}>Forget Password?</p>
+                    </div>
+                    <div className="align-items-center d-flex justify-content-center">
+                        <button type='submit' className='btn btn3 w-50 rounded-12  mt-3 mb-3'>Log in</button>
                     </div>
                 </form>
             </div>
@@ -115,3 +116,13 @@ function AdminLogin() {
 };
 
 export default AdminLogin
+
+
+
+
+
+
+
+
+
+
