@@ -14,9 +14,9 @@ import { useEffect } from "react";
 import { getAllUsers, deleteUser } from "../../../api/userAction";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import Dropdown from 'react-bootstrap/Dropdown';
+import Dropdown from "react-bootstrap/Dropdown";
 import TextField from "@mui/material/TextField";
-import '../Table.css'
+import "../Table.css";
 
 // function createData(Firstname,Lastname,Email,Password,Address,Phone,Gender, Jobtitle,Date,Salary,Status,Action ) {
 //   return { Firstname, Lastname,  Email,Password, Address, Phone, Gender, Jobtitle,Date,Salary,Status,Action };
@@ -67,11 +67,11 @@ export default function BasicTable() {
         // Handle the response if needed
         console.log("User deleted successfully");
         // Update the UI or fetch updated data
-        
+
         // Filtering data
         setData((prevData) =>
-        prevData.filter((dataItem) => dataItem.employee_id !== id)
-      );
+          prevData.filter((dataItem) => dataItem.employee_id !== id)
+        );
       })
       .catch((error) => {
         // Handle the error if needed
@@ -93,7 +93,6 @@ export default function BasicTable() {
   const handleCloseEdit = () => {
     setEditItem(null);
   };
-
 
   return (
     <>
@@ -163,13 +162,6 @@ export default function BasicTable() {
                   </TableCell>
                   <TableCell align="left" className="Details">
                     <Button
-                      className=" bg-success"
-                      style={{ border: "none", color: "white", height: "25px" }}
-                    >
-                      Edit
-                    </Button>
-
-                    <Button
                       onClick={() => handleDeleteClick(dataItem.employee_id)} // Pass the corresponding id to the handleDeleteClick function
                       style={{
                         marginTop: "5px",
@@ -179,154 +171,236 @@ export default function BasicTable() {
                         height: "25px",
                       }}
                     >
-                        Delete
-                    </Button>
-                    
-                    {/* <Button
-                      style={{
-                        marginTop: "5px",
-                        backgroundColor: "#CD5C5C",
-                        border: "none",
-                        color: "white",
-                        height: "25px",
-                      }}
-                    >
                       Delete
-                    </Button> */}
+                    </Button>
+
+                    <Button
+                      className=" bg-success"
+                      style={{ border: "none", color: "white", height: "25px" }}
+                      onClick={() => handleEditClick(dataItem)}
+                    >
+                      Edit
+                    </Button>
                   </TableCell>
-                  <Button className=" bg-success" style={{border:"none",color:"white",height:"25px"}} onClick={() => handleEditClick(row)}>Edit</Button> 
-                    <Button style={{ marginTop: "5px", backgroundColor: "#CD5C5C", border:"none", color:"white",height:"25px"}}>Delete</Button> 
-                </TableCell>
-            
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-           {/* Edit Modal */}
-      <Modal open={Boolean(editItem)} onClose={handleCloseEdit}>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 600,
-            bgcolor: "background.paper",
-            boxShadow: 24,
-            p: 4,
-          }}
-        >
-          <h3>Edit Employee</h3>
-          <form >
-          <div className='d-flex flex-row justify-content-around'>
-            <div className='mb-3'>
-              <label htmlFor="name"><strong>First Name</strong></label>
-              <input type="text" placeholder='Enter Name' name='name'
-                className="form-control rounded-0" required disabled />
+        {/* Edit Modal */}
+        <Modal open={Boolean(editItem)} onClose={handleCloseEdit}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 600,
+              bgcolor: "background.paper",
+              boxShadow: 24,
+              p: 4,
+            }}
+          >
+            <h3>Edit Employee</h3>
+            <form>
+              <div className="d-flex flex-row justify-content-around">
+                <div className="mb-3">
+                  <label htmlFor="name">
+                    <strong>First Name</strong>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter Name"
+                    name="name"
+                    className="form-control rounded-0"
+                    required
+                    disabled
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="name">
+                    <strong>Last Name</strong>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter Name"
+                    name="name"
+                    className="form-control rounded-0"
+                    required
+                    disabled
+                  />
+                </div>
+              </div>
+              <div className="d-flex flex-row justify-content-around">
+                <div className="mb-3">
+                  <label htmlFor="email">
+                    <strong>Email</strong>
+                  </label>
+                  <input
+                    type="email"
+                    placeholder="Enter Email"
+                    name="email"
+                    className="form-control rounded-0"
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="password">
+                    <strong>Password</strong>
+                  </label>
+                  <input
+                    type="password"
+                    placeholder="Enter Password"
+                    name="password"
+                    className="form-control rounded-0"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="d-flex flex-row justify-content-around">
+                <div className="mb-3">
+                  <label htmlFor="phone">
+                    <strong>Address</strong>
+                  </label>
+                  <input
+                    type="number"
+                    placeholder="Enter Address"
+                    name="phone"
+                    className="form-control rounded-0"
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="phone">
+                    <strong>Phone number</strong>
+                  </label>
+                  <input
+                    type="number"
+                    placeholder="Enter Phone number"
+                    name="phone"
+                    className="form-control rounded-0"
+                    required
+                  />
+                </div>
+              </div>
 
-            </div>
-            <div className='mb-3'>
-              <label htmlFor="name"><strong>Last Name</strong></label>
-              <input type="text" placeholder='Enter Name' name='name'
-              className="form-control rounded-0" required disabled />
+              <div className="mb-3 d-flex justify-content-around">
+                <label htmlFor="gender" className=" mr-5">
+                  <strong>Gender:</strong>
+                </label>
 
-            </div>
+                <div class="form-check form-check-inline mb-3">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    value="option1"
+                  />
+                  <label className="form-check-label" for="inlineCheckbox1">
+                    Male
+                  </label>
+                </div>
+                <div className="form-check form-check-inline mb-3">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    value="option2"
+                  />
+                  <label classNmae="form-check-label" for="inlineCheckbox2">
+                    Female
+                  </label>
+                </div>
+              </div>
 
-          </div>
-          <div className='d-flex flex-row justify-content-around'>
-            <div className='mb-3'>
-              <label htmlFor="email"><strong>Email</strong></label>
-              <input type="email" placeholder='Enter Email' name='email'
-                className="form-control rounded-0" required />
-            </div>
-            <div className='mb-3'>
-              <label htmlFor="password"><strong>Password</strong></label>
-              <input type="password" placeholder='Enter Password' name='password'
-                className="form-control rounded-0" required />
-            </div>
+              <div className="mb-3 d-flex justify-content-around">
+                <label htmlFor="gender" className=" mr-5">
+                  <strong>Job title:</strong>
+                </label>
 
-          </div>
-          <div className='d-flex flex-row justify-content-around'>
-            <div className='mb-3'>
-              <label htmlFor="phone"><strong>Address</strong></label>
-              <input type="number" placeholder='Enter Address' name='phone'
-                className="form-control rounded-0" required />
-            </div>
-            <div className='mb-3'>
-              <label htmlFor="phone"><strong>Phone number</strong></label>
-              <input type="number" placeholder='Enter Phone number' name='phone'
-                 className="form-control rounded-0" required />
-            </div>
-          </div>
+                <Dropdown>
+                  <Dropdown.Toggle id="dropdown-basic">
+                    Choose job title
+                  </Dropdown.Toggle>
 
-          <div className='mb-3 d-flex justify-content-around'>
-            <label htmlFor="gender" className=' mr-5'><strong>Gender:</strong></label>
+                  <Dropdown.Menu>
+                    <Dropdown.Item href="#/action-1">Admin</Dropdown.Item>
+                    <Dropdown.Item href="#/action-2">Kitchen</Dropdown.Item>
+                    <Dropdown.Item href="#/action-3">Casher</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </div>
 
-            <div class="form-check form-check-inline mb-3">
-              <input className="form-check-input" type="radio" value="option1" />
-              <label className="form-check-label" for="inlineCheckbox1">Male</label>
-            </div>
-            <div className="form-check form-check-inline mb-3">
-              <input className="form-check-input" type="radio" value="option2" />
-              <label classNmae="form-check-label" for="inlineCheckbox2">Female</label>
-            </div>
+              <div className="d-flex flex-row justify-content-around">
+                <div className="mb-3">
+                  <label htmlFor="password">
+                    <strong>Date of hire</strong>
+                  </label>
+                  <input
+                    type="password"
+                    placeholder="Enter Date"
+                    name="password"
+                    className="form-control rounded-0"
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="phone">
+                    <strong>Salary Information</strong>
+                  </label>
+                  <input
+                    type="amount"
+                    placeholder="Enter salary"
+                    name="phone"
+                    className="form-control rounded-0"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="mb-3 d-flex justify-content-around">
+                <label htmlFor="gender" className=" mr-5">
+                  <strong>Employee Status:</strong>
+                </label>
 
-          </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    value="option1"
+                  />
+                  <label className="form-check-label" for="inlineCheckbox1">
+                    Part-time
+                  </label>
+                </div>
+                <div class="form-check form-check-inline mb-3">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    value="option1"
+                  />
+                  <label className="form-check-label" for="inlineCheckbox1">
+                    Full-time
+                  </label>
+                </div>
+              </div>
+            </form>
+            {/* Add more fields as per your form requirements */}
 
-          <div className='mb-3 d-flex justify-content-around'>
-            <label htmlFor="gender" className=' mr-5'><strong>Job title:</strong></label>
-
-            <Dropdown>
-      <Dropdown.Toggle  id="dropdown-basic">
-        Choose job title
-      </Dropdown.Toggle>
-
-      <Dropdown.Menu>
-        <Dropdown.Item href="#/action-1">Admin</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Kitchen</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">Casher</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
-          </div>
-
-          <div className='d-flex flex-row justify-content-around'>
-            <div className='mb-3'>
-              <label htmlFor="password"><strong>Date of hire</strong></label>
-              <input type="password" placeholder='Enter Date' name='password'
-                className="form-control rounded-0" required />
-            </div>
-            <div className='mb-3'>
-              <label htmlFor="phone"><strong>Salary Information</strong></label>
-              <input type="amount" placeholder='Enter salary' name='phone'
-                 className="form-control rounded-0" required />
-            </div>
-          </div>
-          <div className='mb-3 d-flex justify-content-around'>
-            <label htmlFor="gender" className=' mr-5'><strong>Employee Status:</strong></label>
-
-            <div class="form-check form-check-inline">
-              <input className="form-check-input" type="radio" value="option1" />
-              <label className="form-check-label" for="inlineCheckbox1">Part-time</label>
-            </div>
-            <div class="form-check form-check-inline mb-3">
-              <input className="form-check-input" type="radio" value="option1" />
-              <label className="form-check-label" for="inlineCheckbox1">Full-time</label>
-            </div>
-          </div>
-        
-
-        </form>
-          {/* Add more fields as per your form requirements */}
-
-          <Button variant="contained" color="primary" onClick={handleSaveEdit}>
-            Save
-          </Button>
-          <Button variant="contained" color="error" style={{ marginLeft: "10px" }} onClick={handleCloseEdit}>
-            Cancel
-          </Button>
-        </Box>
-      </Modal>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSaveEdit}
+            >
+              Save
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              style={{ marginLeft: "10px" }}
+              onClick={handleCloseEdit}
+            >
+              Cancel
+            </Button>
+          </Box>
+        </Modal>
       </div>
     </>
   );
