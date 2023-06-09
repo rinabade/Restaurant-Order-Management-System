@@ -406,23 +406,4 @@ export default function BasicTable() {
   );
 }
 
-//TODO for creating User use below function inside functional component
-// function createData(payload) {
-//     createUser(payload).then(
-//         success => {
-//             if(success.data) {
-//                 console.log(success.data);
-//             }else{
-//                 console.log("Empty Error Response")
-//             }
-//         },
-//         error => {
-//             if(error.response) {
-//                 //Backend Error message
-//                 console.log(error.response)
-//             }else{
-//                 //Server Not working Error
-//             }
-//         }
-//     )
-// }
+
