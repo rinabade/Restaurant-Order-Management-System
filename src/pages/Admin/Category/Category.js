@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 // import * as React from "react";
 import { useEffect, useState } from "react";
+=======
+import * as React from "react";
+import { useState } from "react";
+>>>>>>> 4429337adba20668ccc431caff17e1c8a511ae2f
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -78,6 +83,8 @@ export default function BasicTable() {
 
   const handleDeleteClick = (id) => {
     setDeleteItemId(id);
+  const handleDeleteClick = (row) => {
+    setDeleteItemId(row);
     setConfirmDeleteDialogOpen(true);
   };
 
@@ -103,6 +110,11 @@ export default function BasicTable() {
           setDeleteItemId(null);
           setConfirmDeleteDialogOpen(false);
         });
+      // Add your delete logic here
+      console.log("Delete item with ID:", deleteItemId);
+
+      setDeleteItemId(null);
+      setConfirmDeleteDialogOpen(false);
     }
   };
 
@@ -181,6 +193,8 @@ export default function BasicTable() {
                   <TableCell align="left" >
                     <Button className=" bg-success" style={{border:"none"}}  onClick={() => handleEditClick(dataItem)}>Edit</Button> 
                     <Button style={{ marginLeft: "10px", backgroundColor: "#CD5C5C", border:"none"}} onClick={() => handleDeleteClick(dataItem.category_id)}>Delete</Button> 
+                    <Button className=" bg-success" style={{border:"none"}}  onClick={() => handleEditClick(row)}>Edit</Button> 
+                    <Button style={{ marginLeft: "10px", backgroundColor: "#CD5C5C", border:"none"}} onClick={() => handleDeleteClick(row)}>Delete</Button> 
                     </TableCell>
                   
                  
@@ -204,6 +218,10 @@ export default function BasicTable() {
             Delete
           </Button>
           <Button onClick={handleCancelDelete} style={{backgroundColor: "#CD5C5C", border:"none"}}>Cancel</Button>
+          <Button onClick={handleCancelDelete} style={{backgroundColor: "#CD5C5C", border:"none"}}>Cancel</Button>
+          <Button onClick={handleConfirmDelete} style={{color:"white", backgroundColor: "#044cd0", border:"none"}}>
+            Delete
+          </Button>
         </DialogActions>
       </Dialog>
 
@@ -219,6 +237,7 @@ export default function BasicTable() {
               <div className="d-flex flex-row justify-content-around">
                 <div className="mb-3">
                   {/* <label htmlFor="name">
+                  <label htmlFor="name">
                     <strong>Category ID</strong>
                   </label>
                   <input
@@ -229,6 +248,7 @@ export default function BasicTable() {
                     required
                     disabled
                   /> */}
+                  />
                 </div>
                 </div>
                 <div className="d-flex flex-row justify-content-around">
