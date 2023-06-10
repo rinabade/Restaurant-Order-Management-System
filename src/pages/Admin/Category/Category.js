@@ -1,4 +1,5 @@
-import * as React from "react";
+// import * as React from "react";
+import { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -6,31 +7,25 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
 import '../Table.css'
 import { Button } from "react-bootstrap";
-import { useState, useEffect } from "react";
-import { createCategory, getAllCategory } from "../../../api/userAction";
+import { createCategory, deleteCategory, getAllCategory } from "../../../api/userAction";
 
 
-// function createData(name, ID, Category, Price, Action) {
-//   return { name, ID, Category, Price, Action };
-// }
+export default function BasicTable() {
+  const [deleteItemId, setDeleteItemId] = useState(null);
+  const [editItemId, setEditItemId] = useState(null);
+  const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false);
+  const [confirmEditDialogOpen, setConfirmEditDialogOpen] = useState(false);
 
-// const rows = [
-//   createData("Veg", 18908424, "momo", "200"),
-//   createData("Chicken", 18908424, "momo", "200"),
- 
-// ];
-
-
- function Category() {
-
-  const [data, setData] = useState([]);
-
-  // const navigate = useNavigate();
 
   const [values, setValues] = useState({
-    category_name : "",
+    category_name: "",
   });
 
   const handleSubmit = (event) => {
@@ -55,6 +50,9 @@ import { createCategory, getAllCategory } from "../../../api/userAction";
     });
   };
 
+  const [data, setData] = useState([]);
+
+
   useEffect(() => {
     getAllCategory().then(
       (success) => {
@@ -78,51 +76,84 @@ import { createCategory, getAllCategory } from "../../../api/userAction";
     );
   }, []);
 
-  
-  
+  const handleDeleteClick = (id) => {
+    setDeleteItemId(id);
+    setConfirmDeleteDialogOpen(true);
+  };
+
+  const handleEditClick = (row) => {
+    setEditItemId(row);
+    setConfirmEditDialogOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    // Perform the delete operation
+    if (deleteItemId) {
+      deleteCategory(deleteItemId)
+        .then((response) => {
+          console.log("Category deleted successfully");
+          setData((prevData) =>
+            prevData.filter((dataItem) => dataItem.category_id !== deleteItemId)
+          );
+          setDeleteItemId(null);
+          setConfirmDeleteDialogOpen(false);
+        })
+        .catch((error) => {
+          console.log("An error occurred while deleting the user");
+          setDeleteItemId(null);
+          setConfirmDeleteDialogOpen(false);
+        });
+    }
+  };
+
+  const handleConfirmEdit = () => {
+    // Perform the edit operation
+    if (editItemId) {
+      // Add your edit logic here
+      console.log("Edit item with ID:", editItemId);
+
+      setEditItemId(null);
+      setConfirmEditDialogOpen(false);
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setDeleteItemId(null);
+    setConfirmDeleteDialogOpen(false);
+  };
+
+  const handleCancelEdit = () => {
+    setEditItemId(null);
+    setConfirmEditDialogOpen(false);
+  };
+
   return (
       <div className="Table ">
       <h3 className="mb-5">Category</h3>
          
-        <form onSubmit = {handleSubmit}>
+         <form onSubmit={handleSubmit}>
          <div className='mb-5'>
           
-            <label htmlFor="category_name">
-              <strong>Category name</strong>
-            </label>
-
+          <label htmlFor="name"><strong>Category name</strong></label>
            <div className="d-flex">
-            
-           <input
-                type="text"
-                placeholder="Enter category"
-                name="category_name"
-                onChange={handleChange}
-                value={values.category_name}
-                className="form-control rounded-0"
-                required
-              />
+            <input 
+              type="name" 
+              placeholder='Enter Category name' 
+              name='category_name'
+              onChange={handleChange}
+              value={values.category_name}
+              className="form-control rounded-0 w-50" 
+              required
+            />
                  
               
-      <button 
-        type='submit' 
-        className='add btn text-white rounded-12 bg-primary'
-      >
-        Add
-      </button> 
+       <button type='submit' className='add btn text-white rounded-12 bg-primary'>Add</button> 
 
-      <button 
-        type='submit' 
-        className='delete btn text-white rounded-12 bg-danger '
-      >
-        Cancel
-      </button> 
-
+       <button type='submit' className='delete btn text-white rounded-12 bg-danger '>Cancel</button> 
       </div>
              
-      </div>
+            </div>
          </form>
-        
         <TableContainer
           component={Paper}
           style={{ boxShadow: "0px 13px 20px 0px #80808029" }}
@@ -140,7 +171,7 @@ import { createCategory, getAllCategory } from "../../../api/userAction";
             <TableBody style={{ color: "white" }}>
               {data.map((dataItem, category_id) => (
                 <TableRow
-                  key={dataItem.category_id}
+                  key={category_id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
@@ -148,8 +179,8 @@ import { createCategory, getAllCategory } from "../../../api/userAction";
                   </TableCell>
                   <TableCell align="left">{dataItem.category_name}</TableCell>
                   <TableCell align="left" >
-                    <Button className=" bg-success" style={{border:"none"}}>Edit</Button> 
-                    <Button style={{ marginLeft: "10px", backgroundColor: "#CD5C5C", border:"none"}}>Delete</Button> 
+                    <Button className=" bg-success" style={{border:"none"}}  onClick={() => handleEditClick(dataItem)}>Edit</Button> 
+                    <Button style={{ marginLeft: "10px", backgroundColor: "#CD5C5C", border:"none"}} onClick={() => handleDeleteClick(dataItem.category_id)}>Delete</Button> 
                     </TableCell>
                   
                  
@@ -158,9 +189,72 @@ import { createCategory, getAllCategory } from "../../../api/userAction";
             </TableBody>
           </Table>
         </TableContainer>
+          {/* Confirmation Dialog for Delete */}
+      <Dialog
+        open={confirmDeleteDialogOpen}
+        onClose={handleCancelDelete}
+        maxWidth="xs"
+      >
+        <DialogTitle>Delete Confirmation</DialogTitle>
+        <DialogContent>
+          Are you sure you want to delete this item?
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleConfirmDelete} style={{color:"white", backgroundColor: "#044cd0", border:"none"}}>
+            Delete
+          </Button>
+          <Button onClick={handleCancelDelete} style={{backgroundColor: "#CD5C5C", border:"none"}}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Confirmation Dialog for Edit */}
+      <Dialog
+        open={confirmEditDialogOpen}
+        onClose={handleCancelEdit}
+        maxWidth="100%"
+      >
+        <DialogTitle>Edit Category</DialogTitle>
+        <DialogContent>
+        <form>
+              <div className="d-flex flex-row justify-content-around">
+                <div className="mb-3">
+                  {/* <label htmlFor="name">
+                    <strong>Category ID</strong>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter ID"
+                    name="name"
+                    className="form-control rounded-0"
+                    required
+                    disabled
+                  /> */}
+                </div>
+                </div>
+                <div className="d-flex flex-row justify-content-around">
+                <div className="mb-3">
+                  <label htmlFor="name">
+                    <strong>Category Name</strong>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter Name"
+                    name="name"
+                    className="form-control rounded-0"
+                    required
+                    disabled
+                  />
+                </div>
+                </div>
+                        </form>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancelEdit}style={{backgroundColor: "#CD5C5C", border:"none"}}>Cancel</Button>
+          <Button onClick={handleConfirmEdit} style={{color:"white", backgroundColor: "#044cd0", border:"none"}}>
+            Edit
+          </Button>
+        </DialogActions>
+      </Dialog>
       </div>
   );
 }
-
-
-export default Category;

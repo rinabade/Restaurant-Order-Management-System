@@ -3,6 +3,7 @@ import './AdminLogin.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import axios from 'axios'
+import { loginUser } from '../../../api/authAction'
 
 
 function AdminLogin() {
@@ -13,25 +14,34 @@ function AdminLogin() {
     })
 
     const [showPopup, setShowPopup] = useState(false);
-    const [resetEmail, setResetEmail] = useState('');
+    
+    const [resetEmail, setResetEmail] = useState({
+        email : ""
+    })
+
+    const handleRegisterClick = () => {
+        navigate("/admin/MainDash");
+      };
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:5000/api/login', values)
-            .then(res => {
-                if (res.data.Status === "Success") {
-                    navigate("/admin/Dashboard");
-                }
-                else {
-                    alert("Error")
-                }
-            })
-            .then(err => console.log(err));
+        loginUser(values)
+      .then((response) => {
+        // Handle successful response
+        console.log(response.data);
+        // Optionally, perform additional actions after successful post
+      })
+      .catch((error) => {
+        // Handle error response
+        console.error(error);
+        // Optionally, display an error message to the user
+      });
     };
 
     const handleResetEmailChange = (event) => {
         setResetEmail(event.target.value);
     };
+    
     const handleSendResetEmail = () => {
     axios
     .post('/reset-password', { email: resetEmail })
@@ -67,7 +77,7 @@ function AdminLogin() {
                         <p onClick={() => setShowPopup(true)}>Forget Password?</p>
                     </div>
                     <div className="align-items-center d-flex justify-content-center">
-                        <button type='submit' className='btn btn3 w-50 rounded-12  mt-3 mb-3'>Log in</button>
+                        <button type='submit' className='btn btn3 w-50 rounded-12  mt-3 mb-3' onClick={handleRegisterClick}>Log in</button>
                     </div>
                 </form>
             </div>
@@ -91,7 +101,7 @@ function AdminLogin() {
                                     type="email"
                                     placeholder="Enter Email"
                                     name="reset-email"
-                                    value={resetEmail}
+                                    value={resetEmail.email}
                                     onChange={handleResetEmailChange}
                                     className="form-control rounded-0"
                                     required

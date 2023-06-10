@@ -39,3 +39,29 @@ export const updateUser = (id, data) => {
             }
         )
 }
+
+export const forgetPassword = (email, data) => {
+    let url = `${Config.BaseUrl}/forget/forget/${email}`;
+    return axios.post(url, data)
+        .then(
+            response => {
+                return response
+            },
+            error => {
+                return error
+            }
+        )
+}
+
+export const resetPassword = (email, data) => {
+    let url = `${Config.BaseUrl}/forget/reset/${email}`;
+    return axios.patch(url, data)
+        .then(
+            response => {
+                return response
+            },
+            error => {
+                return error
+            }
+        )
+}

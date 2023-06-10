@@ -41,6 +41,15 @@ export const getAllCategory = () => {
     return axios.get(url);
 }
 
+export const editCategory = (id, data) => {
+    let url = `${Config.BaseUrl}admin/category/${id}`;
+    return axios.patch(url, data);
+}
+
+export const deleteCategory = (id) => {
+    let url = `${Config.BaseUrl}admin/category/${id}`;
+    return axios.delete(url);
+}
 
 // for Menu 
 
@@ -54,28 +63,58 @@ export const getAllMenu = () => {
     return axios.get(url);
 }
 
+export const editMenu= (id, data) => {
+    let url = `${Config.BaseUrl}admin/menu/${id}`;
+    return axios.patch(url, data);
+}
+
+export const deleteMenu = (id) => {
+    let url = `${Config.BaseUrl}admin/menu/${id}`;
+    return axios.delete(url);
+}
+
 
 // for Role 
 
 export const createRole = (data) => {
-    let url = `${Config.BaseUrl}auth/role`;
+    let url = `${Config.BaseUrl}auth/role_permission/roleCreate`;
     return axios.post(url, data);
 }
 
 export const getAllRole = () => {
-    let url = `${Config.BaseUrl}auth/role`;
+    let url = `${Config.BaseUrl}auth/role_permission/getAllRoles`;
     return axios.get(url);
+}
+
+export const editRole= (id, data) => {
+    let url = `${Config.BaseUrl}auth/role_permission/roleUpdate/${id}`;
+    return axios.patch(url, data);
+}
+
+export const deleteRole = (id) => {
+    let url = `${Config.BaseUrl}auth/role_permission/${id}`;
+    return axios.delete(url);
 }
 
 
 // for Permission 
 
 export const createPermission = (data) => {
-    let url = `${Config.BaseUrl}auth/permission`;
+    let url = `${Config.BaseUrl}auth/role_permission/permissionCreate`;
     return axios.post(url, data);
 }
 
 export const getAllPermission = () => {
-    let url = `${Config.BaseUrl}auth/permission`;
+    let url = `${Config.BaseUrl}auth/role_permission/getAllPermission`;
     return axios.get(url);
+}
+
+export const editPermission= (id, data) => {
+    let url = `${Config.BaseUrl}auth/role_permission/permissionUpdate/${id}`;
+    return axios.patch(url, data);
+}
+
+export const deletePermission = (id) => {
+    let url = `${Config.BaseUrl}auth/role_permission/${id}`;
+    return axios.delete(url);
 }
