@@ -147,9 +147,9 @@ export default function BasicTable() {
 
   // Edit handle
 
-  const handleEditClick = (employee_id) => {
-    setEditItem(employee_id);
-    setEditedItem({ ...employee_id });
+  const handleEditClick = (employeeData) => {
+    setEditItem(employeeData);
+    setEditedItem({ ...employeeData });
   };
 
   // const handleSaveEdit = (id) => {
@@ -171,19 +171,20 @@ export default function BasicTable() {
   //   // setEditItem(null);
   // };
 
-  const handleSaveEdit = (id) => {
+  const handleSaveEdit = (e) => {
+    e.preventDefault();
     // Make the PATCH API request to update the edited item
-    editUser(id, editedItem)
+    editUser(editedItem.employee_id, editedItem)
       .then((response) => {
         // Handle successful response
         console.log("User updated successfully");
         // Optionally, perform additional actions after successful update
         // For example, you can update the table data with the updated item
-        setData((prevData) =>
-          prevData.map((dataItem) =>
-            dataItem.employee_id === id ? response.data : dataItem
-          )
-        );
+        let index = data.findIndex(o => o.employee_id === editedItem.employee_id)
+        if(index > -1){
+          data[index] = editedItem;
+          setData(data)
+        }
         handleCloseEdit();
       })
       .catch((error) => {
@@ -309,7 +310,7 @@ export default function BasicTable() {
             }}
           >
             <h3>Edit Employee</h3>
-            <form onSubmit={() => handleSaveEdit()}>
+            <form onSubmit={handleSaveEdit}>
               <div className="d-flex flex-row justify-content-around">
                 <div className="mb-3">
                   <label htmlFor="name">
@@ -680,7 +681,6 @@ export default function BasicTable() {
                   variant="contained"
                   color="primary"
                   type="submit"
-                  onClick={() => handleSaveEdit()}
                 >
                   Save
                 </Button>
