@@ -1,10 +1,7 @@
-<<<<<<< HEAD
 // import * as React from "react";
 import { useEffect, useState } from "react";
-=======
 import * as React from "react";
-import { useState } from "react";
->>>>>>> 4429337adba20668ccc431caff17e1c8a511ae2f
+// import { useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -83,8 +80,8 @@ export default function BasicTable() {
 
   const handleDeleteClick = (id) => {
     setDeleteItemId(id);
-  const handleDeleteClick = (row) => {
-    setDeleteItemId(row);
+  // const handleDeleteClick = (row) => {
+  //   setDeleteItemId(row);
     setConfirmDeleteDialogOpen(true);
   };
 
@@ -193,8 +190,8 @@ export default function BasicTable() {
                   <TableCell align="left" >
                     <Button className=" bg-success" style={{border:"none"}}  onClick={() => handleEditClick(dataItem)}>Edit</Button> 
                     <Button style={{ marginLeft: "10px", backgroundColor: "#CD5C5C", border:"none"}} onClick={() => handleDeleteClick(dataItem.category_id)}>Delete</Button> 
-                    <Button className=" bg-success" style={{border:"none"}}  onClick={() => handleEditClick(row)}>Edit</Button> 
-                    <Button style={{ marginLeft: "10px", backgroundColor: "#CD5C5C", border:"none"}} onClick={() => handleDeleteClick(row)}>Delete</Button> 
+                    {/* <Button className=" bg-success" style={{border:"none"}}  onClick={() => handleEditClick(row)}>Edit</Button> 
+                    <Button style={{ marginLeft: "10px", backgroundColor: "#CD5C5C", border:"none"}} onClick={() => handleDeleteClick(row)}>Delete</Button>  */}
                     </TableCell>
                   
                  
@@ -218,10 +215,10 @@ export default function BasicTable() {
             Delete
           </Button>
           <Button onClick={handleCancelDelete} style={{backgroundColor: "#CD5C5C", border:"none"}}>Cancel</Button>
-          <Button onClick={handleCancelDelete} style={{backgroundColor: "#CD5C5C", border:"none"}}>Cancel</Button>
+          {/* <Button onClick={handleCancelDelete} style={{backgroundColor: "#CD5C5C", border:"none"}}>Cancel</Button>
           <Button onClick={handleConfirmDelete} style={{color:"white", backgroundColor: "#044cd0", border:"none"}}>
             Delete
-          </Button>
+          </Button> */}
         </DialogActions>
       </Dialog>
 
@@ -234,23 +231,23 @@ export default function BasicTable() {
         <DialogTitle>Edit Category</DialogTitle>
         <DialogContent>
         <form>
-              <div className="d-flex flex-row justify-content-around">
+              {/* <div className="d-flex flex-row justify-content-around">
                 <div className="mb-3">
-                  {/* <label htmlFor="name">
                   <label htmlFor="name">
-                    <strong>Category ID</strong>
+                    <label htmlFor="name">
+                      <strong>Category ID</strong>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Enter ID"
+                      name="name"
+                      className="form-control rounded-0"
+                      required
+                      disabled
+                    />
                   </label>
-                  <input
-                    type="text"
-                    placeholder="Enter ID"
-                    name="name"
-                    className="form-control rounded-0"
-                    required
-                    disabled
-                  /> */}
-                  />
                 </div>
-                </div>
+                </div> */}
                 <div className="d-flex flex-row justify-content-around">
                 <div className="mb-3">
                   <label htmlFor="name">
@@ -269,10 +266,10 @@ export default function BasicTable() {
                         </form>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancelEdit}style={{backgroundColor: "#CD5C5C", border:"none"}}>Cancel</Button>
           <Button onClick={handleConfirmEdit} style={{color:"white", backgroundColor: "#044cd0", border:"none"}}>
             Edit
           </Button>
+          <Button onClick={handleCancelEdit}style={{backgroundColor: "#CD5C5C", border:"none"}}>Cancel</Button>
         </DialogActions>
       </Dialog>
       </div>

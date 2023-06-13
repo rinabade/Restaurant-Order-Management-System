@@ -235,7 +235,7 @@ function AdminRegister() {
                 <strong>Date of hire</strong>
               </label>
               <input
-                type="text"
+                type="date"
                 placeholder="Enter Date"
                 name="hire_date"
                 onChange={handleChange}

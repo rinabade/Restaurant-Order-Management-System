@@ -9,7 +9,7 @@ export const getAllUsers = () => {
 }
 
 export const getUser = (id) => {
-    let url = `${Config.BaseUrl}users/${id}`;
+    let url = `${Config.BaseUrl}api/register/${id}`;
     return axios.get(url);
 }
 
@@ -19,7 +19,7 @@ export const createUser = (data) => {
 }
 
 export const editUser = (id, data) => {
-    let url = `${Config.BaseUrl}users/${id}`;
+    let url = `${Config.BaseUrl}api/register/${id}`;
     return axios.patch(url, data);
 }
 
