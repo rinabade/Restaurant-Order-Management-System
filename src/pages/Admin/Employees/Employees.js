@@ -152,25 +152,6 @@ export default function BasicTable() {
     setEditedItem({ ...employeeData });
   };
 
-  // const handleSaveEdit = (id) => {
-  //   // Add your logic here to save the edited item
-  //   editUser(id)
-  //     .then((response) => {
-  //       // Handle successful response
-  //       console.log(response.data);
-  //       // Optionally, perform additional actions after successful post
-  //     })
-  //     .catch((error) => {
-  //       // Handle error response
-  //       console.error(error);
-  //       // Optionally, display an error message to the user
-  //     });
-  //   // console.log(editedItem);
-
-  //   // Close the modal
-  //   // setEditItem(null);
-  // };
-
   const handleSaveEdit = (e) => {
     e.preventDefault();
     // Make the PATCH API request to update the edited item
@@ -316,25 +297,6 @@ export default function BasicTable() {
                   <label htmlFor="name">
                     <strong>First Name</strong>
                   </label>
-                  {/* <input
-                    type="text"
-                    placeholder="Enter FirstName"
-                    name="firstname"
-                    id="firstname"
-                    // onChange={handleChange}
-                    // value={editedItem.data}
-                    value={editedItem.firstname}
-                    onChange={(e) =>
-                      setEditedItem((prevItem) => ({
-                        ...prevItem,
-                        firstname: e.target.value,
-                      }))
-                    }
-                    className="form-control rounded-0"
-                    required
-                    disabled
-                  /> */}
-
                   <input
                     type="text"
                     placeholder="Enter FirstName"
@@ -346,6 +308,7 @@ export default function BasicTable() {
                     disabled
                   />
                 </div>
+
                 <div className="mb-3">
                   <label htmlFor="name">
                     <strong>Last Name</strong>
@@ -354,35 +317,19 @@ export default function BasicTable() {
                     type="text"
                     placeholder="Enter LastName"
                     name="lastname"
-                    // onChange={handleChange}
-                    // value={values.lastname}
                     value={editedItem?.lastname}
-                    // onChange={(e) =>
-                    //   setEditedItem((prevItem) => ({
-                    //     ...prevItem,
-                    //     lastname: e.target.value,
-                    //   }))
-                    // }
                     className="form-control rounded-0"
                     required
                     disabled
                   />
                 </div>
               </div>
+
               <div className="d-flex flex-row justify-content-around">
                 <div className="mb-3">
                   <label htmlFor="email">
                     <strong>Email</strong>
                   </label>
-                  {/* <input
-                    type="email"
-                    placeholder="Enter Email"
-                    name="email"
-                    // onChange={handleChange}
-                    value={values.email}
-                    className="form-control rounded-0"
-                    required
-                  /> */}
                   <input
                     type="email"
                     placeholder="Enter Email"
@@ -390,29 +337,14 @@ export default function BasicTable() {
                     value={editedItem.email}
                     className="form-control rounded-0"
                     required
+                    disabled
                   />
                 </div>
+
                 <div className="mb-3">
                   <label htmlFor="password">
                     <strong>Password</strong>
                   </label>
-                  {/* <input
-                    type="password"
-                    placeholder="Enter Password"
-                    name="password"
-                    // onChange={handleChange}
-                    // value={values.password}
-                    value={editedItem?.password}
-                    onChange={(e) =>
-                      setEditedItem((prevItem) => ({
-                        ...prevItem,
-                        password: e.target.value,
-                      }))
-                    }
-                    className="form-control rounded-0"
-                    required
-                    disabled
-                  /> */}
                   <input
                     type="password"
                     placeholder="Enter Password"
@@ -430,20 +362,12 @@ export default function BasicTable() {
                   />
                 </div>
               </div>
+
               <div className="d-flex flex-row justify-content-around">
                 <div className="mb-3">
                   <label htmlFor="phone">
                     <strong>Address</strong>
                   </label>
-                  {/* <input
-                    type="text"
-                    placeholder="Enter Address"
-                    name="address"
-                    onChange={handleChange}
-                    value={values.address}
-                    className="form-control rounded-0"
-                    required
-                  /> */}
                   <input
                     type="text"
                     placeholder="Enter Address"
@@ -459,19 +383,11 @@ export default function BasicTable() {
                     required
                   />
                 </div>
+
                 <div className="mb-3">
                   <label htmlFor="phone">
                     <strong>Phone number</strong>
                   </label>
-                  {/* <input
-                    type="varchar"
-                    placeholder="Enter Phone number"
-                    name="phone"
-                    onChange={handleChange}
-                    value={values.phone}
-                    className="form-control rounded-0"
-                    required
-                  /> */}
                   <input
                     type="varchar"
                     placeholder="Enter Phone number"
@@ -494,23 +410,6 @@ export default function BasicTable() {
                   <strong>Gender:</strong>
                 </label>
                 <div class="form-check form-check-inline mb-3">
-                  {/* <input
-                    className="form-check-input"
-                    type="radio"
-                    id="male"
-                    // value="Male"
-                    // checked={radio1 === "Male"}
-                    // onChange={handleRadioChange}
-                    checked={radio1 === "Male"}
-                    value="Male"
-                    onChange={(e) =>
-                      setEditedItem((prevItem) => ({
-                        ...prevItem,
-                        gender: e.target.value,
-                      }))
-                    }
-                    disabled
-                  /> */}
                   <input
                     className="form-check-input"
                     type="radio"
@@ -530,23 +429,6 @@ export default function BasicTable() {
                   </label>
                 </div>
                 <div className="form-check form-check-inline mb-3">
-                  {/* <input
-                    className="form-check-input"
-                    type="radio"
-                    id="female"
-                    // value="Female"
-                    // checked={radio1 === "Female"}
-                    // onChange={handleRadioChange}
-                    checked={radio1 === "Female"}
-                    value="Female"
-                    onChange={(e) =>
-                      setEditedItem((prevItem) => ({
-                        ...prevItem,
-                        gender: e.target.value,
-                      }))
-                    }
-                    disabled
-                  /> */}
                   <input
                     className="form-check-input"
                     type="radio"
@@ -571,7 +453,8 @@ export default function BasicTable() {
                 <label htmlFor="gender" className=" mr-5">
                   <strong>Job title:</strong>
                 </label>
-                <select value={dropdown} onChange={handleDropdownChange}>
+                <select value={dropdown} onChange={handleDropdownChange} disabled>
+                
                   <option value="select">Select :</option>
                   <option value="admin">Admin</option>
                   <option value="kitchen">Kitchen</option>
@@ -584,24 +467,6 @@ export default function BasicTable() {
                   <label htmlFor="password">
                     <strong>Date of hire</strong>
                   </label>
-                  {/* <input
-                    type="text"
-                    placeholder="Enter Date"
-                    name="hire_date"
-                    // onChange={handleChange}
-                    // value={values.hire_date}
-                    value={editedItem?.hire_date}
-                    onChange={(e) =>
-                      setEditedItem((prevItem) => ({
-                        ...prevItem,
-                        hire_date: e.target.value,
-                      }))
-                    }
-                    className="form-control rounded-0"
-                    required
-                    disabled
-                  /> */}
-
                   <input
                     type="text"
                     placeholder="Enter Date"
@@ -622,15 +487,6 @@ export default function BasicTable() {
                   <label htmlFor="phone">
                     <strong>Salary Information</strong>
                   </label>
-                  {/* <input
-                    type="text"
-                    placeholder="Enter salary"
-                    name="salary_information"
-                    onChange={handleChange}
-                    value={values.salary_information}
-                    className="form-control rounded-0"
-                    required
-                  /> */}
                   <input
                     type="text"
                     placeholder="Enter salary"
@@ -698,6 +554,7 @@ export default function BasicTable() {
           </Box>
         </Modal>
       </div>
+
       {/* Confirmation Dialog */}
       <Dialog
         open={confirmDialogOpen}

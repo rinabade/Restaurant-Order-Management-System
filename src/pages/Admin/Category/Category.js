@@ -14,17 +14,21 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
-import '../Table.css'
+import "../Table.css";
 import { Button } from "react-bootstrap";
-import { createCategory, deleteCategory, getAllCategory } from "../../../api/userAction";
-
+import {
+  createCategory,
+  deleteCategory,
+  editCategory,
+  getAllCategory,
+} from "../../../api/userAction";
 
 export default function BasicTable() {
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [editItemId, setEditItemId] = useState(null);
+  const [editedItem, setEditedItem] = React.useState([]);
   const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false);
   const [confirmEditDialogOpen, setConfirmEditDialogOpen] = useState(false);
-
 
   const [values, setValues] = useState({
     category_name: "",
@@ -54,7 +58,6 @@ export default function BasicTable() {
 
   const [data, setData] = useState([]);
 
-
   useEffect(() => {
     getAllCategory().then(
       (success) => {
@@ -80,13 +83,14 @@ export default function BasicTable() {
 
   const handleDeleteClick = (id) => {
     setDeleteItemId(id);
-  // const handleDeleteClick = (row) => {
-  //   setDeleteItemId(row);
+    // const handleDeleteClick = (row) => {
+    //   setDeleteItemId(row);
     setConfirmDeleteDialogOpen(true);
   };
 
-  const handleEditClick = (row) => {
-    setEditItemId(row);
+  const handleEditClick = (categoryData) => {
+    setEditItemId(categoryData);
+    setEditedItem({ ...categoryData });
     setConfirmEditDialogOpen(true);
   };
 
@@ -115,15 +119,37 @@ export default function BasicTable() {
     }
   };
 
-  const handleConfirmEdit = () => {
-    // Perform the edit operation
-    if (editItemId) {
-      // Add your edit logic here
-      console.log("Edit item with ID:", editItemId);
+  const handleConfirmEdit = (e) => {
+    // // Perform the edit operation
+    // if (editItemId) {
+    //   // Add your edit logic here
+    //   console.log("Edit item with ID:", editItemId);
 
-      setEditItemId(null);
-      setConfirmEditDialogOpen(false);
-    }
+    //   setEditItemId(null);
+    //   setConfirmEditDialogOpen(false);
+    // }
+
+    e.preventDefault();
+    // Make the PATCH API request to update the edited item
+    editCategory(editedItem.category_id, editedItem)
+      .then((response) => {
+        // Handle successful response
+        console.log("Category updated successfully");
+        // Optionally, perform additional actions after successful update
+        // For example, you can update the table data with the updated item
+        let index = data.findIndex(o => o.category_id === editedItem.category_id)
+        if(index > -1){
+          data[index] = editedItem;
+          setData(data)
+        }
+        // handleCloseEdit();
+        handleCancelEdit();
+      })
+      .catch((error) => {
+        // Handle error response
+        console.error("An error occurred while updating the user");
+        // Optionally, display an error message to the user
+      });
   };
 
   const handleCancelDelete = () => {
@@ -137,70 +163,91 @@ export default function BasicTable() {
   };
 
   return (
-      <div className="Table ">
+    <div className="Table ">
       <h3 className="mb-5">Category</h3>
-         
-         <form onSubmit={handleSubmit}>
-         <div className='mb-5'>
-          
-          <label htmlFor="name"><strong>Category name</strong></label>
-           <div className="d-flex">
-            <input 
-              type="name" 
-              placeholder='Enter Category name' 
-              name='category_name'
+
+      <form onSubmit={handleSubmit}>
+        <div className="mb-5">
+          <label htmlFor="name">
+            <strong>Category name</strong>
+          </label>
+          <div className="d-flex">
+            <input
+              type="name"
+              placeholder="Enter Category name"
+              name="category_name"
               onChange={handleChange}
               value={values.category_name}
-              className="form-control rounded-0 w-50" 
+              className="form-control rounded-0 w-50"
               required
             />
-                 
-              
-       <button type='submit' className='add btn text-white rounded-12 bg-primary'>Add</button> 
 
-       <button type='submit' className='delete btn text-white rounded-12 bg-danger '>Cancel</button> 
-      </div>
-             
-            </div>
-         </form>
-        <TableContainer
-          component={Paper}
-          style={{ boxShadow: "0px 13px 20px 0px #80808029" }}
-          className="tablecon ml-5"
-        >
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                
-                <TableCell align="left">Category ID</TableCell>
-                <TableCell align="left">Category Name</TableCell>
-                <TableCell align="left">Action</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody style={{ color: "white" }}>
-              {data.map((dataItem, category_id) => (
-                <TableRow
-                  key={category_id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {dataItem.category_id}
-                  </TableCell>
-                  <TableCell align="left">{dataItem.category_name}</TableCell>
-                  <TableCell align="left" >
-                    <Button className=" bg-success" style={{border:"none"}}  onClick={() => handleEditClick(dataItem)}>Edit</Button> 
-                    <Button style={{ marginLeft: "10px", backgroundColor: "#CD5C5C", border:"none"}} onClick={() => handleDeleteClick(dataItem.category_id)}>Delete</Button> 
-                    {/* <Button className=" bg-success" style={{border:"none"}}  onClick={() => handleEditClick(row)}>Edit</Button> 
+            <button
+              type="submit"
+              className="add btn text-white rounded-12 bg-primary"
+            >
+              Add
+            </button>
+
+            <button
+              type="submit"
+              className="delete btn text-white rounded-12 bg-danger "
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+      <TableContainer
+        component={Paper}
+        style={{ boxShadow: "0px 13px 20px 0px #80808029" }}
+        className="tablecon ml-5"
+      >
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="left">Category ID</TableCell>
+              <TableCell align="left">Category Name</TableCell>
+              <TableCell align="left">Action</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody style={{ color: "white" }}>
+            {data.map((dataItem, category_id) => (
+              <TableRow
+                key={category_id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {dataItem.category_id}
+                </TableCell>
+                <TableCell align="left">{dataItem.category_name}</TableCell>
+                <TableCell align="left">
+                  <Button
+                    className=" bg-success"
+                    style={{ border: "none" }}
+                    onClick={() => handleEditClick(dataItem)}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    style={{
+                      marginLeft: "10px",
+                      backgroundColor: "#CD5C5C",
+                      border: "none",
+                    }}
+                    onClick={() => handleDeleteClick(dataItem.category_id)}
+                  >
+                    Delete
+                  </Button>
+                  {/* <Button className=" bg-success" style={{border:"none"}}  onClick={() => handleEditClick(row)}>Edit</Button> 
                     <Button style={{ marginLeft: "10px", backgroundColor: "#CD5C5C", border:"none"}} onClick={() => handleDeleteClick(row)}>Delete</Button>  */}
-                    </TableCell>
-                  
-                 
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-          {/* Confirmation Dialog for Delete */}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      {/* Confirmation Dialog for Delete */}
       <Dialog
         open={confirmDeleteDialogOpen}
         onClose={handleCancelDelete}
@@ -211,10 +258,22 @@ export default function BasicTable() {
           Are you sure you want to delete this item?
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleConfirmDelete} style={{color:"white", backgroundColor: "#044cd0", border:"none"}}>
+          <Button
+            onClick={handleConfirmDelete}
+            style={{
+              color: "white",
+              backgroundColor: "#044cd0",
+              border: "none",
+            }}
+          >
             Delete
           </Button>
-          <Button onClick={handleCancelDelete} style={{backgroundColor: "#CD5C5C", border:"none"}}>Cancel</Button>
+          <Button
+            onClick={handleCancelDelete}
+            style={{ backgroundColor: "#CD5C5C", border: "none" }}
+          >
+            Cancel
+          </Button>
           {/* <Button onClick={handleCancelDelete} style={{backgroundColor: "#CD5C5C", border:"none"}}>Cancel</Button>
           <Button onClick={handleConfirmDelete} style={{color:"white", backgroundColor: "#044cd0", border:"none"}}>
             Delete
@@ -230,48 +289,51 @@ export default function BasicTable() {
       >
         <DialogTitle>Edit Category</DialogTitle>
         <DialogContent>
-        <form>
-              {/* <div className="d-flex flex-row justify-content-around">
-                <div className="mb-3">
-                  <label htmlFor="name">
-                    <label htmlFor="name">
-                      <strong>Category ID</strong>
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Enter ID"
-                      name="name"
-                      className="form-control rounded-0"
-                      required
-                      disabled
-                    />
-                  </label>
-                </div>
-                </div> */}
-                <div className="d-flex flex-row justify-content-around">
-                <div className="mb-3">
-                  <label htmlFor="name">
-                    <strong>Category Name</strong>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Enter Name"
-                    name="name"
-                    className="form-control rounded-0"
-                    required
-                    disabled
-                  />
-                </div>
-                </div>
-                        </form>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleConfirmEdit} style={{color:"white", backgroundColor: "#044cd0", border:"none"}}>
+          <form onSubmit={handleConfirmEdit}>
+            <div className="d-flex flex-row justify-content-around">
+              <div className="mb-3">
+                <label htmlFor="name">
+                  <strong>Category Name</strong>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter Name"
+                  name="name"
+                  onChange={(e) =>
+                    setEditedItem((prevItem) => ({
+                      ...prevItem,
+                      category_name: e.target.value,
+                    }))
+                  }
+                  value={editedItem.category_name}
+                  className="form-control rounded-0"
+                  required
+                  // disabled
+                />
+              </div>
+            </div>
+          <Button
+            onClick={handleConfirmEdit}
+            type="submit"
+            style={{
+              color: "white",
+              backgroundColor: "#044cd0",
+              border: "none",
+            }}
+          >
             Edit
           </Button>
-          <Button onClick={handleCancelEdit}style={{backgroundColor: "#CD5C5C", border:"none"}}>Cancel</Button>
+          <Button
+            onClick={handleCancelEdit}
+            style={{ backgroundColor: "#CD5C5C", border: "none" }}
+          >
+            Cancel
+          </Button>
+          </form>
+        </DialogContent>
+        <DialogActions>
         </DialogActions>
       </Dialog>
-      </div>
+    </div>
   );
 }

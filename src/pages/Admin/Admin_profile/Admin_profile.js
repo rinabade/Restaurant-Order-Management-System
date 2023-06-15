@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import img from '../../../imgs/profile.png';
@@ -6,6 +6,7 @@ import './Admin_profile.css';
 import Avatar from 'react-avatar-edit';
 import { Button } from 'primereact/button';
 import 'primereact/resources/primereact.min.css';
+import { getUser } from '../../../api/userAction';
 
 const Admin_profiledata = () => {
   const [image, setImage] = useState('');
@@ -16,6 +17,38 @@ const Admin_profiledata = () => {
   const [showDialog, setShowDialog] = useState(false); 
   const [isChangingInformation, setIsChangingInformation] = useState(false);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
+
+  const [data, setData] = useState({
+    firstname: '',
+    lastname: '',
+    email: '',
+    phone: '',
+    address: ''
+  });
+
+
+  useEffect((id) => {
+    getUser().then(
+      (success) => {
+        if (success.data) {
+          console.log(success.data.data);
+          // console.log(success.data.data.map(user => user.lastname));
+          setData(success.data.data);
+        } else {
+          console.log("Empty Error Response");
+        }
+      },
+      (error) => {
+        if (error.response) {
+          //Backend Error message
+          console.log(error.response);
+        } else {
+          //Server Not working Error
+          console.log("Server not working");
+        }
+      }
+    );
+  }, []);
 
 
   const profileFinal = profile.length ? profile[0].pview : '';
@@ -58,12 +91,14 @@ const Admin_profiledata = () => {
     setIsChangingPassword(true);
   };
 
-  const handleSubmitInformation = () => {
+  const handleSubmitInformation = (event) => {
+    event.preventDefault();
     // Handle form submission for change information
     setIsChangingInformation(false);
   };
 
-  const handleSubmitPassword = () => {
+  const handleSubmitPassword = (event) => {
+    event.preventDefault();
     // Handle form submission for change password
     setIsChangingPassword(false);
   };
@@ -136,19 +171,20 @@ const Admin_profiledata = () => {
         <form>
           <div className='mb-3 d-flex justify-content-around'>
             <label htmlFor='name'>
-              <strong>First name</strong>: Aditi
+              <strong>First name</strong>:  {data.firstname}
             </label>
 
             <label htmlFor='email'>
-              <strong>Last name</strong>: Shrestha
+              <strong>Last name</strong>: {data.lastname}
             </label>
           </div>
           <div className='mb-3 d-flex justify-content-around'>
             <label htmlFor='password'>
               <strong>Email:</strong>
+              {data.email}
             </label>
             <label htmlFor='password'>
-              <strong>Address:</strong>
+              <strong>Address:</strong> {data.address}
             </label>
           </div>
           <div className='mb-3 d-flex justify-content-around'>
@@ -156,7 +192,7 @@ const Admin_profiledata = () => {
               <strong>Email:</strong>
             </label> */}
             <label htmlFor='password'>
-              <strong>Phone number:</strong>
+              <strong>Phone number:</strong>  {data.phone}
             </label>
           </div>
           <div className='change flex-row d-flex justify-content-around'>

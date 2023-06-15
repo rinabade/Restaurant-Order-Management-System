@@ -7,19 +7,24 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import '../Table.css'
+import "../Table.css";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import { Button } from "react-bootstrap";
-import { createPermission, deletePermission, getAllPermission } from "../../../api/userAction";
+import {
+  createPermission,
+  deletePermission,
+  getAllPermission,
+  editPermission,
+} from "../../../api/userAction";
 import { useEffect } from "react";
 
-
- function AdminPermission() {
+function AdminPermission() {
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [editItemId, setEditItemId] = useState(null);
+  const [editedItem, setEditedItem] = React.useState([]);
   const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false);
   const [confirmEditDialogOpen, setConfirmEditDialogOpen] = useState(false);
 
@@ -74,14 +79,14 @@ import { useEffect } from "react";
     );
   }, []);
 
-
   const handleDeleteClick = (id) => {
     setDeleteItemId(id);
     setConfirmDeleteDialogOpen(true);
   };
 
-  const handleEditClick = (row) => {
-    setEditItemId(row);
+  const handleEditClick = (permissionData) => {
+    setEditItemId(permissionData);
+    setEditedItem({ ...permissionData });
     setConfirmEditDialogOpen(true);
   };
 
@@ -92,7 +97,9 @@ import { useEffect } from "react";
         .then((response) => {
           console.log("Permission deleted successfully");
           setData((prevData) =>
-            prevData.filter((dataItem) => dataItem.permission_id !== deleteItemId)
+            prevData.filter(
+              (dataItem) => dataItem.permission_id !== deleteItemId
+            )
           );
           setDeleteItemId(null);
           setConfirmDeleteDialogOpen(false);
@@ -105,13 +112,28 @@ import { useEffect } from "react";
     }
   };
 
-  const handleConfirmEdit = () => {
-    // Perform the edit operation
-    if (editItemId) {
-      // Add your edit logic here
-      console.log("Edit item with ID:", editItemId);
-    }
-  }
+  const handleConfirmEdit = (e) => {
+    e.preventDefault();
+    // Make the PATCH API request to update the edited item
+    editPermission(editedItem.permission_id, editedItem)
+      .then((response) => {
+        // Handle successful response
+        console.log("Permission updated successfully");
+        // Optionally, perform additional actions after successful update
+        // For example, you can update the table data with the updated item
+        let index = data.findIndex(o => o.permission_id === editedItem.permission_id);
+        if (index > -1) {
+          data[index] = editedItem;
+          setData(data);
+        }
+        handleCancelEdit();
+      })
+      .catch((error) => {
+        // Handle error response
+        console.error("An error occurred while updating the user");
+        // Optionally, display an error message to the user
+      });
+  };
 
   const handleCancelDelete = () => {
     setDeleteItemId(null);
@@ -123,26 +145,39 @@ import { useEffect } from "react";
     setConfirmEditDialogOpen(false);
   };
 
-// export default function BasicTable() {
+  // export default function BasicTable() {
   return (
     <div className="Table ">
       <h3 className="mb-5">Permissions</h3>
 
       <form onSubmit={handleSubmit}>
-        <div className='mb-5'>
-
+        <div className="mb-5">
           {/* <label htmlFor="name"><strong>Permission</strong></label> */}
           <div className="d-flex">
-            <input type="text" placeholder='Enter Permission' name='permission_name' onChange={handleChange}
+            <input
+              type="text"
+              placeholder="Enter Permission"
+              name="permission_name"
+              onChange={handleChange}
               value={values.permission_name}
-              className="form-control rounded-0 w-50" required />
+              className="form-control rounded-0 w-50"
+              required
+            />
 
+            <button
+              type="submit"
+              className="add btn text-white rounded-12 bg-primary"
+            >
+              Add
+            </button>
 
-            <button type='submit' className='add btn text-white rounded-12 bg-primary'>Add</button>
-
-            <button type='submit' className='delete btn text-white rounded-12 bg-danger '>Cancel</button>
+            <button
+              type="submit"
+              className="delete btn text-white rounded-12 bg-danger "
+            >
+              Cancel
+            </button>
           </div>
-
         </div>
       </form>
       <TableContainer
@@ -162,24 +197,37 @@ import { useEffect } from "react";
           <TableBody style={{ color: "white" }}>
             {data.map((dataItem, permission_id) => (
               <TableRow
-                  key={permission_id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                key={permission_id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
                   {dataItem.permission_id}
                 </TableCell>
                 <TableCell align="left">{dataItem.permission_name}</TableCell>
-                <TableCell align="left" >
-                  <Button className=" bg-success" style={{ border: "none" }} onClick={() => handleEditClick(dataItem)}>Edit</Button>
-                  <Button style={{ marginLeft: "10px", backgroundColor: "#CD5C5C", border: "none" }} onClick={() => handleDeleteClick(dataItem.permission_id)}>Delete</Button>
+                <TableCell align="left">
+                  <Button
+                    className=" bg-success"
+                    style={{ border: "none" }}
+                    onClick={() => handleEditClick(dataItem)}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    style={{
+                      marginLeft: "10px",
+                      backgroundColor: "#CD5C5C",
+                      border: "none",
+                    }}
+                    onClick={() => handleDeleteClick(dataItem.permission_id)}
+                  >
+                    Delete
+                  </Button>
                 </TableCell>
-
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-
 
       {/* Confirmation Dialog for Delete */}
       <Dialog
@@ -189,16 +237,27 @@ import { useEffect } from "react";
       >
         <DialogTitle>Delete Confirmation</DialogTitle>
         <DialogContent>
-          Are you sure you want to delete this item?
+          Are you sure you want to delete this permission?
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleConfirmDelete} style={{ color: "white", backgroundColor: "#044cd0", border: "none" }}>
+          <Button
+            onClick={handleConfirmDelete}
+            style={{
+              color: "white",
+              backgroundColor: "#044cd0",
+              border: "none",
+            }}
+          >
             Delete
           </Button>
-          <Button onClick={handleCancelDelete} style={{ backgroundColor: "#CD5C5C", border: "none" }}>Cancel</Button>
+          <Button
+            onClick={handleCancelDelete}
+            style={{ backgroundColor: "#CD5C5C", border: "none" }}
+          >
+            Cancel
+          </Button>
         </DialogActions>
       </Dialog>
-
 
       {/* Confirmation Dialog for Edit */}
       <Dialog
@@ -208,22 +267,8 @@ import { useEffect } from "react";
       >
         <DialogTitle>Edit Permission</DialogTitle>
         <DialogContent>
-          <form>
-            {/* <div className="d-flex flex-row justify-content-around">
-              <div className="mb-3">
-                <label htmlFor="name">
-                  <strong>Permission ID</strong>
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter ID"
-                  name="name"
-                  className="form-control rounded-0"
-                  required
-                  disabled
-                />
-              </div>
-            </div> */}
+          <form onSubmit={handleConfirmEdit}>
+            <div className="d-flex flex-row justify-content-around"> </div>
             <div className="d-flex flex-row justify-content-around">
               <div className="mb-3">
                 <label htmlFor="name">
@@ -231,26 +276,44 @@ import { useEffect } from "react";
                 </label>
                 <input
                   type="text"
-                  placeholder=""
+                  placeholder="Enter Permission"
                   name="name"
+                  onChange={(e) =>
+                    setEditedItem((prevItem) => ({
+                      ...prevItem,
+                      permission_name: e.target.value,
+                    }))
+                  }
+                  value={editedItem.permission_name}
                   className="form-control rounded-0"
                   required
-                  disabled
+                  // disabled
                 />
               </div>
             </div>
+            <Button
+              onClick={handleConfirmEdit}
+              type="submit"
+              style={{
+                color: "white",
+                backgroundColor: "#044cd0",
+                border: "none",
+              }}
+            >
+              Save
+            </Button>
+            <Button
+              onClick={handleCancelEdit}
+              style={{ backgroundColor: "#CD5C5C", border: "none" }}
+            >
+              Cancel
+            </Button>
           </form>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleConfirmEdit} style={{ color: "white", backgroundColor: "#044cd0", border: "none" }}>
-            Save
-          </Button>
-          <Button onClick={handleCancelEdit} style={{ backgroundColor: "#CD5C5C", border: "none" }}>Cancel</Button>
-        </DialogActions>
+        <DialogActions></DialogActions>
       </Dialog>
     </div>
   );
 }
-
 
 export default AdminPermission;
