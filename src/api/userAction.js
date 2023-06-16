@@ -55,7 +55,7 @@ export const deleteCategory = (id) => {
 
 export const createMenu = (data) => {
     let url = `${Config.BaseUrl}admin/menu`;
-    return axios.post(url, data);
+    return axios.post(url,data);
 }
 
 export const getAllMenu = () => {
@@ -117,4 +117,11 @@ export const editPermission= (id, data) => {
 export const deletePermission = (id) => {
     let url = `${Config.BaseUrl}auth2/role_permission/${id}`;
     return axios.delete(url);
+}
+
+
+// Profile Update
+export const editProfile= (id, data) => {
+    let url = `${Config.BaseUrl}change/profile/${id}`;
+    return axios.patch(url, data);
 }

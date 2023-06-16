@@ -121,7 +121,9 @@ function AdminPermission() {
         console.log("Permission updated successfully");
         // Optionally, perform additional actions after successful update
         // For example, you can update the table data with the updated item
-        let index = data.findIndex(o => o.permission_id === editedItem.permission_id);
+        let index = data.findIndex(
+          (o) => o.permission_id === editedItem.permission_id
+        );
         if (index > -1) {
           data[index] = editedItem;
           setData(data);
