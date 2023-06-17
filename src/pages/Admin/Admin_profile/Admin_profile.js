@@ -6,7 +6,7 @@ import "./Admin_profile.css";
 import Avatar from "react-avatar-edit";
 import { Button } from "primereact/button";
 import "primereact/resources/primereact.min.css";
-import { editProfile, getUser } from "../../../api/userAction";
+import { editPassword, editProfile, getUser } from "../../../api/userAction";
 
 const Admin_profiledata = () => {
   const [image, setImage] = useState("");
@@ -17,6 +17,8 @@ const Admin_profiledata = () => {
   const [showDialog, setShowDialog] = useState(false);
   const [isChangingInformation, setIsChangingInformation] = useState(false);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
+  const [editItemId, setEditItemId] = useState(null);
+  const [editedItem, setEditedItem] = React.useState([]);
 
   const [data, setData] = useState({
     firstname: "",
@@ -25,8 +27,6 @@ const Admin_profiledata = () => {
     phone: "",
     address: "",
   });
-
-  const [values, setValues] = useState([]);
 
   useEffect((id) => {
     getUser().then(
@@ -83,43 +83,73 @@ const Admin_profiledata = () => {
   const closeDialog = () => {
     setShowDialog(false);
   };
-  
-  const handleChangeInformation = () => {
+
+  const handleChangeInformation = (employeeData) => {
+    setEditItemId(employeeData);
+    setEditedItem({ ...employeeData });
     setIsChangingInformation(true);
   };
 
   const handleSubmitInformation = (event) => {
     event.preventDefault();
-    editProfile(values)
+    editProfile(editedItem.employee_id, editedItem)
       .then((response) => {
         // Handle successful response
-        console.log(response.data);
-        // Optionally, perform additional actions after successful post
+        console.log("Profile updated successfully");
+        // Optionally, perform additional actions after successful update
+        // For example, you can update the table data with the updated item
+        let index = data.findIndex(
+          (o) => o.employee_id === editedItem.employee_id
+        );
+        if (index > -1) {
+          data[index] = editedItem;
+          setData(data);
+        }
+        handleCloseEdit();
       })
       .catch((error) => {
         // Handle error response
-        console.error(error);
+        console.error("An error occurred while updating the user");
         // Optionally, display an error message to the user
       });
     // Handle form submission for change information
     setIsChangingInformation(false);
   };
 
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const handleChangePassword = () => {
+  const handleChangePassword = (employeeData) => {
+    setEditItemId(employeeData);
+    setEditedItem({ ...employeeData });
     setIsChangingPassword(true);
   };
 
   const handleSubmitPassword = (event) => {
     event.preventDefault();
+    editPassword(editedItem.employee_id, editedItem)
+      .then((response) => {
+        // Handle successful response
+        console.log("Permission updated successfully");
+        // Optionally, perform additional actions after successful update
+        // For example, you can update the table data with the updated item
+        let index = data.findIndex(
+          (o) => o.employee_id === editedItem.employee_id
+        );
+        if (index > -1) {
+          data[index] = editedItem;
+          setData(data);
+        }
+        handleCloseEdit();
+      })
+      .catch((error) => {
+        // Handle error response
+        console.error("An error occurred while updating the user");
+        // Optionally, display an error message to the user
+      });
     // Handle form submission for change password
     setIsChangingPassword(false);
+  };
+
+  const handleCloseEdit = () => {
+    setEditItemId(null);
   };
 
   return (
@@ -248,10 +278,14 @@ const Admin_profiledata = () => {
                     <label htmlFor="name">First name</label>
                     <input
                       type="text"
-                      placeholder="Enter First name"
                       name="firstname"
-                      onChange={handleChange}
-                      value={values.firstname}
+                      onChange={(e) =>
+                        setEditedItem((prevItem) => ({
+                          ...prevItem,
+                          firstname: e.target.value,
+                        }))
+                      }
+                      value={editedItem.firstname}
                       className="form-control rounded-0"
                       required
                     />
@@ -260,10 +294,14 @@ const Admin_profiledata = () => {
                     <label htmlFor="name">Last name</label>
                     <input
                       type="text"
-                      placeholder="Enter Last name"
                       name="lastname"
-                      onChange={handleChange}
-                      value={values.lastname}
+                      onChange={(e) =>
+                        setEditedItem((prevItem) => ({
+                          ...prevItem,
+                          lastname: e.target.value,
+                        }))
+                      }
+                      value={editedItem.lastname}
                       className="form-control rounded-0"
                       required
                     />
@@ -274,10 +312,14 @@ const Admin_profiledata = () => {
                     <label htmlFor="name">Email</label>
                     <input
                       type="email"
-                      placeholder="Enter email"
                       name="email"
-                      onChange={handleChange}
-                      value={values.email}
+                      onChange={(e) =>
+                        setEditedItem((prevItem) => ({
+                          ...prevItem,
+                          email: e.target.value,
+                        }))
+                      }
+                      value={editedItem.email}
                       className="form-control rounded-0"
                       required
                     />
@@ -286,10 +328,14 @@ const Admin_profiledata = () => {
                     <label htmlFor="name">Address</label>
                     <input
                       type="text"
-                      placeholder="Enter address"
                       name="address"
-                      onChange={handleChange}
-                      value={values.address}
+                      onChange={(e) =>
+                        setEditedItem((prevItem) => ({
+                          ...prevItem,
+                          address: e.target.value,
+                        }))
+                      }
+                      value={editedItem.address}
                       className="form-control rounded-0"
                       required
                     />
@@ -299,23 +345,45 @@ const Admin_profiledata = () => {
                   <label htmlFor="name">Phone number</label>
                   <input
                     type="number"
-                    placeholder="Enter phone number"
                     name="phone"
-                    onChange={handleChange}
-                    value={values.phone}
+                    onChange={(e) =>
+                      setEditedItem((prevItem) => ({
+                        ...prevItem,
+                        phone: e.target.value,
+                      }))
+                    }
+                    value={editedItem.phone}
                     className="form-control rounded-0"
                     required
                   />
                 </div>
                 <Button
                   type="submit"
-                  label="Save Changes"
                   className="btn bg-success text-white"
-                />
+                  style={{
+                    variant: "contained",
+                    color: "primary",
+                  }}
+                >
+                  Save
+                </Button>
+                <Button
+                  // type="danger"
+                  className="btn bg-danger text-white"
+                  style={{
+                    marginLeft: "10px",
+                    variant: "contained",
+                    color: "error",
+                  }}
+                  onClick={handleCloseEdit}
+                >
+                  Cancel
+                </Button>
               </form>
             </Dialog>
           </div>
         )}
+
         {isChangingPassword && (
           <div className="dialog-overlay1">
             <Dialog
@@ -335,7 +403,14 @@ const Admin_profiledata = () => {
                   <input
                     type="password"
                     placeholder="Enter Current password"
-                    name="name"
+                    name="o_password"
+                    value={editedItem?.o_password}
+                    onChange={(e) =>
+                      setEditedItem((prevItem) => ({
+                        ...prevItem,
+                        o_password: e.target.value,
+                      }))
+                    }
                     className="form-control rounded-0"
                     required
                   />
@@ -345,7 +420,14 @@ const Admin_profiledata = () => {
                   <input
                     type="password"
                     placeholder="Enter New password"
-                    name="name"
+                    name="n_password"
+                    value={editedItem?.n_password}
+                    onChange={(e) =>
+                      setEditedItem((prevItem) => ({
+                        ...prevItem,
+                        n_password: e.target.value,
+                      }))
+                    }
                     className="form-control rounded-0"
                     required
                   />
@@ -355,16 +437,37 @@ const Admin_profiledata = () => {
                   <input
                     type="password"
                     placeholder="Enter New password"
-                    name="name"
+                    name="c_password"
+                    value={editedItem?.c_password}
+                    onChange={(e) =>
+                      setEditedItem((prevItem) => ({
+                        ...prevItem,
+                        c_password: e.target.value,
+                      }))
+                    }
                     className="form-control rounded-0"
                     required
                   />
                 </div>
                 <Button
                   type="submit"
-                  label="Save Password"
+                  // label="Save Password"
                   className="btn bg-success text-white"
-                />
+                >
+                  Save
+                </Button>
+                <Button
+                  // type="danger"
+                  className="btn bg-danger text-white"
+                  style={{
+                    marginLeft: "10px",
+                    variant: "contained",
+                    color: "error",
+                  }}
+                  onClick={handleCloseEdit}
+                >
+                  Cancel
+                </Button>
               </form>
             </Dialog>
           </div>

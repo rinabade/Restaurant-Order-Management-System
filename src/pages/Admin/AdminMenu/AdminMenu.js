@@ -30,16 +30,16 @@ export default function Menu() {
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [editItemId, setEditItemId] = useState(null);
   const [editedItem, setEditedItem] = React.useState([]);
-
   const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false);
   const [confirmEditDialogOpen, setConfirmEditDialogOpen] = useState(false);
-  const [newItem, setNewItem] = React.useState({
-    category: "",
-    item: "",
-    description: "",
-    price: "",
-    image: "",
+  // const[isSucces, setSuccess] = useState();
+  const [selectedImage, setSelectedImage] = useState({
+    file:[]
   });
+  const [category, setCategory] = useState('');
+  const [item, setItem] = useState('');
+  const [price, setPrice] = useState('');
+  const [description, setDescription] = useState('');
 
   const handleOpen = () => {
     setOpen(true);
@@ -50,34 +50,38 @@ export default function Menu() {
   };
 
   const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    setNewItem((prevItem) => ({
-      ...prevItem,
-      image: file,
-    }));
+    // setSelectedImage(event.target.files[0])
+    setSelectedImage({
+        ...selectedImage,
+        file : event.target.files[0],
+    //   image: file,
+    });
+    // console.log(selectedImage.file.name)
   };
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setNewItem((prevItem) => ({
-      ...prevItem,
-      [name]: value,
-    }));
-  };
+//   const handleInputChange = (event) => {
+//     const { name, value } = event.target;
+//     setNewItem((prevItem) => ({
+//       ...prevItem,
+//       [name]: value,
+//     }));
+//   };
 
   const handleAddItem = (e) => {
     e.preventDefault();
     // Add your logic here to handle adding the new item
-    // const formData = new FormData(newItem);
-    // formData.append("category", newItem);
-    // formData.append("item", newItem);
-    // formData.append("description", newItem);
-    // formData.append("price", newItem);
-    // formData.append("image", newItem);
+    const formData = new FormData();
+    formData.append("category", category);
+    formData.append("item", item);
+    formData.append("description", description);
+    formData.append("price", price);
+    formData.append("image", selectedImage.file.name);
+    // console.log("formdata------", formData.append);
 
-    createMenu(newItem)
+    createMenu(formData)
       .then((response) => {
         // Handle successful response
         console.log(response.data);
+        // setData(response.data);
         // Optionally, perform additional actions after successful post
       })
       .catch((error) => {
@@ -85,15 +89,6 @@ export default function Menu() {
         console.error(error);
         // Optionally, display an error message to the user
       });
-
-    // Reset the form
-    setNewItem({
-      category: "",
-      item: "",
-      description: "",
-      price: "",
-      image: "",
-    });
 
     // Close the modal
     handleClose();
@@ -164,7 +159,7 @@ export default function Menu() {
         // Optionally, perform additional actions after successful update
         // For example, you can update the table data with the updated item
         let index = data.findIndex(
-          (o) => o.permission_id === editedItem.menu_id
+          (o) => o.menu_id === editedItem.menu_id
         );
         if (index > -1) {
           data[index] = editedItem;
@@ -263,57 +258,59 @@ export default function Menu() {
           }}
         >
           <h2>Add Menu</h2>
-          <form onSubmit={handleAddItem} encType="multipart/form-data">
+          <form onSubmit={handleAddItem} enctype="multipart/form-data">
             <TextField
               name="category"
               label="Enter Category"
-              value={newItem.category}
-              onChange={handleInputChange}
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
               fullWidth
               margin="normal"
             />
             <TextField
               name="item"
               label="Enter Item Name"
-              value={newItem.item}
-              onChange={handleInputChange}
+              value={item}
+              onChange={(e) => setItem(e.target.value)}
               fullWidth
               margin="normal"
             />
             <TextField
               name="description"
               label="write description"
-              value={newItem.description}
-              onChange={handleInputChange}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               fullWidth
               margin="normal"
             />
             <TextField
               name="price"
               label="Enter Price"
-              value={newItem.price}
-              onChange={handleInputChange}
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
               fullWidth
               margin="normal"
             />
-            <div className="upload-image-container" encType="multipart/form-data">
+            <div className="upload-image-container" enctype="multipart/form-data">
+               {/* {isSucces !==null ? <h4> {isSucces} </h4> : null}    */}
+              <label htmlFor="upload-image" className="upload-image-label">
+                Choose Image
+              </label>
               <input
                 type="file"
-                name="image"
+                name="upload_file"
                 accept="image/*"
+                // value={selectedImage}
                 onChange={handleImageUpload}
                 className="upload-image-input"
                 id="upload-image"
               />
-              <label htmlFor="upload-image" className="upload-image-label">
-                Choose Image
-              </label>
               <br></br>
               <span className="upload-image-text">
-                {newItem.image ? newItem.image.name : "No file chosen"}
+                {selectedImage.image ?  selectedImage.image.name : "No file chosen"}
               </span>
             </div>
-            <Button type="submit" variant="contained" color="success" onClick={handleAddItem}>
+            <Button type="submit" variant="contained" color="success">
               Add
             </Button>
             <Button
@@ -368,7 +365,7 @@ export default function Menu() {
         onClose={handleCancelEdit}
         maxWidth="xs"
       >
-        <DialogTitle>Edit Menu</DialogTitle>
+        {/* <DialogTitle>Edit Menu</DialogTitle>
         <DialogContent>
           <form>
             <TextField
@@ -421,7 +418,7 @@ export default function Menu() {
               </span>
             </div>
           </form>
-        </DialogContent>
+        </DialogContent> */}
         <DialogActions>
           <Button
             onClick={handleCancelEdit}

@@ -53,9 +53,11 @@ export const deleteCategory = (id) => {
 
 // for Menu 
 
-export const createMenu = (data) => {
+export const createMenu = (formData) => {
     let url = `${Config.BaseUrl}admin/menu`;
-    return axios.post(url,data);
+    return axios.post(url,formData,{
+        headers: {"Content-Type" : "multipart/form-data"}
+    });
 }
 
 export const getAllMenu = () => {
@@ -73,6 +75,11 @@ export const deleteMenu = (id) => {
     return axios.delete(url);
 }
 
+// image
+export const uploadImage = (image) => {
+    let url = `${Config.BaseUrl}upload/file`;
+    return axios.post(url,image);
+}
 
 // for Role 
 
@@ -123,5 +130,11 @@ export const deletePermission = (id) => {
 // Profile Update
 export const editProfile= (id, data) => {
     let url = `${Config.BaseUrl}change/profile/${id}`;
+    return axios.patch(url, data);
+}
+
+// Change Password
+export const editPassword= (id, data) => {
+    let url = `${Config.BaseUrl}change/password/${id}`;
     return axios.patch(url, data);
 }
