@@ -3,15 +3,39 @@ import './AdminLogin.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import axios from 'axios'
-import { loginUser } from '../../../api/authAction'
+// import { loginUser } from '../../../api/authAction'
+import PropTypes from 'prop-types';
 
-
-function AdminLogin() {
-    const navigate = useNavigate();
-    const [values, setValues] = useState({
-        email: '',
-        password: ''
+async function loginUser(credentials) {
+    return fetch('http://localhost:8080/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(credentials)
     })
+      .then(data => data.json())
+   }
+
+function AdminLogin({ setToken }) {
+
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+
+    const handleSubmit = async e => {
+        e.preventDefault();
+        const token = await loginUser({
+          email,
+          password
+        });
+        setToken(token);
+      }
+
+    // const navigate = useNavigate();
+    // const [values, setValues] = useState({
+    //     email: '',
+    //     password: ''
+    // })
 
     const [showPopup, setShowPopup] = useState(false);
     
@@ -19,24 +43,24 @@ function AdminLogin() {
         email : ""
     })
 
-    const handleRegisterClick = () => {
-        navigate("/admin/MainDash");
-      };
+    // const handleRegisterClick = () => {
+    //     navigate("/admin/MainDash");
+    //   };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        loginUser(values)
-      .then((response) => {
-        // Handle successful response
-        console.log(response.data);
-        // Optionally, perform additional actions after successful post
-      })
-      .catch((error) => {
-        // Handle error response
-        console.error(error);
-        // Optionally, display an error message to the user
-      });
-    };
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     loginUser(values)
+    //   .then((response) => {
+    //     // Handle successful response
+    //     console.log(response.data);
+    //     // Optionally, perform additional actions after successful post
+    //   })
+    //   .catch((error) => {
+    //     // Handle error response
+    //     console.error(error);
+    //     // Optionally, display an error message to the user
+    //   });
+    // };
 
     const handleResetEmailChange = (event) => {
         setResetEmail(event.target.value);
@@ -66,18 +90,18 @@ function AdminLogin() {
                     <div className='mb-3'>
                         <label htmlFor="email"><strong>Email</strong></label>
                         <input type="email" placeholder='Enter Email' name='name'
-                            onChange={e => setValues({ ...values, email: e.target.value })} className="form-control rounded-0" required />
+                            onChange={e => setEmail(e.target.value)} className="form-control rounded-0" required />
                     </div>
                     <div className='mb-3'>
                         <label htmlFor="password"><strong>Password</strong></label>
                         <input type="password" placeholder='Enter Password' name='name'
-                            onChange={e => setValues({ ...values, password: e.target.value })} className="form-control rounded-0" required />
+                             onChange={e => setPassword(e.target.value)} className="form-control rounded-0" required />
                     </div >
                     <div className='forget text-primary'>
                         <p onClick={() => setShowPopup(true)}>Forget Password?</p>
                     </div>
                     <div className="align-items-center d-flex justify-content-center">
-                        <button type='submit' className='btn btn3 w-50 rounded-12  mt-3 mb-3' onClick={handleRegisterClick}>Log in</button>
+                        <button type='submit' className='btn btn3 w-50 rounded-12  mt-3 mb-3'>Log in</button>
                     </div>
                 </form>
             </div>
@@ -124,7 +148,9 @@ function AdminLogin() {
         </div>
     );
 };
-
+AdminLogin.propTypes = {
+    setToken: PropTypes.func.isRequired
+  }
 export default AdminLogin
 
 
