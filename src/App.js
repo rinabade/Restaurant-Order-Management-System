@@ -35,6 +35,7 @@ function App() {
       <div>
         <Routes>
           <Route path="/" element={<Menu />} />
+
           {!token && <Route path="/admin/Maindash" element={<AdminLogin setToken={setToken} />} />}
           {token && (
             <Route path="/admin" element={<Dashboard />}>
@@ -54,6 +55,8 @@ function App() {
               <Route path="AdminRole" element={<AdminRole />} />
             </Route>
           )}
+          <Route path="/AdminLogin" element={<AdminLogin />} />
+          
           
         </Routes>
       </div>
