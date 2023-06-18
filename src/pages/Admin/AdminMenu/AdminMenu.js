@@ -56,6 +56,7 @@ export default function Menu() {
       image: file,
     }));
   };
+  
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setNewItem((prevItem) => ({
