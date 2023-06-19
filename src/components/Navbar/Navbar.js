@@ -145,7 +145,9 @@ const Navbar = () => {
                 </div>
             </section>
                   {/* Menu */}
+                  <section className="about-sec section" ref={menu}>
                   <MenuSection/>
+                  </section>
 
         </>
     );

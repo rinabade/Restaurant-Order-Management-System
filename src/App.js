@@ -17,18 +17,24 @@ import Permission from './pages/Admin/Permission/Permission';
 import AdminRole from './pages/Admin/AdminRole/AdminRole';
 import AdminLogin from './pages/Admin/AdminLogin/AdminLogin';
 import Menu from './pages/User/Menu/Menu';
+import useToken from './components/Token/useToken';
 
-// function setToken(userToken) {
-//   sessionStorage.setItem('token', JSON.stringify(userToken));
-// }
+function setToken(userToken) {
+  sessionStorage.setItem('token', JSON.stringify(userToken));
+}
 
-// function getToken() {
-// }
+function getToken() {
+  const tokenString = sessionStorage.getItem('token');
+  const userToken = JSON.parse(tokenString);
+  return userToken?.token
+}
 
 function App() {
-  // const token = getToken();
+  
+  const { token, setToken } = useToken();
 
-  const [token, setToken] = useState(false);
+
+  // const [token, setToken] = useState(false);
 
   return (
     <BrowserRouter>

@@ -117,7 +117,7 @@
 }
 
 .filters {
-  overflow-x: scroll;
+  
 display: inline-block;
 list-style: none;
 padding: 0;
@@ -144,7 +144,7 @@ background: linear-gradient(145deg, #e3a92b, #ffc933);;
   background: linear-gradient(145deg, #ececec, #ffffff);
   box-shadow: 28px 28px 45px #d4d4d4, -28px -28px 45px #ffffff;
   display: flow-root;
-  padding: 0 30px 40px;
+  padding: 0 30px 10px;
   padding-top: 0;
   margin: 130px 0 30px;
   transition: 0.8s cubic-bezier(0.22, 0.78, 0.45, 1.02);
@@ -163,6 +163,8 @@ background: linear-gradient(145deg, #e3a92b, #ffc933);;
   box-shadow: 28px 28px 45px #d4d4d4, -28px -28px 45px #ffffff;
   border-radius: 50%;
   overflow: hidden;
+  height:200px;
+  width: 200px;
 }
 
 .dish-rating {
@@ -170,9 +172,7 @@ background: linear-gradient(145deg, #e3a92b, #ffc933);;
   margin-bottom: 15px;
 }
 
-.dish-title {
-  padding: 0 30px;
-}
+
 
 .dish-title .h3-title {
   text-transform: capitalize;
@@ -230,7 +230,7 @@ background: linear-gradient(145deg, #e3a92b, #ffc933);;
 
 .dish-info {
   border-bottom: 2px solid rgb(204 204 204 / 30%);
-  margin: 30px 0 30px;
+  margin: 0px 0 12px;
   padding-bottom: 30px;
 }
 
@@ -261,4 +261,79 @@ background: linear-gradient(145deg, #e3a92b, #ffc933);;
 
 .dish-add-btn:hover {
   background: linear-gradient(145deg, #e3a92b, #ffc933);
+}
+
+/* add to cart popup */
+
+/* Add this CSS code to your existing CSS file or create a new file for dish popup styles */
+
+.dish-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.dish-popup-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 400px;
+  text-align: center;
+}
+
+.dish-popup-image img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.dish-popup-info {
+  margin-top: 10px;
+}
+
+.dish-popup-title {
+  margin-bottom: 5px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.dish-popup-price {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #888;
+}
+
+.add-to-cart-btn,
+.cancel-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.add-to-cart-btn {
+  background-color: #00c853;
+  color: #fff;
+  margin-right: 10px;
+}
+
+.cancel-btn {
+  background-color: #f44336;
+  color: #fff;
+}
+
+.add-to-cart-btn svg,
+.cancel-btn svg {
+  margin-right: 5px;
+  font-size: 18px;
 }
