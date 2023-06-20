@@ -1,7 +1,7 @@
 .Table{
     margin-top: 50px;
-    width: 80%;
-    margin-left: 5%;
+    width: 95%;
+    margin-left: 2%;
 }
 
 .add{
@@ -85,4 +85,10 @@
       align-items: center;
       width: 23rem;
     }
+  }
+
+
+  .active{
+    color: rgb(122, 6, 122);
+    font-size: 20px;
   }

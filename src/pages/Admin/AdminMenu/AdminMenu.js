@@ -1,3 +1,21 @@
+// import axios from "axios";
+// import React, { useState } from "react";
+
+// export default function ImageUpload(){
+
+//   function handleAdd(){
+//       const formData = new FormData();
+//       formData.append('image', image)
+
+//       axios.post("http://localhost:5000/admin/menu/", formData)
+//       .then((res)=>{
+//         console.log(res)
+//       })
+//     }
+//     return(
+//     )
+// }
+
 import * as React from "react";
 import { useState, useEffect } from "react";
 import Table from "@mui/material/Table";
@@ -15,6 +33,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
+
 import "../Table.css";
 import {
   createMenu,
@@ -38,9 +57,14 @@ export default function Menu() {
     item: "",
     description: "",
     price: "",
-    image: "",
   });
 
+  const [image, setImage] = useState("");
+
+  function handleImage(e) {
+    console.log(e.target.files);
+    setImage(e.target.files[0]);
+  }
   const handleOpen = () => {
     setOpen(true);
   };
@@ -56,7 +80,7 @@ export default function Menu() {
       image: file,
     }));
   };
-  
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setNewItem((prevItem) => ({
@@ -68,17 +92,18 @@ export default function Menu() {
   const handleAddItem = (e) => {
     e.preventDefault();
     // Add your logic here to handle adding the new item
-    // const formData = new FormData(newItem);
-    // formData.append("category", newItem);
-    // formData.append("item", newItem);
-    // formData.append("description", newItem);
-    // formData.append("price", newItem);
-    // formData.append("image", newItem);
-
-    createMenu(newItem)
+    const formData = new FormData();
+    formData.append("category", newItem.category);
+    formData.append("item", newItem.item);
+    formData.append("description", newItem.description);
+    formData.append("price", newItem.price);
+    formData.append("image", image);
+    console.log([...formData]);
+    
+    createMenu(formData)
       .then((response) => {
         // Handle successful response
-        console.log(response.data);
+        console.log(response);
         // Optionally, perform additional actions after successful post
       })
       .catch((error) => {
@@ -101,27 +126,27 @@ export default function Menu() {
   };
 
   // get all data from database
-  useEffect(() => {
-    getAllMenu().then(
-      (success) => {
-        if (success.data) {
-          console.log(success.data.data);
-          setData(success.data.data);
-        } else {
-          console.log("Empty Error Response");
-        }
-      },
-      (error) => {
-        if (error.response) {
-          //Backend Error message
-          console.log(error.response);
-        } else {
-          //Server Not working Error
-          console.log("Server not working");
-        }
-      }
-    );
-  }, []);
+  // useEffect(() => {
+  //   getAllMenu().then(
+  //     (success) => {
+  //       if (success.data) {
+  //         console.log(success.data.data);
+  //         setData(success.data.data);
+  //       } else {
+  //         console.log("Empty Error Response");
+  //       }
+  //     },
+  //     (error) => {
+  //       if (error.response) {
+  //         //Backend Error message
+  //         console.log(error.response);
+  //       } else {
+  //         //Server Not working Error
+  //         console.log("Server not working");
+  //       }
+  //     }
+  //   );
+  // }, []);
 
   // Delete Function
   const handleDeleteClick = (id) => {
@@ -222,7 +247,7 @@ export default function Menu() {
                 <TableCell align="left">{dataItem.item_name}</TableCell>
                 <TableCell align="left">{dataItem.description}</TableCell>
                 <TableCell align="left">{dataItem.price}</TableCell>
-                <TableCell align="left">{dataItem.imageUrl}</TableCell>
+                <TableCell align="left">{dataItem.image}</TableCell>
                 <TableCell align="left">
                   <Button
                     className=" bg-success"
@@ -297,25 +322,23 @@ export default function Menu() {
               fullWidth
               margin="normal"
             />
-            <div className="upload-image-container" encType="multipart/form-data">
-              <input
-                type="file"
-                name="image"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="upload-image-input"
-                id="upload-image"
-              />
-              <label htmlFor="upload-image" className="upload-image-label">
-                Choose Image
-              </label>
-              <br></br>
-              <span className="upload-image-text">
-                {newItem.image ? newItem.image.name : "No file chosen"}
-              </span>
+            <div className="upload-image-container">
+              <input type="file" name="file" onChange={handleImage}></input>
             </div>
-            <Button type="submit" variant="contained" color="success" onClick={handleAddItem}>
-              Add
+
+            {/* <div className="upload-image-container" encType="multipart/form-data">
+              <label htmlFor="upload-image" className="upload-image-label"> Choose Image  </label>
+              <input type="file" name="image" accept="image/*" onChange={handleImageUpload} className="upload-image-input" id="upload-image"  />
+              <span className="upload-image-text">  {newItem.image ? newItem.image.name : "No file chosen"} </span>
+            </div> */}
+
+            <Button
+              type="submit"
+              variant="contained"
+              color="success"
+              // onClick={handleAddItem}
+            >
+              Submit
             </Button>
             <Button
               variant="contained"
@@ -404,6 +427,7 @@ export default function Menu() {
               fullWidth
               margin="normal"
             />
+
             <div className="upload-image-container">
               <input
                 type="file"

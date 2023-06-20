@@ -53,8 +53,13 @@ export const deleteCategory = (id) => {
 // for Menu 
 
 export const createMenu = (data) => {
-    let url = `${Config.BaseUrl}admin/menu`;
-    return axios.post(url,data);
+    let url = `${Config.BaseUrl}admin/menu/file-upload`;
+    return axios.post(url,data,{
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+        
+    })
 }
 
 export const getAllMenu = () => {

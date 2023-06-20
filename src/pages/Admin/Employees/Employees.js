@@ -14,7 +14,6 @@ import {
   getAllUsers,
   deleteUser,
   editUser,
-  getUser,
 } from "../../../api/userAction";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
@@ -25,6 +24,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import "../Table.css";
+import { style } from "@mui/system";
 
 export default function BasicTable() {
   const navigate = useNavigate();
@@ -88,6 +88,27 @@ export default function BasicTable() {
       }
     );
   }, []);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+
+  const npage = Math.ceil(data.length / pageSize);
+  const pages = [...Array(npage + 1).keys()].slice(1);
+  const lastIndex = currentPage * pageSize;
+  const firstIndex = lastIndex - pageSize;
+  const records = data.slice(firstIndex, lastIndex);
+
+  const prevPageHandler = () => {
+    if (currentPage !== 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const nextPageHandler = () => {
+    if (currentPage !== npage) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   const handleDropdownChange = (event) => {
     setDropdown(event.target.value);
@@ -161,10 +182,12 @@ export default function BasicTable() {
         console.log("User updated successfully");
         // Optionally, perform additional actions after successful update
         // For example, you can update the table data with the updated item
-        let index = data.findIndex(o => o.employee_id === editedItem.employee_id)
-        if(index > -1){
+        let index = data.findIndex(
+          (o) => o.employee_id === editedItem.employee_id
+        );
+        if (index > -1) {
           data[index] = editedItem;
-          setData(data)
+          setData(data);
         }
         handleCloseEdit();
       })
@@ -199,7 +222,7 @@ export default function BasicTable() {
           <Table aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>Employee_ID </TableCell>
+                <TableCell>S.No. </TableCell>
                 <TableCell align="left">FirstName</TableCell>
                 <TableCell align="left">LastName</TableCell>
                 <TableCell align="left">Email</TableCell>
@@ -214,7 +237,7 @@ export default function BasicTable() {
               </TableRow>
             </TableHead>
             <TableBody style={{ color: "white" }}>
-              {data.map((dataItem, employee_id) => (
+              {records.map((dataItem, employee_id) => (
                 <TableRow key={employee_id}>
                   <TableCell component="th" scope="row">
                     {dataItem.employee_id}
@@ -276,6 +299,23 @@ export default function BasicTable() {
             </TableBody>
           </Table>
         </TableContainer>
+        <br></br>
+
+        <p style={{ display: "flex" }}>
+          <span style={{ border: "none", color: "blue", height: "25px" }} onClick={prevPageHandler}>Prev |</span>
+          {pages.map((page) => (
+            <span
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={`${currentPage === page ? "active" : ""}`}
+            >
+              {`${page} | `}
+            </span>
+          ))}
+          <span style={{ border: "none", color: "blue", height: "25px" }} onClick={nextPageHandler}>Next</span>
+        </p>
+
+
         {/* Edit Modal */}
         <Modal open={Boolean(editItem)} onClose={handleCloseEdit}>
           <Box
@@ -453,8 +493,11 @@ export default function BasicTable() {
                 <label htmlFor="gender" className=" mr-5">
                   <strong>Job title:</strong>
                 </label>
-                <select value={dropdown} onChange={handleDropdownChange} disabled>
-                
+                <select
+                  value={dropdown}
+                  onChange={handleDropdownChange}
+                  disabled
+                >
                   <option value="select">Select :</option>
                   <option value="admin">Admin</option>
                   <option value="kitchen">Kitchen</option>
@@ -533,11 +576,7 @@ export default function BasicTable() {
                   </label>
                 </div>
                 <br />
-                <Button
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                >
+                <Button variant="contained" color="primary" type="submit">
                   Save
                 </Button>
                 <Button
