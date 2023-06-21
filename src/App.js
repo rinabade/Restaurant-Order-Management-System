@@ -32,7 +32,6 @@ function getToken() {
 function App() {
   
   const { token, setToken } = useToken();
-  
   // const [token, setToken] = useState(false);
 
   return (
@@ -40,8 +39,8 @@ function App() {
       <div>
         <Routes>
           <Route path="/" element={<Menu />} />
-          {!token && <Route path="/admin/Maindash" element={<AdminLogin setToken={setToken} />} />}
-          {token && (
+          {!getToken() && <Route path="/admin/Maindash" element={<AdminLogin/>} />}
+          {getToken() && (
             <Route path="/admin" element={<Dashboard />}>
               <Route path="Maindash" element={<MainDash />} />
               <Route path="Employees" element={<Employees />} />
