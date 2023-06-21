@@ -1,13 +1,3 @@
-import './App.css'
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Routes,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
-
 import React, { useState } from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import MainDash from './pages/Admin/MainDash/MainDash';
