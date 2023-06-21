@@ -184,21 +184,21 @@ function AdminLogin({setToken}) {
 
     const handleSubmit = async (e )=> {
         e.preventDefault();
-        const token = await loginUser({email,password});
-        // .then((response) => {
-        //       // Handle successful response
-        //       console.log(response.data.token);
-        //       // Optionally, perform additional actions after successful post
+        const token = await loginUser({email,password})
+        .then((response) => {
+              // Handle successful response
+              console.log(response.data.token);
+              // Optionally, perform additional actions after successful post
               setToken(token.data.token);
 
               // navigate("/admin/Maindash");
-        //       console.log("Token-----------", setToken);
-        //     })
-        //     .catch((error) => {
-        //       // Handle error response
-        //       console.error(error);
-        //       // Optionally, display an error message to the user
-        //     });
+              console.log("Token-----------", setToken);
+            })
+            .catch((error) => {
+              // Handle error response
+              console.error(error);
+              // Optionally, display an error message to the user
+            });
             console.log("token------", token.data.token)
       }
 
