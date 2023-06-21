@@ -1,3 +1,21 @@
+// import axios from "axios";
+// import React, { useState } from "react";
+
+// export default function ImageUpload(){
+
+//   function handleAdd(){
+//       const formData = new FormData();
+//       formData.append('image', image)
+
+//       axios.post("http://localhost:5000/admin/menu/", formData)
+//       .then((res)=>{
+//         console.log(res)
+//       })
+//     }
+//     return(
+//     )
+// }
+
 import * as React from "react";
 import { useState, useEffect } from "react";
 import Table from "@mui/material/Table";
@@ -15,6 +33,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
+
 import "../Table.css";
 import {
   createMenu,
@@ -35,16 +54,23 @@ export default function Menu() {
   const [editedItem, setEditedItem] = React.useState([]);
   const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false);
   const [confirmEditDialogOpen, setConfirmEditDialogOpen] = useState(false);
- 
+
   const [selectedImage, setSelectedImage] = useState({
-    file:[]
+    file: [],
   });
-  
+
   const [category, setCategory] = useState([]);
-  const [item, setItem] = useState('');
-  const [price, setPrice] = useState('');
-  const [description, setDescription] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [item, setItem] = useState("");
+  const [price, setPrice] = useState("");
+  const [description, setDescription] = useState("");
+
+  const [image, setImage] = useState("");
+
+  function handleImage(e) {
+    console.log(e.target.files);
+    setImage(e.target.files[0]);
+  }
 
   const handleOpen = () => {
     setOpen(true);
@@ -55,29 +81,32 @@ export default function Menu() {
   };
 
   const handleDropdownChange = (event) => {
-    setDropdown(event.target.value);
+    setSelectedCategory((prevValues) => ({
+      ...prevValues,
+      selectedCategory: event.target.value,
+    }));
     setCategory((prevValues) => ({
       ...prevValues,
-      Category: event.target.value,
+      category: event.target.value,
     }));
   };
 
   const handleImageUpload = (event) => {
     // setSelectedImage(event.target.files[0])
     setSelectedImage({
-        ...selectedImage,
-        file : event.target.files[0],
-    //   image: file,
+      ...selectedImage,
+      file: event.target.files[0],
+      //   image: file,
     });
     // console.log(selectedImage.file.name)
   };
-//   const handleInputChange = (event) => {
-//     const { name, value } = event.target;
-//     setNewItem((prevItem) => ({
-//       ...prevItem,
-//       [name]: value,
-//     }));
-//   };
+  //   const handleInputChange = (event) => {
+  //     const { name, value } = event.target;
+  //     setNewItem((prevItem) => ({
+  //       ...prevItem,
+  //       [name]: value,
+  //     }));
+  //   };
 
   const handleAddItem = (e) => {
     e.preventDefault();
@@ -128,12 +157,15 @@ export default function Menu() {
         }
       }
     );
+  }, []);
 
+  useEffect(() => {
     getAllCategory().then(
       (success) => {
         if (success.data) {
           console.log(success.data.data);
           setCategory(success.data.data);
+          // setSelectedCategory(success.data.data);
         } else {
           console.log("Empty Error Response");
         }
@@ -191,9 +223,7 @@ export default function Menu() {
         console.log("Permission updated successfully");
         // Optionally, perform additional actions after successful update
         // For example, you can update the table data with the updated item
-        let index = data.findIndex(
-          (o) => o.menu_id === editedItem.menu_id
-        );
+        let index = data.findIndex((o) => o.menu_id === editedItem.menu_id);
         if (index > -1) {
           data[index] = editedItem;
           setData(data);
@@ -249,7 +279,7 @@ export default function Menu() {
                 <TableCell align="left">{dataItem.item_name}</TableCell>
                 <TableCell align="left">{dataItem.description}</TableCell>
                 <TableCell align="left">{dataItem.price}</TableCell>
-                <TableCell align="left">{dataItem.imageUrl}</TableCell>
+                <TableCell align="left">{dataItem.image}</TableCell>
                 <TableCell align="left">
                   <Button
                     className=" bg-success"
@@ -292,19 +322,19 @@ export default function Menu() {
         >
           <h2>Add Menu</h2>
           <form onSubmit={handleAddItem} enctype="multipart/form-data">
-          <label htmlFor="category" className=" mr-5">
+            <br></br>
+            <label htmlFor="category" className=" mr-5">
               <strong>Category :</strong>
             </label>
 
             <select value={selectedCategory} onChange={handleDropdownChange}>
-              <option value="select">Select :</option>
-              {category.map(dataItem  =>(
-                <option key ={dataItem.category_id } value={dataItem.value}>{dataItem.category_name}</option>
+              {category.map((dataItem) => (
+                <option key={dataItem.category_id} value={dataItem.category_id}>
+                  {dataItem.category_name}
+                </option>
               ))}
-              {/* <option value="kitchen">Kitchen</option>
-              <option value="cashier">Cashier</option> */}
             </select>
-            
+
             {/* <TextField
               name="category"
               label="Enter Category"
@@ -337,8 +367,11 @@ export default function Menu() {
               fullWidth
               margin="normal"
             />
-            <div className="upload-image-container" enctype="multipart/form-data">
-               {/* {isSucces !==null ? <h4> {isSucces} </h4> : null}    */}
+            <div
+              className="upload-image-container"
+              enctype="multipart/form-data"
+            >
+              {/* {isSucces !==null ? <h4> {isSucces} </h4> : null}    */}
               <label htmlFor="upload-image" className="upload-image-label">
                 Choose Image
               </label>
@@ -353,7 +386,9 @@ export default function Menu() {
               />
               <br></br>
               <span className="upload-image-text">
-                {selectedImage.image ?  selectedImage.image.name : "No file chosen"}
+                {selectedImage.image
+                  ? selectedImage.image.name
+                  : "No file chosen"}
               </span>
             </div>
             <Button type="submit" variant="contained" color="success">
@@ -446,6 +481,7 @@ export default function Menu() {
               fullWidth
               margin="normal"
             />
+
             <div className="upload-image-container">
               <input
                 type="file"

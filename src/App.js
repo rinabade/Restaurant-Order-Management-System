@@ -40,8 +40,8 @@ function App() {
       <div>
         <Routes>
           <Route path="/" element={<Menu />} />
-          {!token && <Route path="/admin/Maindash" element={<AdminLogin setToken={setToken} />} />}
-          {token && (
+          {/* {!token && <Route path="/admin/Maindash" element={<AdminLogin setToken={setToken} />} />}
+          {token && ( */}
             <Route path="/admin" element={<Dashboard />}>
               <Route path="Maindash" element={<MainDash />} />
               <Route path="Employees" element={<Employees />} />
@@ -58,7 +58,7 @@ function App() {
               <Route path="Permission" element={<Permission />} />
               <Route path="AdminRole" element={<AdminRole />} />
             </Route>
-          )}
+          {/* )} */}
           
         </Routes>
       </div>
