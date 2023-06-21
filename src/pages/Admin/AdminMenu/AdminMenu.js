@@ -39,6 +39,7 @@ export default function Menu() {
   const [selectedImage, setSelectedImage] = useState({
     file:[]
   });
+  
   const [category, setCategory] = useState([]);
   const [item, setItem] = useState('');
   const [price, setPrice] = useState('');

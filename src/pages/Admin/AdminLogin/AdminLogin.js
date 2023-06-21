@@ -180,8 +180,7 @@ function AdminLogin({setToken}) {
   const navigate = useNavigate();
 
     const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
-    
+    const [password, setPassword] = useState();    
 
     const handleSubmit = async (e )=> {
         e.preventDefault();
@@ -192,7 +191,7 @@ function AdminLogin({setToken}) {
         //       // Optionally, perform additional actions after successful post
               setToken(token.data.token);
 
-              navigate("/admin/Maindash");
+              // navigate("/admin/Maindash");
         //       console.log("Token-----------", setToken);
         //     })
         //     .catch((error) => {

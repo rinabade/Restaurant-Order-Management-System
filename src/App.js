@@ -32,7 +32,6 @@ function getToken() {
 function App() {
   
   const { token, setToken } = useToken();
-
   // const [token, setToken] = useState(false);
 
   return (
