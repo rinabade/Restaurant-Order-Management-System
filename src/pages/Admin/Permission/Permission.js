@@ -97,9 +97,7 @@ function AdminPermission() {
         .then((response) => {
           console.log("Permission deleted successfully");
           setData((prevData) =>
-            prevData.filter(
-              (dataItem) => dataItem.permission_id !== deleteItemId
-            )
+            prevData.filter((dataItem) => dataItem.permission_id !== deleteItemId)
           );
           setDeleteItemId(null);
           setConfirmDeleteDialogOpen(false);
@@ -109,7 +107,12 @@ function AdminPermission() {
           setDeleteItemId(null);
           setConfirmDeleteDialogOpen(false);
         });
-    }
+        console.log("Delete item with ID:", deleteItemId);
+        
+        setDeleteItemId(null);
+        setConfirmDeleteDialogOpen(false);
+      }
+      handleCancelDelete();
   };
 
   const handleConfirmEdit = (e) => {
@@ -244,6 +247,7 @@ function AdminPermission() {
         <DialogActions>
           <Button
             onClick={handleConfirmDelete}
+            type="submit"
             style={{
               color: "white",
               backgroundColor: "#044cd0",

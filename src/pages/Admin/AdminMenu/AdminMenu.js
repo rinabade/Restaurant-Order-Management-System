@@ -39,25 +39,31 @@ import {
   createMenu,
   deleteMenu,
   editMenu,
+  getAllCategory,
   getAllMenu,
+  getMenu,
 } from "../../../api/userAction";
 
 export default function Menu() {
   const [open, setOpen] = React.useState(false);
   const [data, setData] = useState([]);
 
+  const [dropdown, setDropdown] = useState("select");
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [editItemId, setEditItemId] = useState(null);
   const [editedItem, setEditedItem] = React.useState([]);
-
   const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false);
   const [confirmEditDialogOpen, setConfirmEditDialogOpen] = useState(false);
-  const [newItem, setNewItem] = React.useState({
-    category: "",
-    item: "",
-    description: "",
-    price: "",
+ 
+  const [selectedImage, setSelectedImage] = useState({
+    file:[]
   });
+  
+  const [category, setCategory] = useState([]);
+  const [item, setItem] = useState('');
+  const [price, setPrice] = useState('');
+  const [description, setDescription] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   const [image, setImage] = useState("");
 
@@ -73,37 +79,47 @@ export default function Menu() {
     setOpen(false);
   };
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    setNewItem((prevItem) => ({
-      ...prevItem,
-      image: file,
+  const handleDropdownChange = (event) => {
+    setDropdown(event.target.value);
+    setCategory((prevValues) => ({
+      ...prevValues,
+      Category: event.target.value,
     }));
   };
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setNewItem((prevItem) => ({
-      ...prevItem,
-      [name]: value,
-    }));
+  const handleImageUpload = (event) => {
+    // setSelectedImage(event.target.files[0])
+    setSelectedImage({
+        ...selectedImage,
+        file : event.target.files[0],
+    //   image: file,
+    });
+    // console.log(selectedImage.file.name)
   };
+//   const handleInputChange = (event) => {
+//     const { name, value } = event.target;
+//     setNewItem((prevItem) => ({
+//       ...prevItem,
+//       [name]: value,
+//     }));
+//   };
 
   const handleAddItem = (e) => {
     e.preventDefault();
     // Add your logic here to handle adding the new item
     const formData = new FormData();
-    formData.append("category", newItem.category);
-    formData.append("item", newItem.item);
-    formData.append("description", newItem.description);
-    formData.append("price", newItem.price);
-    formData.append("image", image);
-    console.log([...formData]);
-    
+    formData.append("category", category);
+    formData.append("item", item);
+    formData.append("description", description);
+    formData.append("price", price);
+    formData.append("image", selectedImage.file.name);
+    // console.log("formdata------", formData.append);
+
     createMenu(formData)
       .then((response) => {
         // Handle successful response
-        console.log(response);
+        console.log(response.data);
+        // setData(response.data);
         // Optionally, perform additional actions after successful post
       })
       .catch((error) => {
@@ -112,41 +128,52 @@ export default function Menu() {
         // Optionally, display an error message to the user
       });
 
-    // Reset the form
-    setNewItem({
-      category: "",
-      item: "",
-      description: "",
-      price: "",
-      image: "",
-    });
-
     // Close the modal
     handleClose();
   };
 
   // get all data from database
-  // useEffect(() => {
-  //   getAllMenu().then(
-  //     (success) => {
-  //       if (success.data) {
-  //         console.log(success.data.data);
-  //         setData(success.data.data);
-  //       } else {
-  //         console.log("Empty Error Response");
-  //       }
-  //     },
-  //     (error) => {
-  //       if (error.response) {
-  //         //Backend Error message
-  //         console.log(error.response);
-  //       } else {
-  //         //Server Not working Error
-  //         console.log("Server not working");
-  //       }
-  //     }
-  //   );
-  // }, []);
+  useEffect(() => {
+    getMenu().then(
+      (success) => {
+        if (success.data) {
+          console.log(success.data.data);
+          setData(success.data.data);
+        } else {
+          console.log("Empty Error Response");
+        }
+      },
+      (error) => {
+        if (error.response) {
+          //Backend Error message
+          console.log(error.response);
+        } else {
+          //Server Not working Error
+          console.log("Server not working");
+        }
+      }
+    );
+
+    getAllCategory().then(
+      (success) => {
+        if (success.data) {
+          console.log(success.data.data);
+          setCategory(success.data.data);
+        } else {
+          console.log("Empty Error Response");
+        }
+      },
+      (error) => {
+        if (error.response) {
+          //Backend Error message
+          console.log(error.response);
+        } else {
+          //Server Not working Error
+          console.log("Server not working");
+        }
+      }
+    );
+  }, []);
 
   // Delete Function
   const handleDeleteClick = (id) => {
@@ -190,7 +217,7 @@ export default function Menu() {
         // Optionally, perform additional actions after successful update
         // For example, you can update the table data with the updated item
         let index = data.findIndex(
-          (o) => o.permission_id === editedItem.menu_id
+          (o) => o.menu_id === editedItem.menu_id
         );
         if (index > -1) {
           data[index] = editedItem;
@@ -243,7 +270,7 @@ export default function Menu() {
             {data.map((dataItem, menu_id) => (
               <TableRow key={menu_id}>
                 <TableCell align="left">{dataItem.menu_id}</TableCell>
-                <TableCell align="left">{dataItem.category_name}</TableCell>
+                <TableCell align="left">{dataItem.category_id}</TableCell>
                 <TableCell align="left">{dataItem.item_name}</TableCell>
                 <TableCell align="left">{dataItem.description}</TableCell>
                 <TableCell align="left">{dataItem.price}</TableCell>
@@ -289,56 +316,73 @@ export default function Menu() {
           }}
         >
           <h2>Add Menu</h2>
-          <form onSubmit={handleAddItem} encType="multipart/form-data">
-            <TextField
+          <form onSubmit={handleAddItem} enctype="multipart/form-data">
+          <label htmlFor="category" className=" mr-5">
+              <strong>Category :</strong>
+            </label>
+
+            <select value={selectedCategory} onChange={handleDropdownChange}>
+              <option value="select">Select :</option>
+              {category.map(dataItem  =>(
+                <option key ={dataItem.category_id } value={dataItem.value}>{dataItem.category_name}</option>
+              ))}
+              {/* <option value="kitchen">Kitchen</option>
+              <option value="cashier">Cashier</option> */}
+            </select>
+            
+            {/* <TextField
               name="category"
               label="Enter Category"
-              value={newItem.category}
-              onChange={handleInputChange}
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
               fullWidth
               margin="normal"
-            />
+            /> */}
             <TextField
               name="item"
               label="Enter Item Name"
-              value={newItem.item}
-              onChange={handleInputChange}
+              value={item}
+              onChange={(e) => setItem(e.target.value)}
               fullWidth
               margin="normal"
             />
             <TextField
               name="description"
               label="write description"
-              value={newItem.description}
-              onChange={handleInputChange}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               fullWidth
               margin="normal"
             />
             <TextField
               name="price"
               label="Enter Price"
-              value={newItem.price}
-              onChange={handleInputChange}
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
               fullWidth
               margin="normal"
             />
-            <div className="upload-image-container">
-              <input type="file" name="file" onChange={handleImage}></input>
+            <div className="upload-image-container" enctype="multipart/form-data">
+               {/* {isSucces !==null ? <h4> {isSucces} </h4> : null}    */}
+              <label htmlFor="upload-image" className="upload-image-label">
+                Choose Image
+              </label>
+              <input
+                type="file"
+                name="upload_file"
+                accept="image/*"
+                // value={selectedImage}
+                onChange={handleImageUpload}
+                className="upload-image-input"
+                id="upload-image"
+              />
+              <br></br>
+              <span className="upload-image-text">
+                {selectedImage.image ?  selectedImage.image.name : "No file chosen"}
+              </span>
             </div>
-
-            {/* <div className="upload-image-container" encType="multipart/form-data">
-              <label htmlFor="upload-image" className="upload-image-label"> Choose Image  </label>
-              <input type="file" name="image" accept="image/*" onChange={handleImageUpload} className="upload-image-input" id="upload-image"  />
-              <span className="upload-image-text">  {newItem.image ? newItem.image.name : "No file chosen"} </span>
-            </div> */}
-
-            <Button
-              type="submit"
-              variant="contained"
-              color="success"
-              // onClick={handleAddItem}
-            >
-              Submit
+            <Button type="submit" variant="contained" color="success">
+              Add
             </Button>
             <Button
               variant="contained"
@@ -392,7 +436,7 @@ export default function Menu() {
         onClose={handleCancelEdit}
         maxWidth="xs"
       >
-        <DialogTitle>Edit Menu</DialogTitle>
+        {/* <DialogTitle>Edit Menu</DialogTitle>
         <DialogContent>
           <form>
             <TextField
@@ -446,7 +490,7 @@ export default function Menu() {
               </span>
             </div>
           </form>
-        </DialogContent>
+        </DialogContent> */}
         <DialogActions>
           <Button
             onClick={handleCancelEdit}
