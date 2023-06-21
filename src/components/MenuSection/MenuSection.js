@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import $ from 'jquery';
+import $, { data } from 'jquery';
 import { gsap, Power2 } from 'gsap';
 import header from "../../imgs/header.jpg";
 import './MenuSection.css';
@@ -9,6 +9,7 @@ import menu2 from "../../imgs/menu-2.png";
 import menu3 from "../../imgs/menu-3.png";
 import menu4 from "../../imgs/menu-4.png";
 import { FaAngleLeft, FaAngleRight, FaPlus } from "react-icons/fa";
+import { getAllCategory, getMenu } from '../../api/userAction';
 
 const MenuSection = () => {
   const containerRef = useRef(null);
@@ -16,8 +17,33 @@ const MenuSection = () => {
   const sliderRef = useRef(null);
   const [popupVisible, setPopupVisible] = useState(false);
   const [selectedDish, setSelectedDish] = useState(null);
+  const [menuCategories, setMenuCategories] = useState([]);
+  const [menuItems, setMenuItems] = useState([])
 
   useEffect(() => {
+    getAllCategory()
+    .then(
+      (success) => {
+        if (success.data) {
+          console.log(success.data.data);
+          // console.log(success.data.data.map(user => user.lastname));
+          setMenuCategories(success.data.data);
+        } else {
+          console.log("Empty Error Response");
+        }
+      },
+      (error) => {
+        if (error.response) {
+          //Backend Error message
+          console.log(error.response);
+        } else {
+          //Server Not working Error
+          console.log("Server not working");
+        }
+      }
+    );
+
+   
     const container = containerRef.current;
 
     const mixer = mixitup(container, {
@@ -29,10 +55,34 @@ const MenuSection = () => {
     mixerRef.current = mixer;
 
   }, []);
-
+  
   const handleFilterClick = (category) => {
+    getMenu(category.category_id)
+    .then(
+      (success) => {
+        if (success.data) {
+          console.log(success.data.data);
+          // console.log(success.data.data.map(user => user.lastname));
+          setMenuItems(success.data.data);
+        } else {
+          console.log("Empty Error Response");
+        }
+      },
+      (error) => {
+        if (error.response) {
+          //Backend Error message
+          console.log(error.response);
+        } else {
+          //Server Not working Error
+          console.log("Server not working");
+        }
+      }
+    );
+    
+    // menuCategories(category)
+    // setMenuCategories(...category);
     if (mixerRef.current) {
-      const targetSelector = category === 'all' ? '.dish-box-wp' : `.${category}`;
+      const targetSelector = category === 'all' ? '.dish-box-wp' : `.${category.category_name}`;
       mixerRef.current.filter(targetSelector);
       setSelectedDish(null);
     }
@@ -85,6 +135,7 @@ const MenuSection = () => {
     <section className="our-menu section" id="menu">
       <div className="sec-wp">
         <div className="container">
+
           <div className="row">
             <div className="col-lg-12">
               <div className="sec-title text-center mb-5">
@@ -93,6 +144,8 @@ const MenuSection = () => {
               </div>
             </div>
           </div>
+
+          {/* category */}
           <div className="menu-tab-wp">
             <div className="row">
               <div className="col-lg-12 m-auto">
@@ -102,41 +155,55 @@ const MenuSection = () => {
                   </button>
                   <ul className="filters" ref={containerRef}>
                     <div className="slider" ref={sliderRef}>
+                      {menuCategories.map((dataItem,category_name) => (
                       <li
                         className="filter"
-                        onClick={() => handleFilterClick("all")}
+                        onClick={() => handleFilterClick(dataItem)}
                       >
                         <img src={menu1} alt="" />
-                        All
+                        {dataItem.category_name}
                       </li>
+                        ))}
+
+                      {/* {menuCategories.map((dataItem,category_name) => (
                       <li
-                        className="filter"
-                        onClick={() => handleFilterClick("breakfast")}
+                      className="filter"
+                        onClick={() => handleFilterClick(dataItem.category_name)}
                       >
                         <img src={menu2} alt="" />
                         Breakfast
                       </li>
+                      ))}
+
+                      {menuCategories.map((dataItem,category_name) => (     
                       <li
                         className="filter"
-                        onClick={() => handleFilterClick("lunch")}
+                        onClick={() => handleFilterClick(dataItem.category_name)}
                       >
                         <img src={menu3} alt="" />
                         Lunch
                       </li>
+                      ))}
+
+                      {menuCategories.map((dataItem,category_name) => (
                       <li
-                        className="filter"
-                        onClick={() => handleFilterClick("dinner")}
+                      className="filter"
+                        onClick={() => handleFilterClick(dataItem.category_name)}
                       >
                         <img src={menu4} alt="" />
                         Dinner
                       </li>
+                      ))}
+
+                      {menuCategories.map((dataItem,category_name) => (
                       <li
                         className="filter snacks"
-                        onClick={() => handleFilterClick("snacks")}
-                      >
+                        onClick={() => handleFilterClick(dataItem.category_name)}
+                        >
                         <img src={menu4} alt="" />
                         Snacks
                       </li>
+                      ))} */}
                     </div>
                   </ul>
                   <button className="slider-button right" onClick={handleSliderRight}>
@@ -146,24 +213,28 @@ const MenuSection = () => {
               </div>
             </div>
           </div>
+
+          {/* food_item */}
           <div className="menu-list-row">
             <div className="row g-xxl-5 bydefault_show" id="menu-dish" ref={containerRef}>
-              <div className="col-lg-4 col-sm-6 dish-box-wp breakfast" data-cat="breakfast">
+
+            {menuItems.map((dataItem, menu_id) => (
+              <div className={`col-lg-4 col-sm-6 dish-box-wp ${dataItem.category_name}`} data-cat={dataItem.category_name}>
                 <div className="dish-box text-center">
                   <div className="dist-img">
                   <img src={header} alt="" />
                   </div>
                   <div className="dish-title">
-                    <h3 className="h3-title">Fresh Chicken Veggies</h3>
+                    <h3 className="h3-title">{dataItem.item_name}</h3>
                   </div>
                   <div className="dish-info"></div>
                   <div className="dist-bottom-row">
                     <ul>
                       <li>
-                        <b>Rs. 499</b>
+                        <b>{dataItem.price}</b>
                       </li>
                       <li>
-                        <button className="dish-add-btn" onClick={() => handleDishAdd({ title: "Fresh Chicken Veggies", image:{header}, price: "Rs. 499" })}>
+                        <button className="dish-add-btn" onClick={() => handleDishAdd(dataItem)}>
                           <FaPlus />
                         </button>
                       </li>
@@ -171,6 +242,7 @@ const MenuSection = () => {
                   </div>
                 </div>
               </div>
+            ))}
 
               {/* <!-- 2 --> */}
               <div className="col-lg-4 col-sm-6 dish-box-wp breakfast" data-cat="breakfast">
@@ -297,6 +369,7 @@ const MenuSection = () => {
               </div>
             </div>
           </div>
+
         </div>
       </div>
       {popupVisible && selectedDish && (

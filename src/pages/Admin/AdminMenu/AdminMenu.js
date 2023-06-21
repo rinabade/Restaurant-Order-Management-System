@@ -20,26 +20,30 @@ import {
   createMenu,
   deleteMenu,
   editMenu,
+  getAllCategory,
   getAllMenu,
+  getMenu,
 } from "../../../api/userAction";
 
 export default function Menu() {
   const [open, setOpen] = React.useState(false);
   const [data, setData] = useState([]);
 
+  const [dropdown, setDropdown] = useState("select");
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [editItemId, setEditItemId] = useState(null);
   const [editedItem, setEditedItem] = React.useState([]);
   const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false);
   const [confirmEditDialogOpen, setConfirmEditDialogOpen] = useState(false);
-  // const[isSucces, setSuccess] = useState();
+ 
   const [selectedImage, setSelectedImage] = useState({
     file:[]
   });
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState([]);
   const [item, setItem] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   const handleOpen = () => {
     setOpen(true);
@@ -47,6 +51,14 @@ export default function Menu() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleDropdownChange = (event) => {
+    setDropdown(event.target.value);
+    setCategory((prevValues) => ({
+      ...prevValues,
+      Category: event.target.value,
+    }));
   };
 
   const handleImageUpload = (event) => {
@@ -96,11 +108,31 @@ export default function Menu() {
 
   // get all data from database
   useEffect(() => {
-    getAllMenu().then(
+    getMenu().then(
       (success) => {
         if (success.data) {
           console.log(success.data.data);
           setData(success.data.data);
+        } else {
+          console.log("Empty Error Response");
+        }
+      },
+      (error) => {
+        if (error.response) {
+          //Backend Error message
+          console.log(error.response);
+        } else {
+          //Server Not working Error
+          console.log("Server not working");
+        }
+      }
+    );
+
+    getAllCategory().then(
+      (success) => {
+        if (success.data) {
+          console.log(success.data.data);
+          setCategory(success.data.data);
         } else {
           console.log("Empty Error Response");
         }
@@ -212,7 +244,7 @@ export default function Menu() {
             {data.map((dataItem, menu_id) => (
               <TableRow key={menu_id}>
                 <TableCell align="left">{dataItem.menu_id}</TableCell>
-                <TableCell align="left">{dataItem.category_name}</TableCell>
+                <TableCell align="left">{dataItem.category_id}</TableCell>
                 <TableCell align="left">{dataItem.item_name}</TableCell>
                 <TableCell align="left">{dataItem.description}</TableCell>
                 <TableCell align="left">{dataItem.price}</TableCell>
@@ -259,14 +291,27 @@ export default function Menu() {
         >
           <h2>Add Menu</h2>
           <form onSubmit={handleAddItem} enctype="multipart/form-data">
-            <TextField
+          <label htmlFor="category" className=" mr-5">
+              <strong>Category :</strong>
+            </label>
+
+            <select value={selectedCategory} onChange={handleDropdownChange}>
+              <option value="select">Select :</option>
+              {category.map(dataItem  =>(
+                <option key ={dataItem.category_id } value={dataItem.value}>{dataItem.category_name}</option>
+              ))}
+              {/* <option value="kitchen">Kitchen</option>
+              <option value="cashier">Cashier</option> */}
+            </select>
+            
+            {/* <TextField
               name="category"
               label="Enter Category"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               fullWidth
               margin="normal"
-            />
+            /> */}
             <TextField
               name="item"
               label="Enter Item Name"

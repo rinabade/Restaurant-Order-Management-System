@@ -1,26 +1,19 @@
 import axios from 'axios';
 import {Config} from "../Config";
 
-export const loginUser = ({email,password}) => {
+export const loginUser = (credentials) => {
     let url = `${Config.BaseUrl}api/login`;
-    return axios.post(url, {email,password},{
+    return axios.post(url, credentials,{
         headers: {
             'Content-Type': 'application/json',
-            // withCredentials: true
-        }
+        //   'Authorization': `Bearer ${token.data.token}`,
+          // other headers if needed
+        },
+        body: JSON.stringify(credentials)
     })
-    // .then((success) => {
-    //     // Handle successful response
-    //     return success;
-    //     // Optionally, perform additional actions after successful post
-    //   })
-    //   .catch((error) => {
-    //     // Handle error response
-    //     return error
-    //     // Optionally, display an error message to the user
-    //   });
        
 }
+
 
 export const registerUser = (data) => {
     let url = `${Config.BaseUrl}/api/register/create`;

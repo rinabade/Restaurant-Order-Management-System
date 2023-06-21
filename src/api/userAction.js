@@ -60,9 +60,9 @@ export const createMenu = (formData) => {
     });
 }
 
-export const getAllMenu = () => {
-    let url = `${Config.BaseUrl}admin/menu`;
-    return axios.get(url);
+export const getMenu = (id, data) => {
+    let url = `${Config.BaseUrl}admin/menu/${id}`;
+    return axios.get(url,data);
 }
 
 export const editMenu= (id, data) => {
