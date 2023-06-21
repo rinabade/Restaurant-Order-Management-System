@@ -5,23 +5,32 @@ import { useState } from 'react'
 import axios from 'axios'
 import PropTypes from 'prop-types';
 import { loginUser } from '../../../api/authAction'
+import useToken from "../../../components/Token/useToken";
 
-function AdminLogin({setToken}) {
+function AdminLogin() {
   const navigate = useNavigate();
 
     const [email, setEmail] = useState();
-    const [password, setPassword] = useState();    
+    const [password, setPassword] = useState();
+
+    const { setToken } = useToken();
+
+    const refreshPage = () => {
+        navigate(0);
+    }
 
     const handleSubmit = async (e )=> {
         e.preventDefault();
-        const token = await loginUser({email,password})
+        await loginUser({email,password})
         .then((response) => {
               // Handle successful response
-              console.log(response.data.token);
-              // Optionally, perform additional actions after successful post
-              setToken(token.data.token);
 
-              // navigate("/admin/Maindash");
+                console.log("here", response)
+              // console.log(response.data.token);
+              // // Optionally, perform additional actions after successful post
+              setToken(response.data);
+
+              refreshPage();
               console.log("Token-----------", setToken);
             })
             .catch((error) => {
@@ -29,7 +38,6 @@ function AdminLogin({setToken}) {
               console.error(error);
               // Optionally, display an error message to the user
             });
-            console.log("token------", token.data.token)
       }
 
     // const [values, setValues] = useState({

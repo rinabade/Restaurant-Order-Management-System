@@ -28,7 +28,6 @@ export const deleteUser = (id) => {
     return axios.delete(url);
 }
 
-
 // for category 
 
 export const createCategory = (data) => {

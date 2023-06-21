@@ -10,6 +10,7 @@ function AdminRegister() {
   const [isChecked, setIsChecked] = useState(false);
   const [radio1, setRadio1] = useState("");
   const [radio2, setRadio2] = useState("");
+  
 
   const [values, setValues] = useState({
     firstname: "",

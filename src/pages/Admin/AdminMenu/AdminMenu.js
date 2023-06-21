@@ -72,6 +72,12 @@ export default function Menu() {
     setImage(e.target.files[0]);
   }
 
+  // const [image, setImage] = useState("");
+
+  function handleImage(e) {
+    console.log(e.target.files);
+    setImage(e.target.files[0]);
+  }
   const handleOpen = () => {
     setOpen(true);
   };
