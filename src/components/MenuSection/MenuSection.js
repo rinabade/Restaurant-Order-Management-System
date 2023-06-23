@@ -3,12 +3,14 @@ import $ from 'jquery';
 import { gsap, Power2 } from 'gsap';
 import header from "../../imgs/header.jpg";
 import './MenuSection.css';
+import CartContainer from '../CartContainer/CartContainer';
 import mixitup from 'mixitup';
+import {motion} from "framer-motion";
 import menu1 from "../../imgs/menu-1.png";
 import menu2 from "../../imgs/menu-2.png";
 import menu3 from "../../imgs/menu-3.png";
 import menu4 from "../../imgs/menu-4.png";
-import { FaAngleLeft, FaAngleRight, FaPlus } from "react-icons/fa";
+import { FaAngleLeft, FaAngleRight, FaPlus, FaMinus } from "react-icons/fa";
 
 const MenuSection = () => {
   const containerRef = useRef(null);
@@ -16,7 +18,8 @@ const MenuSection = () => {
   const sliderRef = useRef(null);
   const [popupVisible, setPopupVisible] = useState(false);
   const [selectedDish, setSelectedDish] = useState(null);
-
+  const [cartItems, setCartItems] = useState([]);
+  const [selectedItems, setSelectedItems] = React.useState([]);
   useEffect(() => {
     const container = containerRef.current;
 
@@ -27,8 +30,16 @@ const MenuSection = () => {
       },
     });
     mixerRef.current = mixer;
-
+    // const storedCartItems = localStorage.getItem('cartItems');
+    // if (storedCartItems) {
+    //   setCartItems(JSON.parse(storedCartItems));
+    // }
   }, []);
+  useEffect(() => {
+    // Save cart items to local storage whenever they change
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  }, [cartItems]);
+
 
   const handleFilterClick = (category) => {
     if (mixerRef.current) {
@@ -58,24 +69,45 @@ const MenuSection = () => {
     setSelectedDish(dish);
     setPopupVisible(true);
   };
-
+  const handleAddToCart = (dish) => {
+      setCartItems([...cartItems, dish]);
+      setPopupVisible(false);
+    };
+    
   const DishPopup = ({ dish, onClose, onAddToCart }) => {
+    const [quantity, setQuantity] = useState(dish.quantity);
+    
     return (
       <div className="dish-popup">
         <div className="dish-popup-content">
+          <div className='dish-popup-items'>
           <div className="dish-popup-image">
             <img src={dish.image} alt={dish.title} />
           </div>
           <div className="dish-popup-info">
             <h3 className="dish-popup-title">{dish.title}</h3>
             <p className="dish-popup-price">{dish.price}</p>
+            <div className="quantity-input flex items-center gap-2  cursor-pointer">
+            
+             <motion.div whileTap={{scale: 0.75}}>
+              <FaMinus/>
+             </motion.div>
+             <p className='quantity-num w-5 h-5 rounded-sm bg-cartBg text-gray-50 flex items-center justify-center'>
+              1
+             </p>
+             <motion.div whileTap={{scale: 0.75}}>
+              <FaPlus/>
+             </motion.div>
+            </div>
+            </div>
+            </div>
             <button className="add-to-cart-btn" onClick={() => onAddToCart(dish)}>
               Add to Cart
             </button>
             <button className="cancel-btn" onClick={onClose}>
               Cancel
             </button>
-          </div>
+          
         </div>
       </div>
     );
@@ -148,7 +180,7 @@ const MenuSection = () => {
                         <b>Rs. 499</b>
                       </li>
                       <li>
-                        <button className="dish-add-btn" onClick={() => handleDishAdd({ title: "Fresh Chicken Veggies", image:{header}, price: "Rs. 499" })}>
+                        <button className="dish-add-btn" onClick={() => handleDishAdd({ title: "Fresh Chicken Veggies", image: header, price: "Rs. 499" })}>
                           <FaPlus />
                         </button>
                       </li>
@@ -173,7 +205,7 @@ const MenuSection = () => {
                         <b>Rs. 359</b>
                       </li>
                       <li>
-                        <button className="dish-add-btn" onClick={() => handleDishAdd({ title: "Grilled Chicken", image: "assets/images/dish/2.png", price: "Rs. 359" })}>
+                        <button className="dish-add-btn" onClick={() => handleDishAdd({ title: "Grilled Chicken", image: header, price: "Rs. 359" })}>
                           <FaPlus />
                         </button>
                       </li>
@@ -289,14 +321,14 @@ const MenuSection = () => {
         <DishPopup
           dish={selectedDish} 
           onClose={() => setPopupVisible(false)}
-          onAddToCart={(dish) => {
-            console.log('Added to cart:', dish);
-            setPopupVisible(false);
-          }}
+          onAddToCart={handleAddToCart}
          
         />
-        
-      )}
+       
+      )} 
+      {cartItems.length > 0 && (
+          <CartContainer items={cartItems} />
+        )}
     </section>
   );
 };

@@ -287,16 +287,18 @@ background: linear-gradient(145deg, #e3a92b, #ffc933);;
   max-width: 400px;
   text-align: center;
 }
-
+.dish-popup-items{
+  display: flex;
+}
 .dish-popup-image img {
   width: 100%;
-  max-height: 200px;
+  height: 120px;
   object-fit: cover;
   border-radius: 5px;
 }
 
 .dish-popup-info {
-  margin-top: 10px;
+  margin: 0px 10px 50px 10px;
 }
 
 .dish-popup-title {
@@ -310,11 +312,24 @@ background: linear-gradient(145deg, #e3a92b, #ffc933);;
   font-size: 18px;
   color: #888;
 }
+.quantity-input{
+  display: flex;
+  margin-left:40px;
+  align-items: center;
+  cursor: pointer;
+}
+.quantity-num{
+  width: 5px;
+  height: 5px;
+  justify-content: center;
+  align-items: center;
 
+
+}
 .add-to-cart-btn,
 .cancel-btn {
   display: inline-block;
-  padding: 10px 20px;
+  padding: 5px 10px;
   border: none;
   border-radius: 5px;
   font-size: 16px;
@@ -322,13 +337,13 @@ background: linear-gradient(145deg, #e3a92b, #ffc933);;
 }
 
 .add-to-cart-btn {
-  background-color: #00c853;
+  background-color: #4c926e;
   color: #fff;
   margin-right: 10px;
 }
 
 .cancel-btn {
-  background-color: #f44336;
+  background-color: #be6761;
   color: #fff;
 }
 

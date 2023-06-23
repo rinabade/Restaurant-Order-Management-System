@@ -318,6 +318,36 @@
   justify-content: center;
 }
 
+/* cart.css */
+
+.cart-container-slide {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 350px; /* Adjust the width as needed */
+  background-color: white; /* Set the background color */
+  overflow-y: auto;
+  z-index: 999;
+}
+
+/* Define the animation transitions */
+.cart-container-slide {
+  transition-property: opacity, transform;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+}
+
+/* Apply the animation variants */
+.cart-container-slide.hidden {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.cart-container-slide.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
 
 
   @media (max-width: 1290px){
