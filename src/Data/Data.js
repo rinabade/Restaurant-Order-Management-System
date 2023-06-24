@@ -21,14 +21,14 @@ export const SidebarData = [
   
   },
   {
-    icon: FaCalendarMinus,
-    heading: "Menu",
-    path: "/admin/AdminMenu",
-  },
-  {
     icon: FaClipboard,
     heading: "Category",
     path: "/admin/Category",
+  },
+  {
+    icon: FaCalendarMinus,
+    heading: "Menu",
+    path: "/admin/AdminMenu",
   },
   {
     icon: FaClipboard,

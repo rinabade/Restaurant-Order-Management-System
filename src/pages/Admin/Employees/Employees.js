@@ -9,9 +9,13 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import "../Table.css";
-import { useState } from "react";
-import { useEffect } from "react";
-import { getAllUsers, deleteUser } from "../../../api/userAction";
+import { useState, useEffect } from "react";
+import {
+  getAllUsers,
+  deleteUser,
+  editUser,
+  getUser,
+} from "../../../api/userAction";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -22,27 +26,44 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import "../Table.css";
 
-// function createData(Firstname,Lastname,Email,Password,Address,Phone,Gender, Jobtitle,Date,Salary,Status,Action ) {
-//   return { Firstname, Lastname,  Email,Password, Address, Phone, Gender, Jobtitle,Date,Salary,Status,Action };
-// }
-
-// const rows = [
-//   createData("Ram","stha","example@gmail.com","fsghshsdc","baneshwor", "9818035087","male","cashier","2020/02/22","1000","Full-time"),
-// ]
-
 export default function BasicTable() {
-  const [data, setData] = useState([]);
+  const navigate = useNavigate();
+
+  const [dropdown, setDropdown] = useState("select");
+  const [radio1, setRadio1] = useState("");
+  const [radio2, setRadio2] = useState("");
 
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null);
 
-  const navigate = useNavigate();
-
   const [editItem, setEditItem] = React.useState(null);
-  const [editedItem, setEditedItem] = React.useState(null);
+  const [editedItem, setEditedItem] = React.useState([]);
+
+  const [data, setData] = useState([]);
+
+  const [values, setValues] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    gender: "",
+    password: "",
+    phone: "",
+    address: "",
+    job_title: "",
+    hire_date: "",
+    salary_information: "",
+    employee_status: "",
+  });
 
   const handleRegisterClick = () => {
     navigate("/admin/AdminRegister");
+  };
+
+  const handleChange = (event) => {
+    setValues({
+      ...values,
+      [event.target.name]: event.target.value,
+    });
   };
 
   useEffect(() => {
@@ -68,10 +89,36 @@ export default function BasicTable() {
     );
   }, []);
 
+  const handleDropdownChange = (event) => {
+    setDropdown(event.target.value);
+    setValues((prevValues) => ({
+      ...prevValues,
+      job_title: event.target.value,
+    }));
+  };
+
+  const handleRadioChange = (event) => {
+    setRadio1(event.target.value);
+    setValues((prevValues) => ({
+      ...prevValues,
+      gender: event.target.value,
+    }));
+  };
+
+  const handleRadioChange2 = (event) => {
+    setRadio2(event.target.value);
+    setValues((prevValues) => ({
+      ...prevValues,
+      employee_status: event.target.value,
+    }));
+  };
+
+  // Deletee function
+
   const handleDeleteClick = (id) => {
     setDeleteItemId(id);
     setConfirmDialogOpen(true);
-  }
+  };
 
   const handleConfirmDelete = () => {
     // Perform the delete operation
@@ -92,23 +139,42 @@ export default function BasicTable() {
         });
     }
   };
-  
+
   const handleCancelDelete = () => {
     setDeleteItemId(null);
     setConfirmDialogOpen(false);
   };
 
-  const handleEditClick = (item) => {
-    setEditItem(item);
-    setEditedItem({ ...item }); // Create a copy of the item to track the edited changes
-  };
-  const handleSaveEdit = () => {
-    // Add your logic here to save the edited item
-    console.log(editedItem);
+  // Edit handle
 
-    // Close the modal
-    setEditItem(null);
+  const handleEditClick = (employeeData) => {
+    setEditItem(employeeData);
+    setEditedItem({ ...employeeData });
   };
+
+  const handleSaveEdit = (e) => {
+    e.preventDefault();
+    // Make the PATCH API request to update the edited item
+    editUser(editedItem.employee_id, editedItem)
+      .then((response) => {
+        // Handle successful response
+        console.log("User updated successfully");
+        // Optionally, perform additional actions after successful update
+        // For example, you can update the table data with the updated item
+        let index = data.findIndex(o => o.employee_id === editedItem.employee_id)
+        if(index > -1){
+          data[index] = editedItem;
+          setData(data)
+        }
+        handleCloseEdit();
+      })
+      .catch((error) => {
+        // Handle error response
+        console.error("An error occurred while updating the user");
+        // Optionally, display an error message to the user
+      });
+  };
+
   const handleCloseEdit = () => {
     setEditItem(null);
   };
@@ -133,7 +199,8 @@ export default function BasicTable() {
           <Table aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>FirstName </TableCell>
+                <TableCell>Employee_ID </TableCell>
+                <TableCell align="left">FirstName</TableCell>
                 <TableCell align="left">LastName</TableCell>
                 <TableCell align="left">Email</TableCell>
                 <TableCell align="left">Gender</TableCell>
@@ -150,6 +217,9 @@ export default function BasicTable() {
               {data.map((dataItem, employee_id) => (
                 <TableRow key={employee_id}>
                   <TableCell component="th" scope="row">
+                    {dataItem.employee_id}
+                  </TableCell>
+                  <TableCell align="left" className="table-cell">
                     {dataItem.firstname}
                   </TableCell>
                   <TableCell align="left" className="table-cell">
@@ -221,7 +291,7 @@ export default function BasicTable() {
             }}
           >
             <h3>Edit Employee</h3>
-            <form>
+            <form onSubmit={handleSaveEdit}>
               <div className="d-flex flex-row justify-content-around">
                 <div className="mb-3">
                   <label htmlFor="name">
@@ -229,27 +299,32 @@ export default function BasicTable() {
                   </label>
                   <input
                     type="text"
-                    placeholder="Enter Name"
-                    name="name"
+                    placeholder="Enter FirstName"
+                    name="firstname"
+                    id="firstname"
+                    value={editedItem.firstname}
                     className="form-control rounded-0"
                     required
                     disabled
                   />
                 </div>
+
                 <div className="mb-3">
                   <label htmlFor="name">
                     <strong>Last Name</strong>
                   </label>
                   <input
                     type="text"
-                    placeholder="Enter Name"
-                    name="name"
+                    placeholder="Enter LastName"
+                    name="lastname"
+                    value={editedItem?.lastname}
                     className="form-control rounded-0"
                     required
                     disabled
                   />
                 </div>
               </div>
+
               <div className="d-flex flex-row justify-content-around">
                 <div className="mb-3">
                   <label htmlFor="email">
@@ -259,10 +334,13 @@ export default function BasicTable() {
                     type="email"
                     placeholder="Enter Email"
                     name="email"
+                    value={editedItem.email}
                     className="form-control rounded-0"
                     required
+                    disabled
                   />
                 </div>
+
                 <div className="mb-3">
                   <label htmlFor="password">
                     <strong>Password</strong>
@@ -271,32 +349,56 @@ export default function BasicTable() {
                     type="password"
                     placeholder="Enter Password"
                     name="password"
+                    value={editedItem.password}
+                    onChange={(e) =>
+                      setEditedItem((prevItem) => ({
+                        ...prevItem,
+                        password: e.target.value,
+                      }))
+                    }
                     className="form-control rounded-0"
                     required
+                    disabled
                   />
                 </div>
               </div>
+
               <div className="d-flex flex-row justify-content-around">
                 <div className="mb-3">
                   <label htmlFor="phone">
                     <strong>Address</strong>
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     placeholder="Enter Address"
-                    name="phone"
+                    name="address"
+                    onChange={(e) =>
+                      setEditedItem((prevItem) => ({
+                        ...prevItem,
+                        address: e.target.value,
+                      }))
+                    }
+                    value={editedItem.address}
                     className="form-control rounded-0"
                     required
                   />
                 </div>
+
                 <div className="mb-3">
                   <label htmlFor="phone">
                     <strong>Phone number</strong>
                   </label>
                   <input
-                    type="number"
+                    type="varchar"
                     placeholder="Enter Phone number"
                     name="phone"
+                    onChange={(e) =>
+                      setEditedItem((prevItem) => ({
+                        ...prevItem,
+                        phone: e.target.value,
+                      }))
+                    }
+                    value={editedItem.phone}
                     className="form-control rounded-0"
                     required
                   />
@@ -307,14 +409,22 @@ export default function BasicTable() {
                 <label htmlFor="gender" className=" mr-5">
                   <strong>Gender:</strong>
                 </label>
-
                 <div class="form-check form-check-inline mb-3">
                   <input
                     className="form-check-input"
                     type="radio"
-                    value="option1"
+                    id="male"
+                    checked={radio1 === "Male"}
+                    value="Male"
+                    onChange={(e) =>
+                      setEditedItem((prevItem) => ({
+                        ...prevItem,
+                        gender: e.target.value,
+                      }))
+                    }
+                    disabled
                   />
-                  <label className="form-check-label" for="inlineCheckbox1">
+                  <label className="form-check-label" htmlFor="inlineCheckbox1">
                     Male
                   </label>
                 </div>
@@ -322,9 +432,18 @@ export default function BasicTable() {
                   <input
                     className="form-check-input"
                     type="radio"
-                    value="option2"
+                    id="female"
+                    checked={radio1 === "Female"}
+                    value="Female"
+                    onChange={(e) =>
+                      setEditedItem((prevItem) => ({
+                        ...prevItem,
+                        gender: e.target.value,
+                      }))
+                    }
+                    disabled
                   />
-                  <label classNmae="form-check-label" for="inlineCheckbox2">
+                  <label className="form-check-label" htmlFor="inlineCheckbox2">
                     Female
                   </label>
                 </div>
@@ -334,18 +453,13 @@ export default function BasicTable() {
                 <label htmlFor="gender" className=" mr-5">
                   <strong>Job title:</strong>
                 </label>
-
-                <Dropdown>
-                  <Dropdown.Toggle id="dropdown-basic">
-                    Choose job title
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu>
-                    <Dropdown.Item href="#/action-1">Admin</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">Kitchen</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">Casher</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
+                <select value={dropdown} onChange={handleDropdownChange} disabled>
+                
+                  <option value="select">Select :</option>
+                  <option value="admin">Admin</option>
+                  <option value="kitchen">Kitchen</option>
+                  <option value="cashier">Cashier</option>
+                </select>
               </div>
 
               <div className="d-flex flex-row justify-content-around">
@@ -354,11 +468,19 @@ export default function BasicTable() {
                     <strong>Date of hire</strong>
                   </label>
                   <input
-                    type="password"
+                    type="text"
                     placeholder="Enter Date"
-                    name="password"
+                    name="hire_date"
+                    value={editedItem.hire_date}
+                    onChange={(e) =>
+                      setEditedItem((prevItem) => ({
+                        ...prevItem,
+                        hire_date: e.target.value,
+                      }))
+                    }
                     className="form-control rounded-0"
                     required
+                    disabled
                   />
                 </div>
                 <div className="mb-3">
@@ -366,9 +488,16 @@ export default function BasicTable() {
                     <strong>Salary Information</strong>
                   </label>
                   <input
-                    type="amount"
+                    type="text"
                     placeholder="Enter salary"
-                    name="phone"
+                    name="salary_information"
+                    onChange={(e) =>
+                      setEditedItem((prevItem) => ({
+                        ...prevItem,
+                        salary_information: e.target.value,
+                      }))
+                    }
+                    value={editedItem.salary_information}
                     className="form-control rounded-0"
                     required
                   />
@@ -383,9 +512,11 @@ export default function BasicTable() {
                   <input
                     className="form-check-input"
                     type="radio"
-                    value="option1"
+                    checked={radio2 === "Part-time"}
+                    value="Part-time"
+                    onChange={handleRadioChange2}
                   />
-                  <label className="form-check-label" for="inlineCheckbox1">
+                  <label className="form-check-label" htmlFor="inlineCheckbox1">
                     Part-time
                   </label>
                 </div>
@@ -393,36 +524,39 @@ export default function BasicTable() {
                   <input
                     className="form-check-input"
                     type="radio"
-                    value="option1"
+                    checked={radio2 === "Full-time"}
+                    value="Full-time"
+                    onChange={handleRadioChange2}
                   />
-                  <label className="form-check-label" for="inlineCheckbox1">
+                  <label className="form-check-label" htmlFor="inlineCheckbox1">
                     Full-time
                   </label>
                 </div>
+                <br />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                >
+                  Save
+                </Button>
+                <Button
+                  variant="contained"
+                  color="error"
+                  style={{ marginLeft: "10px" }}
+                  onClick={handleCloseEdit}
+                >
+                  Cancel
+                </Button>
               </div>
             </form>
             {/* Add more fields as per your form requirements */}
-
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleSaveEdit}
-            >
-              Save
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              style={{ marginLeft: "10px" }}
-              onClick={handleCloseEdit}
-            >
-              Cancel
-            </Button>
           </Box>
         </Modal>
       </div>
-       {/* Confirmation Dialog */}
-       <Dialog
+
+      {/* Confirmation Dialog */}
+      <Dialog
         open={confirmDialogOpen}
         onClose={handleCancelDelete}
         maxWidth="xs"
@@ -432,14 +566,28 @@ export default function BasicTable() {
           Are you sure you want to delete this user?
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancelDelete}>Cancel</Button>
-          <Button onClick={handleConfirmDelete} color="error">
+          <Button
+            onClick={handleConfirmDelete}
+            style={{
+              color: "white",
+              backgroundColor: "#044cd0",
+              border: "none",
+            }}
+          >
             Delete
+          </Button>
+          <Button
+            onClick={handleCancelDelete}
+            style={{
+              color: "white",
+              backgroundColor: "#CD5C5C",
+              border: "none",
+            }}
+          >
+            Cancel
           </Button>
         </DialogActions>
       </Dialog>
     </>
   );
 }
-
-
