@@ -10,7 +10,7 @@ const CartContainer = ({ items, updateCartItemQuantity, removeCartItem }) => {
   const handleCartClose = () => {
     setIsCartOpen(false);
   };
-
+  
   const arrowVariants = {
     hidden: { x: -20, opacity: 0 },
     visible: { x: 0, opacity: 1 },

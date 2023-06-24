@@ -225,6 +225,7 @@ const MenuSection = () => {
             </div>
           </div>
 
+
           {/* food_item */}
           <div className="menu-list-row">
             <div className="row g-xxl-5 bydefault_show" id="menu-dish" ref={containerRef}>

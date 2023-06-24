@@ -86,9 +86,9 @@ const Navbar = ({ cartItems }) => {
                             </div>
                         </div>
                     </div>
-
                 </nav>
             </header>
+            
             {/* Welcome to our restaurant */}
             <section className="main-banner">
                 <div className="js-parallax-scene">
