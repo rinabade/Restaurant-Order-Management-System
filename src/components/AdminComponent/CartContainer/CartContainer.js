@@ -1,7 +1,7 @@
 import React, {  useState } from 'react';
 import './CartContainer.css';
 import { FaArrowLeft, FaTrashAlt, FaPlus, FaMinus, FaLeaf } from 'react-icons/fa';
-import header from '../../imgs/header.jpg';
+import header from '../../../imgs/header.jpg';
 import { motion } from 'framer-motion';
 
 const CartContainer = ({ items, updateCartItemQuantity, removeCartItem }) => {

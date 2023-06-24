@@ -3,7 +3,7 @@ import $, { data } from 'jquery';
 import { gsap, Power2 } from 'gsap';
 import header from "../../imgs/header.jpg";
 import './MenuSection.css';
-import CartContainer from '../CartContainer/CartContainer';
+import CartContainer from '../AdminComponent/CartContainer/CartContainer';
 import mixitup from 'mixitup';
 import {motion} from "framer-motion";
 import menu1 from "../../imgs/menu-1.png";
@@ -215,45 +215,6 @@ const MenuSection = () => {
                       </li>
                         ))}
 
-                      {/* {menuCategories.map((dataItem,category_name) => (
-                      <li
-                      className="filter"
-                        onClick={() => handleFilterClick(dataItem.category_name)}
-                      >
-                        <img src={menu2} alt="" />
-                        Breakfast
-                      </li>
-                      ))}
-
-                      {menuCategories.map((dataItem,category_name) => (     
-                      <li
-                        className="filter"
-                        onClick={() => handleFilterClick(dataItem.category_name)}
-                      >
-                        <img src={menu3} alt="" />
-                        Lunch
-                      </li>
-                      ))}
-
-                      {menuCategories.map((dataItem,category_name) => (
-                      <li
-                      className="filter"
-                        onClick={() => handleFilterClick(dataItem.category_name)}
-                      >
-                        <img src={menu4} alt="" />
-                        Dinner
-                      </li>
-                      ))}
-
-                      {menuCategories.map((dataItem,category_name) => (
-                      <li
-                        className="filter snacks"
-                        onClick={() => handleFilterClick(dataItem.category_name)}
-                        >
-                        <img src={menu4} alt="" />
-                        Snacks
-                      </li>
-                      ))} */}
                     </div>
                   </ul>
                   <button className="slider-button right" onClick={handleSliderRight}>
@@ -281,7 +242,7 @@ const MenuSection = () => {
                   <div className="dist-bottom-row">
                     <ul>
                       <li>
-                        <b>{dataItem.price}</b>
+                        <b>Rs. {dataItem.price} </b>
                       </li>
                       <li>
                         <button className="dish-add-btn" onClick={() => handleDishAdd(dataItem)}> </button>

@@ -90,7 +90,7 @@ export default function BasicTable() {
   }, []);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(4);
 
   const npage = Math.ceil(data.length / pageSize);
   const pages = [...Array(npage + 1).keys()].slice(1);

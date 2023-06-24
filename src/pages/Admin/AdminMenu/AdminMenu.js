@@ -16,7 +16,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import FormData from "form-data";
-
 import "../Table.css";
 import {
   createMenu,
@@ -29,15 +28,19 @@ import {
 import { useNavigate } from "react-router-dom";
 
 export default function Menu() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
   const [values, setValues] = useState([]);
 
-  const [dropdown, setDropdown] = useState("select");
-  const [deleteItemId, setDeleteItemId] = useState(null);
-  const [editItemId, setEditItemId] = useState(null);
-  const [menuData, setMenuData] = useState(null);
-  const [editedItem, setEditedItem] = React.useState([]);
+  // const [dropdown, setDropdown] = useState("select");
+  // const [menuData, setMenuData] = useState(null);
+  const [deleteItemId, setDeleteItemId] = useState('');
+  const [editItemId, setEditItemId] = useState('');
+  const [editedItem, setEditedItem] = useState({
+    item_name:'',
+    description: '',
+    price: ''
+  });
   const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false);
   const [confirmEditDialogOpen, setConfirmEditDialogOpen] = useState(false);
 
@@ -45,8 +48,8 @@ export default function Menu() {
     file: [],
   });
 
-  const [categoryId, setCategoryId] = useState([]);
-  const [category, setCategory] = useState([]);
+  // const [categoryId, setCategoryId] = useState([]);
+  // const [category, setCategory] = useState([]);
   const [Allcategory, setAllCategory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [item, setItem] = useState("");
@@ -96,7 +99,6 @@ export default function Menu() {
 
   const handleAddItem = (e) => {
     e.preventDefault();
-    // Add your logic here to handle adding the new item
     const formData = new FormData();
     formData.append("category_id", selectedCategory);
     formData.append("item", item);
@@ -192,7 +194,7 @@ export default function Menu() {
           setData((prevData) =>
             prevData.filter((dataItem) => dataItem.menu_id !== deleteItemId)
           );
-        // refreshPage();
+        refreshPage();
           setDeleteItemId(null);
           setConfirmDeleteDialogOpen(false);
         })
@@ -217,8 +219,7 @@ export default function Menu() {
   const handleEditClick = (menuData) => {
     setEditItemId(menuData);
     setEditedItem({ ...menuData });
-    setConfirmEditDialogOpen(true);
-    
+    setConfirmEditDialogOpen(true);    
   };
 
   const handleConfirmEdit = (e) => {
@@ -231,6 +232,8 @@ export default function Menu() {
         if (index > -1) {
           data[index] = editedItem;
           setData(data);
+        refreshPage();
+
         }
         handleCancelEdit();
       })
@@ -239,12 +242,11 @@ export default function Menu() {
       });
       // handleClose();
       handleCancelEdit();
-
   };
 
   const handleCancelEdit = () => {
-    setEditItemId(null);
-    // setConfirmEditDialogOpen(false);
+    setEditedItem(null);
+    setConfirmEditDialogOpen(false);
   };
 
   return (
@@ -337,7 +339,7 @@ export default function Menu() {
             </select>
 
             <TextField
-              name="item"
+              name="item_name"
               label="Enter Item Name"
               value={item}
               onChange={(e) => setItem(e.target.value)}
@@ -443,30 +445,8 @@ export default function Menu() {
         <DialogContent>
           <form onSubmit={handleConfirmEdit}>
             
-            {/* <label htmlFor="category" className=" mr-5">
-              <strong>Category : </strong>
-            </label>
-
-            <select value={selectedCategory} onChange={handleDropdownChange}>
-              <option>Select Category :</option>
-              {category.map((dataItem) => (
-                <option key={dataItem.category_id} value={dataItem.category_id}>
-                  {dataItem.category_name}
-                </option>
-              ))}
-            </select> */}
-
-            {/* <TextField
-              name="category"
-              label="Enter category name"
-              value={editedItem.category_id}
-              // onChange={(e) => setItem(e.target.value)}
-              fullWidth
-              margin="normal"
-            /> */}
-
             <TextField
-              name="item"
+              name="item_name"
               label="Enter Item Name"
               value={editedItem.item_name}
               // onChange={(e) => setItem(e.target.value)}
@@ -511,6 +491,7 @@ export default function Menu() {
             
               <Button
                 type="submit"
+                onClick={handleConfirmEdit}
                 style={{
                   color: "white",
                   backgroundColor: "#044cd0",
