@@ -227,7 +227,7 @@ const MenuSection = () => {
                   <div className="dish-title">
                     <h3 className="h3-title">{dataItem.item_name}</h3>
                   </div>
-                  <div className="dish-info"></div>
+                  <div className="dish-info">{dataItem.description}</div>
                   <div className="dist-bottom-row">
                     <ul>
                       <li>

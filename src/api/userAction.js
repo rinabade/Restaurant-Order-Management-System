@@ -40,6 +40,11 @@ export const getAllCategory = () => {
     return axios.get(url);
 }
 
+export const getCategory = (id) => {
+    let url = `${Config.BaseUrl}admin/category/${id}`;
+    return axios.get(url);
+}
+
 export const editCategory = (id, data) => {
     let url = `${Config.BaseUrl}admin/category/${id}`;
     return axios.patch(url, data);
@@ -55,8 +60,13 @@ export const deleteCategory = (id) => {
 export const createMenu = (formData) => {
     let url = `${Config.BaseUrl}admin/menu`;
     return axios.post(url,formData,{
-        headers: {"Content-Type" : "multipart/form-data"}
+        headers: {"Content-Type" : "application/json"}
     });
+}
+
+export const getAllMenu = (data) => {
+    let url = `${Config.BaseUrl}admin/menu/`;
+    return axios.get(url,data);
 }
 
 export const getMenu = (id, data) => {

@@ -62,7 +62,7 @@ export default function BasicTable() {
     getAllCategory().then(
       (success) => {
         if (success.data) {
-          console.log(success.data.data);
+          // console.log(success.data.data);
           // console.log(success.data.data.map(user => user.lastname));
           setData(success.data.data);
         } else {
@@ -120,20 +120,9 @@ export default function BasicTable() {
   };
 
   const handleConfirmEdit = (e) => {
-    // // Perform the edit operation
-    // if (editItemId) {
-    //   // Add your edit logic here
-    //   console.log("Edit item with ID:", editItemId);
-
-    //   setEditItemId(null);
-    //   setConfirmEditDialogOpen(false);
-    // }
-
     e.preventDefault();
-    // Make the PATCH API request to update the edited item
     editCategory(editedItem.category_id, editedItem)
       .then((response) => {
-        // Handle successful response
         console.log("Category updated successfully");
         // Optionally, perform additional actions after successful update
         // For example, you can update the table data with the updated item

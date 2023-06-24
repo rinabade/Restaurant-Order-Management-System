@@ -94,10 +94,7 @@ const Admin_profiledata = () => {
     event.preventDefault();
     editProfile(editedItem.employee_id, editedItem)
       .then((response) => {
-        // Handle successful response
         console.log("Profile updated successfully");
-        // Optionally, perform additional actions after successful update
-        // For example, you can update the table data with the updated item
         let index = data.findIndex(
           (o) => o.employee_id === editedItem.employee_id
         );
@@ -108,11 +105,8 @@ const Admin_profiledata = () => {
         handleCloseEdit();
       })
       .catch((error) => {
-        // Handle error response
         console.error("An error occurred while updating the user");
-        // Optionally, display an error message to the user
       });
-    // Handle form submission for change information
     setIsChangingInformation(false);
   };
 
@@ -126,10 +120,7 @@ const Admin_profiledata = () => {
     event.preventDefault();
     editPassword(editedItem.employee_id, editedItem)
       .then((response) => {
-        // Handle successful response
         console.log("Permission updated successfully");
-        // Optionally, perform additional actions after successful update
-        // For example, you can update the table data with the updated item
         let index = data.findIndex(
           (o) => o.employee_id === editedItem.employee_id
         );
@@ -140,11 +131,8 @@ const Admin_profiledata = () => {
         handleCloseEdit();
       })
       .catch((error) => {
-        // Handle error response
         console.error("An error occurred while updating the user");
-        // Optionally, display an error message to the user
       });
-    // Handle form submission for change password
     setIsChangingPassword(false);
   };
 

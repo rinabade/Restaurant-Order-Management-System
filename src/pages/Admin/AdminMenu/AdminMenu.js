@@ -1,21 +1,3 @@
-// import axios from "axios";
-// import React, { useState } from "react";
-
-// export default function ImageUpload(){
-
-//   function handleAdd(){
-//       const formData = new FormData();
-//       formData.append('image', image)
-
-//       axios.post("http://localhost:5000/admin/menu/", formData)
-//       .then((res)=>{
-//         console.log(res)
-//       })
-//     }
-//     return(
-//     )
-// }
-
 import * as React from "react";
 import { useState, useEffect } from "react";
 import Table from "@mui/material/Table";
@@ -33,6 +15,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
+import FormData from "form-data";
 
 import "../Table.css";
 import {
@@ -43,14 +26,17 @@ import {
   getAllMenu,
   getMenu,
 } from "../../../api/userAction";
+import { useNavigate } from "react-router-dom";
 
 export default function Menu() {
   const [open, setOpen] = React.useState(false);
   const [data, setData] = useState([]);
+  const [values, setValues] = useState([]);
 
   const [dropdown, setDropdown] = useState("select");
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [editItemId, setEditItemId] = useState(null);
+  const [menuData, setMenuData] = useState(null);
   const [editedItem, setEditedItem] = React.useState([]);
   const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false);
   const [confirmEditDialogOpen, setConfirmEditDialogOpen] = useState(false);
@@ -59,25 +45,26 @@ export default function Menu() {
     file: [],
   });
 
+  const [categoryId, setCategoryId] = useState([]);
   const [category, setCategory] = useState([]);
+  const [Allcategory, setAllCategory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [item, setItem] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
 
   const [image, setImage] = useState("");
+  const navigate = useNavigate();
+
+  const refreshPage = () => {
+    navigate(0);
+}
 
   function handleImage(e) {
     console.log(e.target.files);
     setImage(e.target.files[0]);
   }
 
-  // const [image, setImage] = useState("");
-
-  function handleImage(e) {
-    console.log(e.target.files);
-    setImage(e.target.files[0]);
-  }
   const handleOpen = () => {
     setOpen(true);
   };
@@ -87,14 +74,7 @@ export default function Menu() {
   };
 
   const handleDropdownChange = (event) => {
-    setSelectedCategory((prevValues) => ({
-      ...prevValues,
-      selectedCategory: event.target.value,
-    }));
-    setCategory((prevValues) => ({
-      ...prevValues,
-      category: event.target.value,
-    }));
+    setSelectedCategory(event.target.value);
   };
 
   const handleImageUpload = (event) => {
@@ -118,36 +98,52 @@ export default function Menu() {
     e.preventDefault();
     // Add your logic here to handle adding the new item
     const formData = new FormData();
-    formData.append("category", category);
+    formData.append("category_id", selectedCategory);
     formData.append("item", item);
     formData.append("description", description);
     formData.append("price", price);
-    formData.append("image", selectedImage.file.name);
-    // console.log("formdata------", formData.append);
+    // formData.append("image", selectedImage.file);
 
     createMenu(formData)
       .then((response) => {
         // Handle successful response
         console.log(response.data);
         // setData(response.data);
-        // Optionally, perform additional actions after successful post
+
+        refreshPage();
       })
       .catch((error) => {
-        // Handle error response
         console.error(error);
-        // Optionally, display an error message to the user
       });
 
     // Close the modal
-    handleClose();
+    // handleClose();
   };
 
   // get all data from database
   useEffect(() => {
+    getAllMenu().then(
+      (success) => {
+        if (success.data) {
+          // console.log(success.data.data);
+          setValues(success.data.data);
+        } else {
+          console.log("Empty Error Response");
+        }
+      },
+      (error) => {
+        if (error.response) {
+          console.log(error.response);
+        } else {
+          console.log("Server not working");
+        }
+      }
+    );
+
     getMenu().then(
       (success) => {
         if (success.data) {
-          console.log(success.data.data);
+          // console.log(success.data.data);
           setData(success.data.data);
         } else {
           console.log("Empty Error Response");
@@ -158,20 +154,16 @@ export default function Menu() {
           //Backend Error message
           console.log(error.response);
         } else {
-          //Server Not working Error
           console.log("Server not working");
         }
       }
     );
-  }, []);
 
-  useEffect(() => {
     getAllCategory().then(
       (success) => {
-        if (success.data) {
-          console.log(success.data.data);
-          setCategory(success.data.data);
-          // setSelectedCategory(success.data.data);
+        if (success.data && Array.isArray(success.data.data)) {
+          // console.log(success.data.data);
+          setAllCategory(success.data.data);
         } else {
           console.log("Empty Error Response");
         }
@@ -181,7 +173,6 @@ export default function Menu() {
           //Backend Error message
           console.log(error.response);
         } else {
-          //Server Not working Error
           console.log("Server not working");
         }
       }
@@ -197,10 +188,11 @@ export default function Menu() {
     if (deleteItemId) {
       deleteMenu(deleteItemId)
         .then((response) => {
-          console.log("Permission deleted successfully");
+          // console.log("Permission deleted successfully");
           setData((prevData) =>
             prevData.filter((dataItem) => dataItem.menu_id !== deleteItemId)
           );
+        // refreshPage();
           setDeleteItemId(null);
           setConfirmDeleteDialogOpen(false);
         })
@@ -209,26 +201,32 @@ export default function Menu() {
           setDeleteItemId(null);
           setConfirmDeleteDialogOpen(false);
         });
+        // / Add your delete logic here
+      // console.log("Delete item with ID:", deleteItemId);
+
+      // handleCancelDelete();
     }
+  };
+
+  const handleCancelDelete = () => {
+    setDeleteItemId(null);
+    setConfirmDeleteDialogOpen(false);
   };
 
   // Edit function
   const handleEditClick = (menuData) => {
     setEditItemId(menuData);
     setEditedItem({ ...menuData });
-
     setConfirmEditDialogOpen(true);
+    
   };
 
   const handleConfirmEdit = (e) => {
     e.preventDefault();
-    // Make the PATCH API request to update the edited item
     editMenu(editedItem.menu_id, editedItem)
       .then((response) => {
-        // Handle successful response
-        console.log("Permission updated successfully");
-        // Optionally, perform additional actions after successful update
-        // For example, you can update the table data with the updated item
+        console.log("Menu updated successfully");
+
         let index = data.findIndex((o) => o.menu_id === editedItem.menu_id);
         if (index > -1) {
           data[index] = editedItem;
@@ -237,20 +235,16 @@ export default function Menu() {
         handleCancelEdit();
       })
       .catch((error) => {
-        // Handle error response
         console.error("An error occurred while updating the user");
-        // Optionally, display an error message to the user
       });
-  };
+      // handleClose();
+      handleCancelEdit();
 
-  const handleCancelDelete = () => {
-    setDeleteItemId(null);
-    setConfirmDeleteDialogOpen(false);
   };
 
   const handleCancelEdit = () => {
     setEditItemId(null);
-    setConfirmEditDialogOpen(false);
+    // setConfirmEditDialogOpen(false);
   };
 
   return (
@@ -273,19 +267,19 @@ export default function Menu() {
               <TableCell align="left">Item Name</TableCell>
               <TableCell align="left">Description</TableCell>
               <TableCell align="left">Price</TableCell>
-              <TableCell align="left">Image</TableCell>
+              {/* <TableCell align="left">Image</TableCell> */}
               <TableCell align="left">Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((dataItem, menu_id) => (
+            {values.map((dataItem, menu_id) => (
               <TableRow key={menu_id}>
                 <TableCell align="left">{dataItem.menu_id}</TableCell>
                 <TableCell align="left">{dataItem.category_id}</TableCell>
                 <TableCell align="left">{dataItem.item_name}</TableCell>
                 <TableCell align="left">{dataItem.description}</TableCell>
                 <TableCell align="left">{dataItem.price}</TableCell>
-                <TableCell align="left">{dataItem.image}</TableCell>
+                {/* <TableCell align="left">{dataItem.image}</TableCell> */}
                 <TableCell align="left">
                   <Button
                     className=" bg-success"
@@ -327,28 +321,21 @@ export default function Menu() {
           }}
         >
           <h2>Add Menu</h2>
-          <form onSubmit={handleAddItem} enctype="multipart/form-data">
+          <form onSubmit={handleAddItem} encType="multipart/form-data">
             <br></br>
             <label htmlFor="category" className=" mr-5">
-              <strong>Category :</strong>
+              <strong>Category : </strong>
             </label>
 
             <select value={selectedCategory} onChange={handleDropdownChange}>
-              {category.map((dataItem) => (
+              <option>Select Category :</option>
+              {Allcategory.map((dataItem) => (
                 <option key={dataItem.category_id} value={dataItem.category_id}>
                   {dataItem.category_name}
                 </option>
               ))}
             </select>
 
-            {/* <TextField
-              name="category"
-              label="Enter Category"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              fullWidth
-              margin="normal"
-            /> */}
             <TextField
               name="item"
               label="Enter Item Name"
@@ -373,12 +360,12 @@ export default function Menu() {
               fullWidth
               margin="normal"
             />
-            <div
+            {/* <div
               className="upload-image-container"
-              enctype="multipart/form-data"
-            >
-              {/* {isSucces !==null ? <h4> {isSucces} </h4> : null}    */}
-              <label htmlFor="upload-image" className="upload-image-label">
+              encType="multipart/form-data"
+            > */}
+            {/* {isSucces !==null ? <h4> {isSucces} </h4> : null}    */}
+            {/* <label htmlFor="upload-image" className="upload-image-label">
                 Choose Image
               </label>
               <input
@@ -396,7 +383,7 @@ export default function Menu() {
                   ? selectedImage.image.name
                   : "No file chosen"}
               </span>
-            </div>
+            </div> */}
             <Button type="submit" variant="contained" color="success">
               Add
             </Button>
@@ -452,83 +439,100 @@ export default function Menu() {
         onClose={handleCancelEdit}
         maxWidth="xs"
       >
-        {/* <DialogTitle>Edit Menu</DialogTitle>
+        <DialogTitle>Edit Menu</DialogTitle>
         <DialogContent>
-          <form>
-            <TextField
+          <form onSubmit={handleConfirmEdit}>
+            
+            {/* <label htmlFor="category" className=" mr-5">
+              <strong>Category : </strong>
+            </label>
+
+            <select value={selectedCategory} onChange={handleDropdownChange}>
+              <option>Select Category :</option>
+              {category.map((dataItem) => (
+                <option key={dataItem.category_id} value={dataItem.category_id}>
+                  {dataItem.category_name}
+                </option>
+              ))}
+            </select> */}
+
+            {/* <TextField
               name="category"
-              label="Enter Category"
-              value={newItem.category}
-              onChange={handleInputChange}
+              label="Enter category name"
+              value={editedItem.category_id}
+              // onChange={(e) => setItem(e.target.value)}
               fullWidth
               margin="normal"
-            />
+            /> */}
+
             <TextField
               name="item"
               label="Enter Item Name"
-              value={newItem.item}
-              onChange={handleInputChange}
+              value={editedItem.item_name}
+              // onChange={(e) => setItem(e.target.value)}
+              onChange={(e) =>
+                setEditedItem((prevItem) => ({
+                  ...prevItem,
+                  item_name: e.target.value,
+                }))
+              }
               fullWidth
               margin="normal"
             />
             <TextField
               name="description"
               label="write description"
-              value={newItem.description}
-              onChange={handleInputChange}
+              value={editedItem.description}
+              // onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) =>
+                setEditedItem((prevItem) => ({
+                  ...prevItem,
+                  description: e.target.value,
+                }))
+              }
               fullWidth
               margin="normal"
             />
             <TextField
               name="price"
               label="Enter Price"
-              value={newItem.price}
-              onChange={handleInputChange}
+              value={editedItem.price}
+              // onChange={(e) => setPrice(e.target.value)}
+              onChange={(e) =>
+                setEditedItem((prevItem) => ({
+                  ...prevItem,
+                  price: e.target.value,
+                }))
+              }
               fullWidth
               margin="normal"
             />
-
-            <div className="upload-image-container">
-              <input
-                type="file"
-                name="image"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="upload-image-input"
-                id="upload-image"
-              />
-              <label htmlFor="upload-image" className="upload-image-label">
-                Choose Image
-              </label>
-              <br></br>
-              <span className="upload-image-text">
-                {newItem.image ? newItem.image.name : "No file chosen"}
-              </span>
-            </div>
+            <br></br>
+            
+              <Button
+                type="submit"
+                style={{
+                  color: "white",
+                  backgroundColor: "#044cd0",
+                  border: "none",
+                }}
+              >
+                Edit
+              </Button>
+            <Button
+              onClick={handleCancelEdit}
+              style={{
+                left : "10px",
+                color: "white",
+                backgroundColor: "#CD5C5C",
+                border: "none",
+              }}
+            >
+              Cancel
+            </Button>
+            {/* </DialogActions> */}
           </form>
-        </DialogContent> */}
-        <DialogActions>
-          <Button
-            onClick={handleCancelEdit}
-            style={{
-              color: "white",
-              backgroundColor: "#CD5C5C",
-              border: "none",
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={handleConfirmEdit}
-            style={{
-              color: "white",
-              backgroundColor: "#044cd0",
-              border: "none",
-            }}
-          >
-            Edit
-          </Button>
-        </DialogActions>
+        </DialogContent>
       </Dialog>
     </div>
   );
