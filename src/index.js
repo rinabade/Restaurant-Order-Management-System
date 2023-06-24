@@ -12,9 +12,8 @@ import { AuthProvider } from './context/AuthProvider';
 //   </React.StrictMode>,
 //   document.getElementById('root')
 // );
-import 'jquery';
-import 'popper.js';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'jquery';
+// import 'popper.js';
 import 'bootstrap/dist/js/bootstrap.min.js';
 
 createRoot(document.getElementById('root')).render(<App />);
