@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { NavLink ,useNavigate} from "react-router-dom"
 import "./Sidebar.css";
 import { UilSignOutAlt } from "@iconscout/react-unicons";
-import { SidebarData } from "../../Data/Data";
+import { SidebarData } from "../../../Data/Data";
 import { UilBars } from "@iconscout/react-unicons";
 import { motion } from "framer-motion";
-import { createBrowserHistory } from "history";
+
 
 const Sidebar = () => {
-  const navigate = useNavigate();
+ 
 
   function handleLogout() {
     sessionStorage.clear();
