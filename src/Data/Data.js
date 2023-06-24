@@ -77,6 +77,26 @@ export const SidebarData = [
   },
 ];
 
+export const KitchenSidebarData = [
+  {
+    icon: FaHome,
+    heading: "Dashboard",
+    path: "/Kitchen/Kitchendash",
+  },
+
+  {
+    icon: FaClipboard,
+    heading: "Order",
+    path: "/Kitchen/KitchenOrder",
+  
+  },
+  {
+    icon: FaUserAlt,
+    heading: "Profile",
+    path: "/Kitchen/Kitchen_profile",
+  },
+];
+
 // Analytics Cards Data
 export const cardsData = [
   {
