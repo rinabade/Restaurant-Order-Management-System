@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {  useState } from 'react';
 import './CartContainer.css';
 import { FaArrowLeft, FaTrashAlt, FaPlus, FaMinus, FaLeaf } from 'react-icons/fa';
 import header from '../../imgs/header.jpg';
@@ -15,14 +15,15 @@ const CartContainer = ({ items, updateCartItemQuantity, removeCartItem }) => {
     hidden: { x: -20, opacity: 0 },
     visible: { x: 0, opacity: 1 },
   };
-
-  const handleIncrement = (item) => {
-    updateCartItemQuantity(item.id, item.quantity + 1);
+  const [quantity, setQuantity] = useState(1);
+    
+  const handleIncrement = () => {
+    setQuantity((prevQuantity) => prevQuantity + 1);
   };
 
-  const handleDecrement = (item) => {
-    if (item.quantity > 1) {
-      updateCartItemQuantity(item.id, item.quantity - 1);
+  const handleDecrement = () => {
+    if (quantity > 1) {
+      setQuantity((prevQuantity) => prevQuantity - 1);
     }
   };
 
@@ -52,7 +53,7 @@ const CartContainer = ({ items, updateCartItemQuantity, removeCartItem }) => {
               items.map((item) => (
                 <div className="cart-items" key={item.id}>
                   <div className="cart-img p-1 px-4 d-flex gap-4">
-                    <img src={item.image} alt="" />
+                    {/* <img src={item.image} alt="" /> */}
                     <div className="cart-name d-flex flex-column">
                       <p>{item.title}</p>
                       <p className="cart-price">{item.price}</p>
@@ -60,7 +61,7 @@ const CartContainer = ({ items, updateCartItemQuantity, removeCartItem }) => {
                     <div className="quantity-input d-flex items-center gap-3 cursor-pointer">
                       <motion.div
                         whileTap={{ scale: 0.75 }}
-                        onClick={() => handleDecrement(item)}
+                        onClick={handleDecrement}
                       >
                         <FaMinus />
                       </motion.div>
@@ -69,7 +70,7 @@ const CartContainer = ({ items, updateCartItemQuantity, removeCartItem }) => {
                       </p>
                       <motion.div
                         whileTap={{ scale: 0.75 }}
-                        onClick={() => handleIncrement(item)}
+                        onClick={handleIncrement}
                       >
                         <FaPlus />
                       </motion.div>

@@ -1,12 +1,19 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom"
+import { NavLink ,useNavigate} from "react-router-dom"
 import "./Sidebar.css";
 import { UilSignOutAlt } from "@iconscout/react-unicons";
 import { SidebarData } from "../../Data/Data";
 import { UilBars } from "@iconscout/react-unicons";
 import { motion } from "framer-motion";
+import { createBrowserHistory } from "history";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    sessionStorage.clear();
+    window.location.href = '/admin/Maindash';
+  }
   const [expanded, setExpaned] = useState(true)
 
   const sidebarVariants = {
@@ -53,8 +60,8 @@ const Sidebar = () => {
           );
         })}
         {/* signoutIcon */}
-        <div className="menuItem mt-3px">
-          <UilSignOutAlt />
+        <div className="menuItem mt-3px" >
+          <UilSignOutAlt onClick={handleLogout}/>
         </div>
       </div>
     </motion.div>

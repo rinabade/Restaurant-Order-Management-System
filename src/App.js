@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MainDash from './pages/Admin/MainDash/MainDash';
 import Dashboard from './pages/Admin/AdminDashboard/Dashboard';
 import Employees from './pages/Admin/Employees/Employees';
@@ -19,22 +19,8 @@ import AdminLogin from './pages/Admin/AdminLogin/AdminLogin';
 import Menu from './pages/User/Menu/Menu';
 import useToken from './components/Token/useToken';
 
-function setToken(userToken) {
-  sessionStorage.setItem('token', JSON.stringify(userToken));
-}
-
-function getToken() {
-  const tokenString = sessionStorage.getItem('token');
-  const userToken = JSON.parse(tokenString);
-  return userToken?.token
-}
-
 function App() {
-  
   const { token, setToken } = useToken();
-
-
-  // const [token, setToken] = useState(false);
 
   return (
     <BrowserRouter>
@@ -60,7 +46,6 @@ function App() {
               <Route path="AdminRole" element={<AdminRole />} />
             </Route>
           )}
-          
         </Routes>
       </div>
     </BrowserRouter>

@@ -20,6 +20,8 @@ const MenuSection = () => {
   const [selectedDish, setSelectedDish] = useState(null);
   const [cartItems, setCartItems] = useState([]);
   const [selectedItems, setSelectedItems] = React.useState([]);
+
+  
   useEffect(() => {
     const container = containerRef.current;
 
@@ -74,44 +76,58 @@ const MenuSection = () => {
       setPopupVisible(false);
     };
     
-  const DishPopup = ({ dish, onClose, onAddToCart }) => {
-    const [quantity, setQuantity] = useState(dish.quantity);
+    const DishPopup = ({ dish, onClose, onAddToCart, item, updateCartItemQuantity }) => {
+      const [quantity, setQuantity] = useState(1);
     
-    return (
-      <div className="dish-popup">
-        <div className="dish-popup-content">
-          <div className='dish-popup-items'>
-          <div className="dish-popup-image">
-            <img src={dish.image} alt={dish.title} />
-          </div>
-          <div className="dish-popup-info">
-            <h3 className="dish-popup-title">{dish.title}</h3>
-            <p className="dish-popup-price">{dish.price}</p>
-            <div className="quantity-input flex items-center gap-2  cursor-pointer">
-            
-             <motion.div whileTap={{scale: 0.75}}>
-              <FaMinus/>
-             </motion.div>
-             <p className='quantity-num w-5 h-5 rounded-sm bg-cartBg text-gray-50 flex items-center justify-center'>
-              1
-             </p>
-             <motion.div whileTap={{scale: 0.75}}>
-              <FaPlus/>
-             </motion.div>
+      const handleIncrement = () => {
+        setQuantity((prevQuantity) => prevQuantity + 1);
+      };
+    
+      const handleDecrement = () => {
+        if (quantity > 1) {
+          setQuantity((prevQuantity) => prevQuantity - 1);
+        }
+      };
+    
+      const handleAddToCart = () => {
+        const newItem = { ...dish, quantity };
+        onAddToCart(newItem);
+      };
+    
+      return (
+        <div className="dish-popup">
+          <div className="dish-popup-content">
+            <div className="dish-popup-items">
+              <div className="dish-popup-image">
+                <img src={dish.image} alt={dish.title} />
+              </div>
+              <div className="dish-popup-info">
+                <h3 className="dish-popup-title">{dish.title}</h3>
+                <p className="dish-popup-price">{dish.price}</p>
+                <div className="quantity-input flex items-center gap-2 cursor-pointer">
+                  <motion.div whileTap={{ scale: 0.75 }} onClick={handleDecrement}>
+                    <FaMinus />
+                  </motion.div>
+                  <p className="quantity-num w-5 h-5 rounded-sm bg-cartBg text-gray-50 flex items-center justify-center">
+                    {quantity}
+                  </p>
+                  <motion.div whileTap={{ scale: 0.75 }} onClick={handleIncrement}>
+                    <FaPlus />
+                  </motion.div>
+                </div>
+              </div>
             </div>
-            </div>
-            </div>
-            <button className="add-to-cart-btn" onClick={() => onAddToCart(dish)}>
+            <button className="add-to-cart-btn" onClick={handleAddToCart}>
               Add to Cart
             </button>
             <button className="cancel-btn" onClick={onClose}>
               Cancel
             </button>
-          
+          </div>
         </div>
-      </div>
-    );
-  };
+      );
+    };
+
 
   return (
     <section className="our-menu section" id="menu">
