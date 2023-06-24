@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 // import * as React from "react";
 import { useEffect, useState } from "react";
-=======
 import * as React from "react";
-import { useState } from "react";
->>>>>>> 4429337adba20668ccc431caff17e1c8a511ae2f
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -193,8 +189,6 @@ export default function BasicTable() {
                   <TableCell align="left" >
                     <Button className=" bg-success" style={{border:"none"}}  onClick={() => handleEditClick(dataItem)}>Edit</Button> 
                     <Button style={{ marginLeft: "10px", backgroundColor: "#CD5C5C", border:"none"}} onClick={() => handleDeleteClick(dataItem.category_id)}>Delete</Button> 
-                    <Button className=" bg-success" style={{border:"none"}}  onClick={() => handleEditClick(row)}>Edit</Button> 
-                    <Button style={{ marginLeft: "10px", backgroundColor: "#CD5C5C", border:"none"}} onClick={() => handleDeleteClick(row)}>Delete</Button> 
                     </TableCell>
                   
                  
@@ -248,7 +242,7 @@ export default function BasicTable() {
                     required
                     disabled
                   /> */}
-                  />
+                  {/* /> */}
                 </div>
                 </div>
                 <div className="d-flex flex-row justify-content-around">
@@ -277,4 +271,5 @@ export default function BasicTable() {
       </Dialog>
       </div>
   );
+}
 }
