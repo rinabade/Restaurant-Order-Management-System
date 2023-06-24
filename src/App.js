@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MainDash from './pages/Admin/MainDash/MainDash';
 import Dashboard from './pages/Admin/AdminDashboard/Dashboard';
 import Employees from './pages/Admin/Employees/Employees';
@@ -30,7 +30,6 @@ function getToken() {
 }
 
 function App() {
-  
   const { token, setToken } = useToken();
   // const [token, setToken] = useState(false);
 
@@ -59,6 +58,7 @@ function App() {
             </Route>
            )} 
           
+          {/* )} */}
         </Routes>
       </div>
     </BrowserRouter>

@@ -3,13 +3,16 @@ import $, { data } from 'jquery';
 import { gsap, Power2 } from 'gsap';
 import header from "../../imgs/header.jpg";
 import './MenuSection.css';
+import CartContainer from '../CartContainer/CartContainer';
 import mixitup from 'mixitup';
+import {motion} from "framer-motion";
 import menu1 from "../../imgs/menu-1.png";
 import menu2 from "../../imgs/menu-2.png";
 import menu3 from "../../imgs/menu-3.png";
 import menu4 from "../../imgs/menu-4.png";
-import { FaAngleLeft, FaAngleRight, FaPlus } from "react-icons/fa";
+// import { FaAngleLeft, FaAngleRight, FaPlus } from "react-icons/fa";
 import { getAllCategory, getMenu } from '../../api/userAction';
+import { FaAngleLeft, FaAngleRight, FaPlus, FaMinus } from "react-icons/fa";
 
 const MenuSection = () => {
   const containerRef = useRef(null);
@@ -19,7 +22,10 @@ const MenuSection = () => {
   const [selectedDish, setSelectedDish] = useState(null);
   const [menuCategories, setMenuCategories] = useState([]);
   const [menuItems, setMenuItems] = useState([])
+  const [cartItems, setCartItems] = useState([]);
+  const [selectedItems, setSelectedItems] = React.useState([]);
 
+  
   useEffect(() => {
     getAllCategory()
     .then(
@@ -53,9 +59,18 @@ const MenuSection = () => {
       },
     });
     mixerRef.current = mixer;
-
+    // const storedCartItems = localStorage.getItem('cartItems');
+    // if (storedCartItems) {
+    //   setCartItems(JSON.parse(storedCartItems));
+    // }
   }, []);
   
+  useEffect(() => {
+    // Save cart items to local storage whenever they change
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  }, [cartItems]);
+
+
   const handleFilterClick = (category) => {
     getMenu(category.category_id)
     .then(
@@ -108,18 +123,53 @@ const MenuSection = () => {
     setSelectedDish(dish);
     setPopupVisible(true);
   };
-
-  const DishPopup = ({ dish, onClose, onAddToCart }) => {
-    return (
-      <div className="dish-popup">
-        <div className="dish-popup-content">
-          <div className="dish-popup-image">
-            <img src={dish.image} alt={dish.title} />
-          </div>
-          <div className="dish-popup-info">
-            <h3 className="dish-popup-title">{dish.title}</h3>
-            <p className="dish-popup-price">{dish.price}</p>
-            <button className="add-to-cart-btn" onClick={() => onAddToCart(dish)}>
+  const handleAddToCart = (dish) => {
+      setCartItems([...cartItems, dish]);
+      setPopupVisible(false);
+    };
+    
+    const DishPopup = ({ dish, onClose, onAddToCart, item, updateCartItemQuantity }) => {
+      const [quantity, setQuantity] = useState(1);
+    
+      const handleIncrement = () => {
+        setQuantity((prevQuantity) => prevQuantity + 1);
+      };
+    
+      const handleDecrement = () => {
+        if (quantity > 1) {
+          setQuantity((prevQuantity) => prevQuantity - 1);
+        }
+      };
+    
+      const handleAddToCart = () => {
+        const newItem = { ...dish, quantity };
+        onAddToCart(newItem);
+      };
+    
+      return (
+        <div className="dish-popup">
+          <div className="dish-popup-content">
+            <div className="dish-popup-items">
+              <div className="dish-popup-image">
+                <img src={dish.image} alt={dish.title} />
+              </div>
+              <div className="dish-popup-info">
+                <h3 className="dish-popup-title">{dish.title}</h3>
+                <p className="dish-popup-price">{dish.price}</p>
+                <div className="quantity-input flex items-center gap-2 cursor-pointer">
+                  <motion.div whileTap={{ scale: 0.75 }} onClick={handleDecrement}>
+                    <FaMinus />
+                  </motion.div>
+                  <p className="quantity-num w-5 h-5 rounded-sm bg-cartBg text-gray-50 flex items-center justify-center">
+                    {quantity}
+                  </p>
+                  <motion.div whileTap={{ scale: 0.75 }} onClick={handleIncrement}>
+                    <FaPlus />
+                  </motion.div>
+                </div>
+              </div>
+            </div>
+            <button className="add-to-cart-btn" onClick={handleAddToCart}>
               Add to Cart
             </button>
             <button className="cancel-btn" onClick={onClose}>
@@ -127,9 +177,9 @@ const MenuSection = () => {
             </button>
           </div>
         </div>
-      </div>
-    );
-  };
+      );
+    };
+
 
   return (
     <section className="our-menu section" id="menu">
@@ -234,7 +284,8 @@ const MenuSection = () => {
                         <b>{dataItem.price}</b>
                       </li>
                       <li>
-                        <button className="dish-add-btn" onClick={() => handleDishAdd(dataItem)}>
+                        <button className="dish-add-btn" onClick={() => handleDishAdd(dataItem)}> </button>
+                        <button className="dish-add-btn" onClick={() => handleDishAdd({ title: "Fresh Chicken Veggies", image: header, price: "Rs. 499" })}>
                           <FaPlus />
                         </button>
                       </li>
@@ -260,7 +311,7 @@ const MenuSection = () => {
                         <b>Rs. 359</b>
                       </li>
                       <li>
-                        <button className="dish-add-btn" onClick={() => handleDishAdd({ title: "Grilled Chicken", image: "assets/images/dish/2.png", price: "Rs. 359" })}>
+                        <button className="dish-add-btn" onClick={() => handleDishAdd({ title: "Grilled Chicken", image: header, price: "Rs. 359" })}>
                           <FaPlus />
                         </button>
                       </li>
@@ -377,14 +428,14 @@ const MenuSection = () => {
         <DishPopup
           dish={selectedDish} 
           onClose={() => setPopupVisible(false)}
-          onAddToCart={(dish) => {
-            console.log('Added to cart:', dish);
-            setPopupVisible(false);
-          }}
+          onAddToCart={handleAddToCart}
          
         />
-        
-      )}
+       
+      )} 
+      {cartItems.length > 0 && (
+          <CartContainer items={cartItems} />
+        )}
     </section>
   );
 };
