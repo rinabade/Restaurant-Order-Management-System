@@ -9,6 +9,8 @@ import MenuSection from '../MenuSection/MenuSection';
 import { FaSistrix, FaUser, FaBars, FaTimes } from 'react-icons/fa';
 // import { FaCartShopping } from 'react-icons/fa6';
 import CartContainer from '../AdminComponent/CartContainer/CartContainer';
+import { FaCartShopping } from 'react-icons/fa6';
+// import CartContainer from '../CartContainer/CartContainer';
 import { motion } from "framer-motion"
 
 
@@ -79,6 +81,7 @@ const Navbar = ({ cartItems }) => {
                             <div className="navbar-icons">
                                 <div className="navbar-icon" onClick={toggleCart}>
                                     {/* <FaCartShopping /> */}
+                                    <FaCartShopping />
                                 </div>
                             </div>
                             <div className="navbar-toggle" onClick={toggleMenu}>
@@ -89,6 +92,7 @@ const Navbar = ({ cartItems }) => {
                 </nav>
             </header>
             
+
             {/* Welcome to our restaurant */}
             <section className="main-banner">
                 <div className="js-parallax-scene">

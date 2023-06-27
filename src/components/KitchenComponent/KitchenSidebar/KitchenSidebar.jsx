@@ -1,23 +1,18 @@
 import React, { useState } from "react";
 import { NavLink ,useNavigate} from "react-router-dom"
-import "./Sidebar.css";
+import "./KitchenSidebar.css";
 import { UilSignOutAlt } from "@iconscout/react-unicons";
-import { SidebarData } from "../../../Data/Data";
+import { KitchenSidebarData } from "../../../Data/Data";
 import { UilBars } from "@iconscout/react-unicons";
 import { motion } from "framer-motion";
 
 
-const Sidebar = () => { 
-
-  function handleLogout() {
-    sessionStorage.clear();
-    window.location.href = '/admin/Maindash';
-  }
+const KitchenSidebar = () => {
  
 
   function handleLogout() {
     sessionStorage.clear();
-    window.location.href = '/admin/Maindash';
+    window.location.href = '/Kitchen/Kitchendash';
   }
   const [expanded, setExpaned] = useState(true)
 
@@ -47,7 +42,7 @@ const Sidebar = () => {
       </div>
 
       <div className="menu">
-        {SidebarData.map((item, index) => {
+        {KitchenSidebarData.map((item, index) => {
           return (
             <NavLink to={item.path} key={index}
             className={navClass => navClass.isActive ? 'menuItem active'
@@ -74,4 +69,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default KitchenSidebar;
