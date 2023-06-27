@@ -37,7 +37,7 @@ const KitchenSidebar = () => {
       {/* logo */}
       <div className="logo">
         <span>
-          <span>FOODIE</span>
+          <span>Kitchen</span>
         </span>
       </div>
 
@@ -61,7 +61,8 @@ const KitchenSidebar = () => {
         })}
         {/* signoutIcon */}
         <div className="menuItem mt-3px" >
-          <UilSignOutAlt onClick={handleLogout}/>
+          <UilSignOutAlt onClick={handleLogout}/> 
+          Logout
         </div>
       </div>
     </motion.div>

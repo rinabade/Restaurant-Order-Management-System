@@ -71,8 +71,8 @@ function App() {
 
            {/* kitchen route */}
 
-         {!token && <Route path="/Kitchen/Kitchendash" element={<KitchenLogin setToken={setToken} />} />}
-          {token && (
+         {!getToken() && <Route path="/Kitchen/Kitchendash" element={<KitchenLogin/>} />}
+          {getToken() && (
             <Route path="/Kitchen" element={<KitchenDashboard/>}>
               <Route path="kitchendash" element={<KitchenDash />} />
               <Route path="Kitchen_profile" element={<Kitchen_profile />} />

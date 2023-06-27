@@ -75,6 +75,7 @@ const MenuSection = () => {
 
 
   const handleFilterClick = (category) => {
+    console.log(category.category_id);
     getMenu(category.category_id)
     .then(
       (success) => {
@@ -249,7 +250,7 @@ const MenuSection = () => {
                         <b>Rs. {dataItem.price} </b>
                       </li>
                       <li>
-                        <button className="dish-add-btn" onClick={() => handleDishAdd(dataItem)}> </button>
+                        {/* <button className="dish-add-btn" onClick={() => handleDishAdd(dataItem)}> </button> */}
                         <button className="dish-add-btn" onClick={() => handleDishAdd({ title: "Fresh Chicken Veggies", image: header, price: "Rs. 499" })}>
                           <FaPlus />
                         </button>
@@ -260,6 +261,7 @@ const MenuSection = () => {
               </div>
             ))}
 
+              
               {/* <!-- 2 --> */}
               <div className="col-lg-4 col-sm-6 dish-box-wp breakfast" data-cat="breakfast">
                 <div className="dish-box text-center">

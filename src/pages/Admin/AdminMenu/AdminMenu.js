@@ -24,7 +24,6 @@ import {
   getAllCategory,
   getAllMenu,
   getMenu,
-  uploadImage,
 } from "../../../api/userAction";
 import { useNavigate } from "react-router-dom";
 
@@ -363,12 +362,12 @@ export default function Menu() {
               fullWidth
               margin="normal"
             />
-            <div
+            {/* <div
               className="upload-image-container"
               encType="multipart/form-data"
-            >
+            > */}
             {/* {isSucces !==null ? <h4> {isSucces} </h4> : null}    */}
-            <label htmlFor="upload-image" className="upload-image-label">
+            {/* <label htmlFor="upload-image" className="upload-image-label">
                 Choose Image
               </label>
               <input
@@ -384,7 +383,7 @@ export default function Menu() {
               <span className="upload-image-text">
                 {image? image.name : "No file chosen"}
               </span>
-            </div>
+            </div> */}
             <Button type="submit" variant="contained" color="success">
               Add
             </Button>
