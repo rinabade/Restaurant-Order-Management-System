@@ -1,15 +1,14 @@
-export default function useToken() {
-  
+export default function useToken() {  
   
   const getToken = () => {
     const tokenString = sessionStorage.getItem('token');
     const userToken = JSON.parse(tokenString);
 
 
-    return userToken?.token ? userToken.token : null ? userToken.token : null
+    return userToken?.token ? userToken.token : null 
   };
   
-  const saveToken = (userToken) => {
+   const saveToken = (userToken) => {
     sessionStorage.setItem('token', JSON.stringify(userToken));
   };
 
@@ -18,25 +17,3 @@ export default function useToken() {
     getToken
   }
 }
-
-// import { useState } from 'react';
-
-// export default function useToken() {
-//   const getToken = () => {
-//     const tokenString = sessionStorage.getItem('token');
-//     const userToken = JSON.parse(tokenString);
-//     return userToken?.token
-//   };
-
-//   const [token, setToken] = useState(getToken());
-
-//   const saveToken = userToken => {
-//     sessionStorage.setItem('token', JSON.stringify(userToken));
-//     setToken(userToken.token);
-//   };
-
-//   return {
-//     setToken: saveToken,
-//     token
-//   }
-// }

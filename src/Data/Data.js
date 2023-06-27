@@ -3,7 +3,7 @@
 
 // Analytics Cards imports
 import { FaBars,FaCalendarMinus, FaUserAlt, FaHome, FaUsers, FaClipboard, FaClipboardList, FaCubes, FaHandshake, FaChevronCircleRight, FaRegCreditCard, FaMoneyCheck } from "react-icons/fa";
-
+import header from "../imgs/header.jpg";
 
 
 // Sidebar Data
@@ -150,4 +150,91 @@ export const cardsData = [
   },
 ];
 
+
 // Recent Update Card Data
+export const cartItems = [
+  {
+    id: 1,
+    title: "Omlete",
+    discription:"fcsdfd" ,
+    price: 89,
+    img: require("../imgs/header.jpg"),
+    amount: 1,
+    category: "breakfast",
+  },
+  {
+    id: 2,
+    title: "Chowmien",
+    discription:"" ,
+    price: 98,
+    img: require("../imgs/header.jpg"),
+    amount: 1,
+    category: "lunch",
+  },
+  {
+    id: 3,
+    title: "Burger",
+    discription:"" ,
+    price: 143,
+    img: require("../imgs/header.jpg"),
+    amount: 1,
+    category: "dinner",
+  },
+  {
+    id: 4,
+    title: "sausage",
+    discription:"" ,
+    price: 57,
+    img:require("../imgs/header.jpg"),
+    amount: 1,
+    category: "snacks",
+  },
+  {
+    id: 5,
+    title: "meatball",
+    discription:"" ,
+    price: 149,
+    img: require("../imgs/header.jpg"),
+    amount: 1,
+  },
+  {
+    id: 6,
+    title: "sandwhich",
+    discription:"" ,
+    price: 135,
+    img: require("../imgs/header.jpg"),
+    amount: 1,
+  },
+  {
+    id: 7,
+    title: "Pizza ",
+    discription:"" ,
+    price: 693,
+    img: require("../imgs/header.jpg"),
+    amount: 1,
+  },
+  {
+    id: 8,
+    title: "momo",
+    discription:"" ,
+    price: 289,
+    img: require("../imgs/header.jpg"),
+    amount: 1,
+  },
+  {
+    id: 9,
+    title: "Blossom Moral Story Book for Kids ",
+    discription:"" ,
+    price: 80,
+    img: require("../imgs/header.jpg"),
+    amount: 1,
+  },
+  {
+    id: 10,
+    title: "Brain Activity Book for Kids",
+    discription:"" ,
+    price: 86,
+    img: require("../imgs/header.jpg"),
+    amount: 1,
+  },
+];

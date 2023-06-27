@@ -179,6 +179,16 @@
     background: linear-gradient(145deg, #dcdcdc, #ffffff);
     box-shadow: 10px 10px 30px #cfcfd0;
 }
+ .navbar-icon span{
+  padding: 0 3px;
+  background: linear-gradient(145deg, #814949, #f80606);
+  box-shadow: 10px 10px 30px #a87b7b;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  position: relative;
+  top: -15px;
+ }
   
   .navbar-toggle {
     display: none;
@@ -318,36 +328,7 @@
   justify-content: center;
 }
 
-/* cart.css */
-
-.cart-container-slide {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 350px; /* Adjust the width as needed */
-  background-color: white; /* Set the background color */
-  overflow-y: auto;
-  z-index: 999;
-}
-
-/* Define the animation transitions */
-.cart-container-slide {
-  transition-property: opacity, transform;
-  transition-duration: 0.3s;
-  transition-timing-function: ease-in-out;
-}
-
-/* Apply the animation variants */
-.cart-container-slide.hidden {
-  opacity: 0;
-  transform: translateX(100%);
-}
-
-.cart-container-slide.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
+/* menu csss */
 
 
   @media (max-width: 1290px){

@@ -1,19 +1,35 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
-import ParentCart from '../ParentCart/ParentCart';
-import header from "../../imgs/header.jpg";
-import berry from "../../imgs/berry.png";
-import leaf from "../../imgs/leaf.png";
+import {cartItems} from '../../../Data/Data';
+import header from "../../../imgs/header.jpg";
+import berry from "../../../imgs/berry.png";
+import leaf from "../../../imgs/leaf.png";
 import MenuSection from '../MenuSection/MenuSection';
 import { FaSistrix, FaUser, FaBars, FaTimes } from 'react-icons/fa';
 // import { FaCartShopping } from 'react-icons/fa6';
 import CartContainer from '../AdminComponent/CartContainer/CartContainer';
 // import CartContainer from '../CartContainer/CartContainer';
 import { motion } from "framer-motion"
+import { FaCartShopping } from 'react-icons/fa6';
+// import CartContainer from '../CartContainer/CartContainer';
+import { gsap, Power2 } from 'gsap';
+import mixitup from 'mixitup';
+// import {motion} from "framer-motion";
+import menu1 from "../../../imgs/menu-1.png";
+import menu2 from "../../../imgs/menu-2.png";
+import menu3 from "../../../imgs/menu-3.png";
+import menu4 from "../../../imgs/menu-4.png";
+import { FaAngleLeft, FaAngleRight, FaPlus, FaMinus } from "react-icons/fa";
 
 
-const Navbar = ({ cartItems }) => {
+const Navbar = ({size,handleClick,toggleCart,category}) => {
+    const [cart , setCart] = useState([]);
+    const containerRef = useRef(null);
+    const mixerRef = useRef(null);
+    const sliderRef = useRef(null);
+    const [selectedDish, setSelectedDish] = useState(null);
+
     const about = useRef(null);
     const menu = useRef(null);
     const contact = useRef(null);
@@ -30,12 +46,49 @@ const Navbar = ({ cartItems }) => {
         setIsMenuOpen(!isMenuOpen);
     };
     // cart js
-    const [isCartOpen, setIsCartOpen] = useState(false);
-    const toggleCart = () => {
-        setIsCartOpen(!isCartOpen);
-    };
-   
   
+
+
+    useEffect(() => {
+        const container = containerRef.current;
+    
+        const mixer = mixitup(container, {
+          selectors: {
+            target: '.dish-box-wp',
+            control: '.filter',
+          },
+        });
+        mixerRef.current = mixer;
+        // const storedCartItems = localStorage.getItem('cartItems');
+        // if (storedCartItems) {
+        //   setCartItems(JSON.parse(storedCartItems));
+        // }
+      }, []);
+    
+    
+      const handleFilterClick = (category) => {
+        setSelectedCategory(category);
+      };
+      
+    
+      const handleSliderLeft = () => {
+        const slider = sliderRef.current;
+        gsap.to(slider, {
+          x: '+=100',
+          duration: 0.3,
+        });
+      };
+    
+      const handleSliderRight = () => {
+        const slider = sliderRef.current;
+        gsap.to(slider, {
+          x: '-=100',
+          duration: 0.3,
+        });
+      };
+      const [selectedCategory, setSelectedCategory] = useState('all');
+
+    
     return (
         <>
             <header class="site-header">
@@ -73,14 +126,12 @@ const Navbar = ({ cartItems }) => {
                                 </form>
                             </div>
                             <div className="navbar-icons">
-                                <div className="navbar-icon">
-                                    <FaUser />
-                                </div>
-                            </div>
-                            <div className="navbar-icons">
                                 <div className="navbar-icon" onClick={toggleCart}>
                                     {/* <FaCartShopping /> */}
-                                    {/* <FaCartShopping /> */}
+                                    
+                                    <span>
+                                    {size}
+                                    </span>
                                 </div>
                             </div>
                             <div className="navbar-toggle" onClick={toggleMenu}>
@@ -156,11 +207,65 @@ const Navbar = ({ cartItems }) => {
                     </div>
                 </div>
             </section>
-            {/* Menu */}
+            {/* Menu */} 
             <section className="about-sec section" ref={menu}>
-                <MenuSection />
+            <div className="sec-wp">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="sec-title text-center mb-5">
+                <p className="sec-sub-title mb-3">our menu</p>
+                <h2 className="h2-title">Eat fresh &amp; healthy</h2>
+              </div>
+            </div>
+          </div>
+          <div className="menu-tab-wp">
+            <div className="row">
+              <div className="col-lg-12 m-auto">
+                <div className="menu-tab text-center">
+                  <button className="slider-button left" onClick={handleSliderLeft}>
+                    <FaAngleLeft />
+                  </button>
+                  <ul className="filters" ref={containerRef}>
+                    <div className="slider" ref={sliderRef}>
+                      <li className="filter" onClick={() => handleFilterClick('all')}>
+                        <img src={menu1} alt="" />
+                        All
+                      </li>
+                      <li className="filter" onClick={() => handleFilterClick('breakfast')}>
+                        <img src={menu2} alt="" />
+                        Breakfast
+                      </li>
+                      <li className="filter" onClick={() => handleFilterClick('lunch')}>
+                        <img src={menu3} alt="" />
+                        Lunch
+                      </li>
+                      <li className="filter" onClick={() => handleFilterClick('dinner')}>
+                        <img src={menu4} alt="" />
+                        Dinner
+                      </li>
+                      <li className="filter snacks" onClick={() => handleFilterClick('snacks')}>
+                        <img src={menu4} alt="" />
+                        Snacks
+                      </li>
+                    </div>
+                  </ul>
+                  <button className="slider-button right" onClick={handleSliderRight}>
+                    <FaAngleRight />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          </div>
+           
+            {
+            cartItems.map((item)=>(
+                <MenuSection item={item} handleClick={handleClick} key={item.id} category={selectedCategory.toLowerCase()} handleFilterClick={handleFilterClick} />
+            ))
+        }
             </section>
-            {isCartOpen && <CartContainer cartItems={cartItems} />}
             
         </>
     );
