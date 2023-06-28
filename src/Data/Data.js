@@ -196,6 +196,7 @@ export const cartItems = [
     price: 149,
     img: require("../imgs/header.jpg"),
     amount: 1,
+    category: "snacks",
   },
   {
     id: 6,
@@ -204,6 +205,7 @@ export const cartItems = [
     price: 135,
     img: require("../imgs/header.jpg"),
     amount: 1,
+    category: "breakfast",
   },
   {
     id: 7,

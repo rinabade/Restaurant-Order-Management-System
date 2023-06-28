@@ -7,12 +7,12 @@ import { UilBars } from "@iconscout/react-unicons";
 import { motion } from "framer-motion";
 
 
-const KitchenSidebar = () => {
+const CashierSidebar = () => {
  
 
   function handleLogout() {
     sessionStorage.clear();
-    window.location.href = '/Kitchen/Kitchendash';
+    window.location.href = '/Cashier/Cashierdash';
   }
   const [expanded, setExpaned] = useState(true)
 
@@ -69,4 +69,4 @@ const KitchenSidebar = () => {
   );
 };
 
-export default KitchenSidebar;
+export default CashierSidebar;

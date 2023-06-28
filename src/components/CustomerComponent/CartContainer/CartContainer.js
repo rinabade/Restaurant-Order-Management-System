@@ -5,6 +5,7 @@ import header from '../../../imgs/header.jpg';
 import { motion } from 'framer-motion';
 
 const CartContainer = ({cart, setCart, handleChange}) => {
+    
   const [price, setPrice] = useState(0);
 
   const handlePrice = ()=>{
@@ -38,7 +39,7 @@ return (
                   </div>
                   <div>
                       <button onClick={()=>handleChange(item, +1)}> + </button>
-                      <button>{item.amount}</button>
+                      <button>1</button>
                       <button onClick={()=>handleChange(item, -1)}> - </button>
                   </div>
                   <div>

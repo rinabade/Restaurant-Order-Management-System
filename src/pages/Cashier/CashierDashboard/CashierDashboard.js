@@ -1,17 +1,17 @@
 import './KitchenDashboard.css'
 
-import KitchenSidebar from '../../../components/KitchenComponent/KitchenSidebar/KitchenSidebar';
+import CashierSidebar from '../../../components/CashierComponent/CashierSidebar/CashierSidebar';
 import {Outlet} from 'react-router-dom';
 
-function KitchenDashboard() {
+function CashierDashboard() {
   return (
     <div className="kitchendashboard">
       <div className="kitchendashboardGlass">
-        <KitchenSidebar/> 
+        <CashierSidebar/> 
         <Outlet/>
       </div>
     </div>
   );
 }
 
-export default KitchenDashboard;
+export default CashierDashboard;

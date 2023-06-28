@@ -32,7 +32,7 @@ const rows = [
   
 ];
 
-export default function KitchenOrder() {
+export default function CashierOrder() {
   const [selectedTable, setSelectedTable] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -50,9 +50,9 @@ export default function KitchenOrder() {
   return (
     <div>
       {/* Buttons for each table */}
-      <Button className="tablebutton" onClick={() => handleTableButtonClick(1)}>Table 1</Button>
-      <Button className="tablebutton" onClick={() => handleTableButtonClick(2)}>Table 2</Button>
-      <Button className="tablebutton" onClick={() => handleTableButtonClick(3)}>Table 3</Button>
+      <Button className="tableButton" onClick={() => handleTableButtonClick(1)}>Table 1</Button>
+      <Button className="tableButton" onClick={() => handleTableButtonClick(2)}>Table 2</Button>
+      <Button className="tableButton" onClick={() => handleTableButtonClick(3)}>Table 3</Button>
 
       {/* Pop-up dialog */}
       <Dialog open={isDialogOpen} onClose={handleDialogClose}>

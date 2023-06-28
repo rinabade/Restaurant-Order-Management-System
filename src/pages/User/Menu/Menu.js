@@ -14,11 +14,13 @@ function Menu() {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   const toggleCart = () => {
+	 
     setIsCartOpen((prevIsCartOpen) => !prevIsCartOpen);
   };
+ 
 
   const handleClick = (item) => {
-    // Handle the click event
+    console.log(item);
     let isPresent = false;
 		cart.forEach((product)=>{
 			if (item.id === product.id)
