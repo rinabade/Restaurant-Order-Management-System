@@ -1,18 +1,30 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
-import ParentCart from '../ParentCart/ParentCart';
-import header from "../../imgs/header.jpg";
-import berry from "../../imgs/berry.png";
-import leaf from "../../imgs/leaf.png";
+// import {cartItems} from '../../../Data/Data';
+import header from "../../../imgs/header.jpg";
+import berry from "../../../imgs/berry.png";
+import leaf from "../../../imgs/leaf.png";
 import MenuSection from '../MenuSection/MenuSection';
 import { FaSistrix, FaUser, FaBars, FaTimes } from 'react-icons/fa';
-// import { FaCartShopping } from 'react-icons/fa6';
-import CartContainer from '../AdminComponent/CartContainer/CartContainer';
-import { motion } from "framer-motion"
+// import { IconName } from "react-icons/fa6";
+import { BsCartPlusFill } from "react-icons/bs";
+
+import CartContainer from '../CartContainer/CartContainer';
+import { gsap, Power2 } from 'gsap';
+import mixitup from 'mixitup';
+import {motion} from "framer-motion";
+import menu1 from "../../../imgs/menu-1.png";
+import menu2 from "../../../imgs/menu-2.png";
+import menu3 from "../../../imgs/menu-3.png";
+import menu4 from "../../../imgs/menu-4.png";
+import { FaAngleLeft, FaAngleRight, FaPlus, FaMinus } from "react-icons/fa";
+import { getAllCategory, getMenu } from '../../../api/userAction';
 
 
-const Navbar = ({ cartItems }) => {
+const Navbar = ({size,handleClick,toggleCart}) => {
+   
+    const sliderRef = useRef(null);  
     const about = useRef(null);
     const menu = useRef(null);
     const contact = useRef(null);
@@ -29,12 +41,84 @@ const Navbar = ({ cartItems }) => {
         setIsMenuOpen(!isMenuOpen);
     };
     // cart js
-    const [isCartOpen, setIsCartOpen] = useState(false);
-    const toggleCart = () => {
-        setIsCartOpen(!isCartOpen);
+    const [filterCategory, setFilterCategory] = useState([]);
+  const [items, setItems] = useState([]);
+  const [menuCategories, setMenuCategories] = useState([]);
+
+
+  const filterItem = (category) => {
+    // console.log("jnedjnej-----------", category)
+    // setFilterCategory(category);
+    getMenu(category)
+    .then(
+        (success) => {
+        if (success.data) {
+          console.log(success.data.data);
+          // console.log(success.data.data.map(user => user.lastname));
+          setFilterCategory(success.data.data);
+          console.log(filterCategory);
+          // setMenuItems(success.data.data);
+        } else {
+          console.log("Empty Error Response");
+        }
+      },
+      (error) => {
+        if (error.response) {
+          //Backend Error message
+          console.log(error.response);
+        } else {
+            //Server Not working Error
+            console.log("Server not working");
+          }
+        }
+      );
     };
-   
-  
+      // const filteredItems = filterCategory === 'all' ? cartItems : cartItems.filter((item) => item.category === filterCategory);
+  // const filteredItems = filterCategory;
+      
+    
+      const handleSliderLeft = () => {
+        const slider = sliderRef.current;
+        gsap.to(slider, {
+          x: '+=100',
+          duration: 0.3,
+        });
+      };
+    
+      const handleSliderRight = () => {
+        const slider = sliderRef.current;
+        gsap.to(slider, {
+          x: '-=100',
+          duration: 0.3,
+        });
+      };
+         
+
+      useEffect(()=>{
+        getAllCategory()
+        .then(
+          (success) => {
+            if (success.data) {
+              console.log(success.data.data);
+              // console.log(success.data.data.map(user => user.lastname));
+              setMenuCategories(success.data.data);
+            } else {
+              console.log("Empty Error Response");
+            }
+          },
+          (error) => {
+            if (error.response) {
+              //Backend Error message
+              console.log(error.response);
+            } else {
+              //Server Not working Error
+              console.log("Server not working");
+            }
+          }
+        );
+      },[])
+
+
     return (
         <>
             <header class="site-header">
@@ -67,18 +151,17 @@ const Navbar = ({ cartItems }) => {
                                 <form action="#" class="header-search-form for-des">
                                     <input type="search" class="form-input" placeholder="Search Here..." />
                                     <button type="submit">
-                                        <FaSistrix />
+                                        {/* <FaSistrix /> */}
                                     </button>
                                 </form>
                             </div>
                             <div className="navbar-icons">
-                                <div className="navbar-icon">
-                                    <FaUser />
-                                </div>
-                            </div>
-                            <div className="navbar-icons">
                                 <div className="navbar-icon" onClick={toggleCart}>
-                                    {/* <FaCartShopping /> */}
+                                    {/* <FaCartPlus /> */}
+                                    <BsCartPlusFill />
+                                    <span>
+                                    {size}
+                                    </span>
                                 </div>
                             </div>
                             <div className="navbar-toggle" onClick={toggleMenu}>
@@ -89,6 +172,7 @@ const Navbar = ({ cartItems }) => {
                 </nav>
             </header>
             
+
             {/* Welcome to our restaurant */}
             <section className="main-banner">
                 <div className="js-parallax-scene">
@@ -153,11 +237,73 @@ const Navbar = ({ cartItems }) => {
                     </div>
                 </div>
             </section>
-            {/* Menu */}
+            {/* Menu */} 
             <section className="about-sec section" ref={menu}>
-                <MenuSection />
+            <div className="sec-wp">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="sec-title text-center mb-5">
+                <p className="sec-sub-title mb-3">our menu</p>
+                <h2 className="h2-title">Eat fresh &amp; healthy</h2>
+              </div>
+            </div>
+          </div>
+
+          {/* category */}
+          <div className="menu-tab-wp">
+            <div className="row">
+              <div className="col-lg-12 m-auto">
+                <div className="menu-tab text-center">
+                  <button className="slider-button left" onClick={handleSliderLeft}>
+                    <FaAngleLeft />
+                  </button>
+                  <ul className="filters">
+                    <div className="slider" ref={sliderRef}>
+                      {menuCategories.map((dataItem, category_name)=>(
+                        <li className={`filter ${filterCategory === dataItem.category_name ? 'active' : ''}`} onClick={() => filterItem(dataItem.category_id)}>
+                            <img src={menu1} alt="" />
+                            {dataItem.category_name}
+                          </li>
+
+                      ))}
+                      {/* <li className={`filter ${filterCategory === 'breakfast' ? 'active' : ''}`} onClick={() => filterItem('breakfast')}>
+                        <img src={menu2} alt="" />
+                        Breakfast
+                      </li>
+                      <li className={`filter ${filterCategory === 'lunch' ? 'active' : ''}`} onClick={() => filterItem('lunch')}>
+                        <img src={menu3} alt="" />
+                        Lunch
+                      </li>
+                      <li className={`filter ${filterCategory === 'dinner' ? 'active' : ''}`} onClick={() => filterItem('dinner')}>
+                        <img src={menu4} alt="" />
+                        Dinner
+                      </li>
+                      <li className={`filter ${filterCategory === 'snacks' ? 'active' : ''}`} onClick={() => filterItem('snacks')}>
+                        <img src={menu4} alt="" />
+                        Snacks
+                      </li> */}
+                    </div>
+                  </ul>
+                  <button className="slider-button right" onClick={handleSliderRight}>
+                    <FaAngleRight />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          </div>
             </section>
-            {isCartOpen && <CartContainer cartItems={cartItems} />}
+            <section className='menu-section'>
+            {filterCategory.map((item) => (     
+                <MenuSection item={item} handleClick={handleClick} key={item.menu_id}  />
+            ))}
+            {/* {filterCategory && (
+        <MenuSection item={filterCategory} handleClick={handleClick} key={filterCategory.category_id}
+        />
+      )} */}
+           </section>
             
         </>
     );

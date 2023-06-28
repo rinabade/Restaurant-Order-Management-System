@@ -16,6 +16,14 @@ import Suppliers from './pages/Admin/Suppliers/Suppliers';
 import Permission from './pages/Admin/Permission/Permission';
 import AdminRole from './pages/Admin/AdminRole/AdminRole';
 import AdminLogin from './pages/Admin/AdminLogin/AdminLogin';
+
+// kitchen route
+import KitchenDash from './pages/Kitchen/KitchenDash/KitchenDash';
+import KitchenDashboard from './pages/Kitchen/KitchenDashboard/KitchenDashboard';
+import KitchenLogin from './pages/Admin/AdminLogin/AdminLogin';
+import Kitchen_profile from './pages/Kitchen/Kitchen_profile/Kitchen_profile';
+import KitchenOrder from './pages/Kitchen/KitchenOrder/KitchenOrder';
+
 import Menu from './pages/User/Menu/Menu';
 import useToken from './components/Token/useToken';
 
@@ -59,6 +67,18 @@ function App() {
            )} 
           
           {/* )} */}
+          
+
+           {/* kitchen route */}
+
+         {!getToken() && <Route path="/Kitchen/Kitchendash" element={<KitchenLogin/>} />}
+          {getToken() && (
+            <Route path="/Kitchen" element={<KitchenDashboard/>}>
+              <Route path="kitchendash" element={<KitchenDash />} />
+              <Route path="Kitchen_profile" element={<Kitchen_profile />} />
+              <Route path="KitchenOrder" element={<KitchenOrder />} />
+            </Route>
+          )}
         </Routes>
       </div>
     </BrowserRouter>

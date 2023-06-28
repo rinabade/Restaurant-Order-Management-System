@@ -4,6 +4,7 @@ import { gsap, Power2 } from 'gsap';
 import header from "../../imgs/header.jpg";
 import './MenuSection.css';
 import CartContainer from '../AdminComponent/CartContainer/CartContainer';
+// import CartContainer from '../CartContainer/CartContainer';
 import mixitup from 'mixitup';
 import {motion} from "framer-motion";
 import menu1 from "../../imgs/menu-1.png";
@@ -12,6 +13,8 @@ import menu2 from "../../imgs/menu-2.png";
 // import menu4 from "../../imgs/menu-4.png";
 // import { FaAngleLeft, FaAngleRight, FaPlus } from "react-icons/fa";
 import { getAllCategory, getMenu } from '../../api/userAction';
+import menu3 from "../../imgs/menu-3.png";
+import menu4 from "../../imgs/menu-4.png";
 import { FaAngleLeft, FaAngleRight, FaPlus, FaMinus } from "react-icons/fa";
 
 const MenuSection = () => {
@@ -72,6 +75,7 @@ const MenuSection = () => {
 
 
   const handleFilterClick = (category) => {
+    console.log(category.category_id);
     getMenu(category.category_id)
     .then(
       (success) => {
@@ -246,7 +250,7 @@ const MenuSection = () => {
                         <b>Rs. {dataItem.price} </b>
                       </li>
                       <li>
-                        <button className="dish-add-btn" onClick={() => handleDishAdd(dataItem)}> </button>
+                        {/* <button className="dish-add-btn" onClick={() => handleDishAdd(dataItem)}> </button> */}
                         <button className="dish-add-btn" onClick={() => handleDishAdd({ title: "Fresh Chicken Veggies", image: header, price: "Rs. 499" })}>
                           <FaPlus />
                         </button>
@@ -257,6 +261,7 @@ const MenuSection = () => {
               </div>
             ))}
 
+              
               {/* <!-- 2 --> */}
               <div className="col-lg-4 col-sm-6 dish-box-wp breakfast" data-cat="breakfast">
                 <div className="dish-box text-center">

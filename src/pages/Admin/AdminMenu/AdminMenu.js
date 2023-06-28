@@ -45,7 +45,7 @@ export default function Menu() {
   const [confirmEditDialogOpen, setConfirmEditDialogOpen] = useState(false);
 
   const [selectedImage, setSelectedImage] = useState({
-    file: [],
+    // file: [],
   });
 
   // const [categoryId, setCategoryId] = useState([]);
@@ -63,10 +63,10 @@ export default function Menu() {
     navigate(0);
 }
 
-  function handleImage(e) {
-    console.log(e.target.files);
-    setImage(e.target.files[0]);
-  }
+  // function handleImage(e) {
+  //   console.log(e.target.files);
+  //   setImage(e.target.files[0]);
+  // }
 
   const handleOpen = () => {
     setOpen(true);
@@ -82,12 +82,12 @@ export default function Menu() {
 
   const handleImageUpload = (event) => {
     // setSelectedImage(event.target.files[0])
-    setSelectedImage({
-      ...selectedImage,
-      file: event.target.files[0],
+    setImage({
+      ...image,
+      [image]: event.target.files[0],
       //   image: file,
     });
-    // console.log(selectedImage.file.name)
+    console.log(selectedImage.file.name)
   };
   //   const handleInputChange = (event) => {
   //     const { name, value } = event.target;
@@ -217,7 +217,7 @@ export default function Menu() {
 
   // Edit function
   const handleEditClick = (menuData) => {
-    setEditItemId(menuData);
+    // setEditItemId(menuData);
     setEditedItem({ ...menuData });
     setConfirmEditDialogOpen(true);    
   };
@@ -232,10 +232,10 @@ export default function Menu() {
         if (index > -1) {
           data[index] = editedItem;
           setData(data);
-        refreshPage();
-
+          
         }
-        handleCancelEdit();
+        refreshPage();
+        // handleCancelEdit();
       })
       .catch((error) => {
         console.error("An error occurred while updating the user");
@@ -372,7 +372,7 @@ export default function Menu() {
               </label>
               <input
                 type="file"
-                name="upload_file"
+                name="image"
                 accept="image/*"
                 // value={selectedImage}
                 onChange={handleImageUpload}
@@ -381,9 +381,7 @@ export default function Menu() {
               />
               <br></br>
               <span className="upload-image-text">
-                {selectedImage.image
-                  ? selectedImage.image.name
-                  : "No file chosen"}
+                {image? image.name : "No file chosen"}
               </span>
             </div> */}
             <Button type="submit" variant="contained" color="success">
@@ -448,7 +446,7 @@ export default function Menu() {
             <TextField
               name="item_name"
               label="Enter Item Name"
-              value={editedItem.item_name}
+              value={editedItem ? editedItem.item_name : ''}
               // onChange={(e) => setItem(e.target.value)}
               onChange={(e) =>
                 setEditedItem((prevItem) => ({
@@ -462,7 +460,7 @@ export default function Menu() {
             <TextField
               name="description"
               label="write description"
-              value={editedItem.description}
+              value={editedItem ? editedItem.description : ''}
               // onChange={(e) => setDescription(e.target.value)}
               onChange={(e) =>
                 setEditedItem((prevItem) => ({
@@ -476,7 +474,7 @@ export default function Menu() {
             <TextField
               name="price"
               label="Enter Price"
-              value={editedItem.price}
+              value={editedItem ? editedItem.price : ''}
               // onChange={(e) => setPrice(e.target.value)}
               onChange={(e) =>
                 setEditedItem((prevItem) => ({
