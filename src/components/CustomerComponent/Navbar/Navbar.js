@@ -7,9 +7,7 @@ import berry from "../../../imgs/berry.png";
 import leaf from "../../../imgs/leaf.png";
 import MenuSection from '../MenuSection/MenuSection';
 import { FaSistrix, FaUser, FaBars, FaTimes } from 'react-icons/fa';
-// import { IconName } from "react-icons/fa6";
 import { BsCartPlusFill } from "react-icons/bs";
-
 import CartContainer from '../CartContainer/CartContainer';
 import { gsap, Power2 } from 'gsap';
 import mixitup from 'mixitup';
@@ -53,7 +51,7 @@ const Navbar = ({size,handleClick,toggleCart}) => {
     .then(
         (success) => {
         if (success.data) {
-          console.log(success.data.data);
+          // console.log(success.data.data);
           // console.log(success.data.data.map(user => user.lastname));
           setFilterCategory(success.data.data);
           console.log(filterCategory);
@@ -99,8 +97,7 @@ const Navbar = ({size,handleClick,toggleCart}) => {
         .then(
           (success) => {
             if (success.data) {
-              console.log(success.data.data);
-              // console.log(success.data.data.map(user => user.lastname));
+              // console.log(success.data.data);
               setMenuCategories(success.data.data);
             } else {
               console.log("Empty Error Response");
@@ -108,10 +105,8 @@ const Navbar = ({size,handleClick,toggleCart}) => {
           },
           (error) => {
             if (error.response) {
-              //Backend Error message
               console.log(error.response);
             } else {
-              //Server Not working Error
               console.log("Server not working");
             }
           }
@@ -121,7 +116,7 @@ const Navbar = ({size,handleClick,toggleCart}) => {
 
     return (
         <>
-            <header class="site-header">
+            <header className="site-header">
                 <nav className="navbar">
                     <div className="navbar-container">
                         <div className="navbar-logo">
@@ -148,8 +143,8 @@ const Navbar = ({size,handleClick,toggleCart}) => {
                                 </ul>
                             </div>
                             <div className="navbar-search">
-                                <form action="#" class="header-search-form for-des">
-                                    <input type="search" class="form-input" placeholder="Search Here..." />
+                                <form action="#" className="header-search-form for-des">
+                                    <input type="search" className="form-input" placeholder="Search Here..." />
                                     <button type="submit">
                                         {/* <FaSistrix /> */}
                                     </button>

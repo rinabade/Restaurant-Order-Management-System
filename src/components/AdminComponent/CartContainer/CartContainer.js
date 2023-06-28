@@ -6,15 +6,11 @@ import { motion } from 'framer-motion';
 
 const CartContainer = ({cart, setCart, handleChange}) => {
   const [price, setPrice] = useState(0);
-  // const [quantity, setquantity] = useState(1);
-
-  // console.log("bjhbwsjb",cart);
 
   const handlePrice = ()=>{
       let ans = 0;
       cart.map((item)=>(
-        // console.log("eef---", item);
-        ans += item.quantity * item.price
+          ans += item.quantity * item.price
       ))
       setPrice(ans);
   }
@@ -36,7 +32,7 @@ return (
   <article>
       {
           cart?.map((item)=>(
-            <div className="cart_box">
+              <div className="cart_box">
                   <div className="cart_img">
                       <p>{item.item_name}</p>
                   </div>
@@ -47,11 +43,10 @@ return (
                   </div>
                   <div>
                       <span>Rs.{item.price}</span>
-                      <button onClick={()=>handleRemove(item.menu_id)}>Remove</button>
+                      <button onClick={()=>handleRemove(item.id)}>Remove</button>
                   </div>
               </div>
-            ))
-          }
+          ))}
       <div className='total'>
           <span>Total Price of your Cart</span>
           <span>Rs - {price}</span>

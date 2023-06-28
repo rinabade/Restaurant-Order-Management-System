@@ -147,3 +147,15 @@ export const editPassword= (id, data) => {
     let url = `${Config.BaseUrl}change/password/${id}`;
     return axios.patch(url, data);
 }
+
+
+// add to cart 
+export const createCart = (data) => {
+    let url = `${Config.BaseUrl}customer/cart`;
+    return axios.post(url, data, {
+        headers: {
+        'Content-Type': 'application/json',
+      },
+      
+    });
+}
