@@ -19,10 +19,12 @@ function Menu() {
 
   const handleClick = (item) => {
     // Handle the click event
+	// console.log("item--------", item);
     let isPresent = false;
-		cart.forEach((product)=>{
-			if (item.id === product.id)
-			isPresent = true;
+	cart.forEach((product)=>{
+		if (item.menu_id === product.menu_id){
+				isPresent = true;
+			}
 		})
 		if (isPresent){
 			setWarning(true);
@@ -35,16 +37,20 @@ function Menu() {
     // Add the item to the cart or perform any other action
   }
 	const handleChange = (item, d) =>{
+		// console.log(item)
 		let ind = -1;
 		cart.forEach((data, index)=>{
-			if (data.id === item.id)
+		// console.log(index)
+
+			if (data.menu_id === item.menu_id)
 				ind = index;
+				// console.log("ind--------", ind)
 		});
 		const tempArr = cart;
-		tempArr[ind].amount += d;
+		tempArr[ind].quantity += d;
 		
-		if (tempArr[ind].amount === 0)
-			tempArr[ind].amount = 1;
+		if (tempArr[ind].quantity === 0)
+			tempArr[ind].quantity = 1;
 		setCart([...tempArr])
 	}
   return (

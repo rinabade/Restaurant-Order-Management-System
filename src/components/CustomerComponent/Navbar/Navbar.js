@@ -7,7 +7,7 @@ import berry from "../../../imgs/berry.png";
 import leaf from "../../../imgs/leaf.png";
 import MenuSection from '../MenuSection/MenuSection';
 import { FaSistrix, FaUser, FaBars, FaTimes } from 'react-icons/fa';
-import { FaCartShopping } from 'react-icons/fa6';
+// import { FaCartShopping } from 'react-icons/fa6';
 import CartContainer from '../CartContainer/CartContainer';
 import { gsap, Power2 } from 'gsap';
 import mixitup from 'mixitup';
@@ -17,13 +17,12 @@ import menu2 from "../../../imgs/menu-2.png";
 import menu3 from "../../../imgs/menu-3.png";
 import menu4 from "../../../imgs/menu-4.png";
 import { FaAngleLeft, FaAngleRight, FaPlus, FaMinus } from "react-icons/fa";
+import { getAllCategory, getMenu } from '../../../api/userAction';
 
 
 const Navbar = ({size,handleClick,toggleCart}) => {
    
-    const sliderRef = useRef(null);
-   
-
+    const sliderRef = useRef(null);  
     const about = useRef(null);
     const menu = useRef(null);
     const contact = useRef(null);
@@ -40,16 +39,40 @@ const Navbar = ({size,handleClick,toggleCart}) => {
         setIsMenuOpen(!isMenuOpen);
     };
     // cart js
-    const [filterCategory, setFilterCategory] = useState('all');
+    const [filterCategory, setFilterCategory] = useState([]);
   const [items, setItems] = useState(cartItems);
-
-  const filterItem = (categItem) => {
-    setFilterCategory(categItem);
-  };
-  const filteredItems = filterCategory === 'all' ? cartItems : cartItems.filter((item) => item.category === filterCategory);
+  const [menuCategories, setMenuCategories] = useState([]);
 
 
-    
+  const filterItem = (category) => {
+    // console.log("jnedjnej-----------", category)
+    // setFilterCategory(category);
+    getMenu(category)
+    .then(
+        (success) => {
+        if (success.data) {
+          console.log(success.data.data);
+          // console.log(success.data.data.map(user => user.lastname));
+          setFilterCategory(success.data.data);
+          console.log(filterCategory);
+          // setMenuItems(success.data.data);
+        } else {
+          console.log("Empty Error Response");
+        }
+      },
+      (error) => {
+        if (error.response) {
+          //Backend Error message
+          console.log(error.response);
+        } else {
+            //Server Not working Error
+            console.log("Server not working");
+          }
+        }
+      );
+    };
+      // const filteredItems = filterCategory === 'all' ? cartItems : cartItems.filter((item) => item.category === filterCategory);
+  // const filteredItems = filterCategory;
       
     
       const handleSliderLeft = () => {
@@ -67,9 +90,33 @@ const Navbar = ({size,handleClick,toggleCart}) => {
           duration: 0.3,
         });
       };
-     
+         
 
-    
+      useEffect(()=>{
+        getAllCategory()
+        .then(
+          (success) => {
+            if (success.data) {
+              console.log(success.data.data);
+              // console.log(success.data.data.map(user => user.lastname));
+              setMenuCategories(success.data.data);
+            } else {
+              console.log("Empty Error Response");
+            }
+          },
+          (error) => {
+            if (error.response) {
+              //Backend Error message
+              console.log(error.response);
+            } else {
+              //Server Not working Error
+              console.log("Server not working");
+            }
+          }
+        );
+      },[])
+
+
     return (
         <>
             <header class="site-header">
@@ -108,7 +155,7 @@ const Navbar = ({size,handleClick,toggleCart}) => {
                             </div>
                             <div className="navbar-icons">
                                 <div className="navbar-icon" onClick={toggleCart}>
-                                    <FaCartShopping />
+                                    {/* <FaCartShopping /> */}
                                     <span>
                                     {size}
                                     </span>
@@ -199,6 +246,8 @@ const Navbar = ({size,handleClick,toggleCart}) => {
               </div>
             </div>
           </div>
+
+          {/* category */}
           <div className="menu-tab-wp">
             <div className="row">
               <div className="col-lg-12 m-auto">
@@ -208,11 +257,14 @@ const Navbar = ({size,handleClick,toggleCart}) => {
                   </button>
                   <ul className="filters">
                     <div className="slider" ref={sliderRef}>
-                    <li className={`filter ${filterCategory === 'all' ? 'active' : ''}`} onClick={() => filterItem('all')}>
-                        <img src={menu1} alt="" />
-                        All
-                      </li>
-                      <li className={`filter ${filterCategory === 'breakfast' ? 'active' : ''}`} onClick={() => filterItem('breakfast')}>
+                      {menuCategories.map((dataItem, category_name)=>(
+                        <li className={`filter ${filterCategory === dataItem.category_name ? 'active' : ''}`} onClick={() => filterItem(dataItem.category_id)}>
+                            <img src={menu1} alt="" />
+                            {dataItem.category_name}
+                          </li>
+
+                      ))}
+                      {/* <li className={`filter ${filterCategory === 'breakfast' ? 'active' : ''}`} onClick={() => filterItem('breakfast')}>
                         <img src={menu2} alt="" />
                         Breakfast
                       </li>
@@ -227,7 +279,7 @@ const Navbar = ({size,handleClick,toggleCart}) => {
                       <li className={`filter ${filterCategory === 'snacks' ? 'active' : ''}`} onClick={() => filterItem('snacks')}>
                         <img src={menu4} alt="" />
                         Snacks
-                      </li>
+                      </li> */}
                     </div>
                   </ul>
                   <button className="slider-button right" onClick={handleSliderRight}>
@@ -241,10 +293,13 @@ const Navbar = ({size,handleClick,toggleCart}) => {
           </div>
             </section>
             <section className='menu-section'>
-            {filteredItems.map((item) => (          
-                <MenuSection item={item} handleClick={handleClick} key={item.id}  />
+            {filterCategory.map((item) => (     
+                <MenuSection item={item} handleClick={handleClick} key={item.menu_id}  />
             ))}
-       
+            {/* {filterCategory && (
+        <MenuSection item={filterCategory} handleClick={handleClick} key={filterCategory.category_id}
+        />
+      )} */}
            </section>
             
         </>

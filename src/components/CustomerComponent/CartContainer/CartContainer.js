@@ -34,11 +34,11 @@ return (
           cart?.map((item)=>(
               <div className="cart_box">
                   <div className="cart_img">
-                      <p>{item.title}</p>
+                      <p>{item.item_name}</p>
                   </div>
                   <div>
                       <button onClick={()=>handleChange(item, +1)}> + </button>
-                      <button>{item.amount}</button>
+                      <button>1</button>
                       <button onClick={()=>handleChange(item, -1)}> - </button>
                   </div>
                   <div>
