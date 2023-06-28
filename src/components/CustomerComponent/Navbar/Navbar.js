@@ -19,12 +19,10 @@ import menu4 from "../../../imgs/menu-4.png";
 import { FaAngleLeft, FaAngleRight, FaPlus, FaMinus } from "react-icons/fa";
 
 
-const Navbar = ({size,handleClick,toggleCart,category}) => {
-    const [cart , setCart] = useState([]);
-    const containerRef = useRef(null);
-    const mixerRef = useRef(null);
+const Navbar = ({size,handleClick,toggleCart}) => {
+   
     const sliderRef = useRef(null);
-    const [selectedDish, setSelectedDish] = useState(null);
+   
 
     const about = useRef(null);
     const menu = useRef(null);
@@ -42,29 +40,16 @@ const Navbar = ({size,handleClick,toggleCart,category}) => {
         setIsMenuOpen(!isMenuOpen);
     };
     // cart js
-  
+    const [filterCategory, setFilterCategory] = useState('all');
+  const [items, setItems] = useState(cartItems);
+
+  const filterItem = (categItem) => {
+    setFilterCategory(categItem);
+  };
+  const filteredItems = filterCategory === 'all' ? cartItems : cartItems.filter((item) => item.category === filterCategory);
 
 
-    useEffect(() => {
-        const container = containerRef.current;
     
-        const mixer = mixitup(container, {
-          selectors: {
-            target: '.dish-box-wp',
-            control: '.filter',
-          },
-        });
-        mixerRef.current = mixer;
-        // const storedCartItems = localStorage.getItem('cartItems');
-        // if (storedCartItems) {
-        //   setCartItems(JSON.parse(storedCartItems));
-        // }
-      }, []);
-    
-    
-      const handleFilterClick = (category) => {
-        setSelectedCategory(category);
-      };
       
     
       const handleSliderLeft = () => {
@@ -82,7 +67,7 @@ const Navbar = ({size,handleClick,toggleCart,category}) => {
           duration: 0.3,
         });
       };
-      const [selectedCategory, setSelectedCategory] = useState('all');
+     
 
     
     return (
@@ -221,25 +206,25 @@ const Navbar = ({size,handleClick,toggleCart,category}) => {
                   <button className="slider-button left" onClick={handleSliderLeft}>
                     <FaAngleLeft />
                   </button>
-                  <ul className="filters" ref={containerRef}>
+                  <ul className="filters">
                     <div className="slider" ref={sliderRef}>
-                      <li className="filter" onClick={() => handleFilterClick('all')}>
+                    <li className={`filter ${filterCategory === 'all' ? 'active' : ''}`} onClick={() => filterItem('all')}>
                         <img src={menu1} alt="" />
                         All
                       </li>
-                      <li className="filter" onClick={() => handleFilterClick('breakfast')}>
+                      <li className={`filter ${filterCategory === 'breakfast' ? 'active' : ''}`} onClick={() => filterItem('breakfast')}>
                         <img src={menu2} alt="" />
                         Breakfast
                       </li>
-                      <li className="filter" onClick={() => handleFilterClick('lunch')}>
+                      <li className={`filter ${filterCategory === 'lunch' ? 'active' : ''}`} onClick={() => filterItem('lunch')}>
                         <img src={menu3} alt="" />
                         Lunch
                       </li>
-                      <li className="filter" onClick={() => handleFilterClick('dinner')}>
+                      <li className={`filter ${filterCategory === 'dinner' ? 'active' : ''}`} onClick={() => filterItem('dinner')}>
                         <img src={menu4} alt="" />
                         Dinner
                       </li>
-                      <li className="filter snacks" onClick={() => handleFilterClick('snacks')}>
+                      <li className={`filter ${filterCategory === 'snacks' ? 'active' : ''}`} onClick={() => filterItem('snacks')}>
                         <img src={menu4} alt="" />
                         Snacks
                       </li>
@@ -254,13 +239,13 @@ const Navbar = ({size,handleClick,toggleCart,category}) => {
           </div>
           </div>
           </div>
-           
-            {
-            cartItems.map((item)=>(
-                <MenuSection item={item} handleClick={handleClick} key={item.id} category={selectedCategory.toLowerCase()} handleFilterClick={handleFilterClick} />
-            ))
-        }
             </section>
+            <section className='menu-section'>
+            {filteredItems.map((item) => (          
+                <MenuSection item={item} handleClick={handleClick} key={item.id}  />
+            ))}
+       
+           </section>
             
         </>
     );
