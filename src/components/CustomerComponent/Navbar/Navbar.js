@@ -7,15 +7,11 @@ import berry from "../../../imgs/berry.png";
 import leaf from "../../../imgs/leaf.png";
 import MenuSection from '../MenuSection/MenuSection';
 import { FaSistrix, FaUser, FaBars, FaTimes } from 'react-icons/fa';
-// import { FaCartShopping } from 'react-icons/fa6';
-import CartContainer from '../AdminComponent/CartContainer/CartContainer';
-// import CartContainer from '../CartContainer/CartContainer';
-import { motion } from "framer-motion"
 import { FaCartShopping } from 'react-icons/fa6';
-// import CartContainer from '../CartContainer/CartContainer';
+import CartContainer from '../CartContainer/CartContainer';
 import { gsap, Power2 } from 'gsap';
 import mixitup from 'mixitup';
-// import {motion} from "framer-motion";
+import {motion} from "framer-motion";
 import menu1 from "../../../imgs/menu-1.png";
 import menu2 from "../../../imgs/menu-2.png";
 import menu3 from "../../../imgs/menu-3.png";
@@ -127,8 +123,7 @@ const Navbar = ({size,handleClick,toggleCart,category}) => {
                             </div>
                             <div className="navbar-icons">
                                 <div className="navbar-icon" onClick={toggleCart}>
-                                    {/* <FaCartShopping /> */}
-                                    
+                                    <FaCartShopping />
                                     <span>
                                     {size}
                                     </span>
