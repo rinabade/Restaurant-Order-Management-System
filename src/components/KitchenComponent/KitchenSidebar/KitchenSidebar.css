@@ -19,7 +19,7 @@
   display: none;
 }
 
-.logo {
+.kitchenlogo {
   display: flex;
   font-weight: bold;
   font-size: 22px;
@@ -27,7 +27,7 @@
   justify-content: center;
 }
 .logo > span > span {
-  color: var(--pink);
+  color: var(--black);
 }
 
 .logo > img {
@@ -67,16 +67,17 @@
   width: 100%;
 } */
 
-.active {
-  background: var(--activeItem);
-  margin-left: 0;
+.kitactive {
+  background: rgb(226, 205, 205);
+  left: -35px;
+  width: 100%;
 }
-.active::before {
+.kitactive::before {
   content: "";
-  width: 8px;
+  width: 10px;
   height: 100%;
-  background: var(--pink);
-  margin-right: calc(1rem - 8px);
+  background: #3063a7;
+  margin-right: calc(0rem - 2px);
 }
 
 

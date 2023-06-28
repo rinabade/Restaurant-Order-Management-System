@@ -1,9 +1,9 @@
-.kitchendashboard {
+.Cashierdashboard {
 background: linear-gradient(
     106.37deg,
-    #bcffff 29.63%,
-    #d2cfff 51.55%,
-    #c6cdf3 90.85%
+    #e5ffbc 29.63%,
+    #eaffcf 51.55%,
+    #eff3c6 90.85%
   );
   height: 100vh;
   display: flex;
@@ -20,7 +20,7 @@ h6 {
   font-family: "RocknRoll One", sans-serif !important;
 }
 
-.kitchendashboardGlass {
+.CashierdashboardGlass {
   display: grid;
   height: 97%;
   width: 97%;

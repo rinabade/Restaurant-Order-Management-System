@@ -35,7 +35,7 @@ const KitchenSidebar = () => {
     animate={window.innerWidth<=768?`${expanded}`:''}
     >
       {/* logo */}
-      <div className="logo">
+      <div className="kitchenlogo">
         <span>
           <span>FOODIE</span>
         </span>
@@ -45,7 +45,7 @@ const KitchenSidebar = () => {
         {KitchenSidebarData.map((item, index) => {
           return (
             <NavLink to={item.path} key={index}
-            className={navClass => navClass.isActive ? 'menuItem active'
+            className={navClass => navClass.isActive ? 'menuItem kitactive'
               : 'menuItem'}
 
               // onClick={() => {

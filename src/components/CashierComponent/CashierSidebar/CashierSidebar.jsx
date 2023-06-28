@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { NavLink ,useNavigate} from "react-router-dom"
-import "./KitchenSidebar.css";
+import "./CashierSidebar.css";
 import { UilSignOutAlt } from "@iconscout/react-unicons";
-import { KitchenSidebarData } from "../../../Data/Data";
+import { CashierSidebarData } from "../../../Data/Data";
 import { UilBars } from "@iconscout/react-unicons";
 import { motion } from "framer-motion";
 
@@ -30,7 +30,7 @@ const CashierSidebar = () => {
       <div className="bars" style={expanded?{left: '60%'}:{left: '5%'}} onClick={()=>setExpaned(!expanded)}>
         <UilBars />
       </div>
-    <motion.div className='kitchensidebar'
+    <motion.div className='Cashiersidebar'
     variants={sidebarVariants}
     animate={window.innerWidth<=768?`${expanded}`:''}
     >
@@ -42,10 +42,10 @@ const CashierSidebar = () => {
       </div>
 
       <div className="menu">
-        {KitchenSidebarData.map((item, index) => {
+        {CashierSidebarData.map((item, index) => {
           return (
             <NavLink to={item.path} key={index}
-            className={navClass => navClass.isActive ? 'menuItem active'
+            className={navClass => navClass.isActive ? 'menuItem cashactive'
               : 'menuItem'}
 
               // onClick={() => {

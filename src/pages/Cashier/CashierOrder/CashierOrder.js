@@ -14,7 +14,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
-import "./KitchenOrder.css";
+import "./CashierOrder.css";
 import {
   createMenu,
   deleteMenu,
@@ -50,9 +50,9 @@ export default function CashierOrder() {
   return (
     <div>
       {/* Buttons for each table */}
-      <Button className="tableButton" onClick={() => handleTableButtonClick(1)}>Table 1</Button>
-      <Button className="tableButton" onClick={() => handleTableButtonClick(2)}>Table 2</Button>
-      <Button className="tableButton" onClick={() => handleTableButtonClick(3)}>Table 3</Button>
+      <Button className="CashButton" onClick={() => handleTableButtonClick(1)}>Table 1</Button>
+      <Button className="CashButton" onClick={() => handleTableButtonClick(2)}>Table 2</Button>
+      <Button className="CashButton" onClick={() => handleTableButtonClick(3)}>Table 3</Button>
 
       {/* Pop-up dialog */}
       <Dialog open={isDialogOpen} onClose={handleDialogClose}>

@@ -1,16 +1,16 @@
 import React from "react";
 import "./Cards.css";
-import { cardsData } from "../../../Data/Data";
+import { kitchencardsData } from "../../../Data/Data";
 
-import Card from "../Card/Card";
+import KitchenCard from "../KitchenCard/KitchenCard";
 
-const Cards = () => {
+const KitchenCards = () => {
   return (
     <div className="Cards mt-3 mb-5">
-      {cardsData.map((card, id) => {
+      {kitchencardsData.map((card, id) => {
         return (
           <div className="parentContainer" key={id}>
-            <Card
+            <KitchenCard
               title={card.title}
               color={card.color}
               barValue={card.barValue}
@@ -25,4 +25,4 @@ const Cards = () => {
   );
 };
 
-export default Cards;
+export default KitchenCards;

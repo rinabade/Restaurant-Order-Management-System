@@ -8,7 +8,7 @@ import Chart from "react-apexcharts";
 
 // parent Card
 
-const Card = (props) => {
+const KitchenCard = (props) => {
   const [expanded, setExpanded] = useState(false);
   return (
     <AnimateSharedLayout>
@@ -124,4 +124,4 @@ function ExpandedCard({ param, setExpanded }) {
   );
 }
 
-export default Card;
+export default KitchenCard;

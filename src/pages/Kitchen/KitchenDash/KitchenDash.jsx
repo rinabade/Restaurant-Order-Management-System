@@ -1,5 +1,5 @@
 import React from "react";
-import Cards from "../../../components/AdminComponent/Cards/Cards";
+import KitchenCards from "../../../components/KitchenComponent/KitchenCards/KitchenCards";
 import Table from "../../../components/AdminComponent/Table/Table";
 import "./KitchenDash.css";
 const KitchenDash = () => {
@@ -8,7 +8,7 @@ const KitchenDash = () => {
       <div className="mb-5 mt-5">
       <h1>Kitchen Dashboard</h1>
       </div>
-      <Cards />
+      <KitchenCards />
       <Table />
     </div>
   );
