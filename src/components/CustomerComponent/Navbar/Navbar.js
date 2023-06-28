@@ -1,13 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
-import {cartItems} from '../../../Data/Data';
+// import {cartItems} from '../../../Data/Data';
 import header from "../../../imgs/header.jpg";
 import berry from "../../../imgs/berry.png";
 import leaf from "../../../imgs/leaf.png";
 import MenuSection from '../MenuSection/MenuSection';
 import { FaSistrix, FaUser, FaBars, FaTimes } from 'react-icons/fa';
-// import { FaCartShopping } from 'react-icons/fa6';
+// import { IconName } from "react-icons/fa6";
+import { BsCartPlusFill } from "react-icons/bs";
+
 import CartContainer from '../CartContainer/CartContainer';
 import { gsap, Power2 } from 'gsap';
 import mixitup from 'mixitup';
@@ -40,7 +42,7 @@ const Navbar = ({size,handleClick,toggleCart}) => {
     };
     // cart js
     const [filterCategory, setFilterCategory] = useState([]);
-  const [items, setItems] = useState(cartItems);
+  const [items, setItems] = useState([]);
   const [menuCategories, setMenuCategories] = useState([]);
 
 
@@ -149,13 +151,14 @@ const Navbar = ({size,handleClick,toggleCart}) => {
                                 <form action="#" class="header-search-form for-des">
                                     <input type="search" class="form-input" placeholder="Search Here..." />
                                     <button type="submit">
-                                        <FaSistrix />
+                                        {/* <FaSistrix /> */}
                                     </button>
                                 </form>
                             </div>
                             <div className="navbar-icons">
                                 <div className="navbar-icon" onClick={toggleCart}>
-                                    {/* <FaCartShopping /> */}
+                                    {/* <FaCartPlus /> */}
+                                    <BsCartPlusFill />
                                     <span>
                                     {size}
                                     </span>
