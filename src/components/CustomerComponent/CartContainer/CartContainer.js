@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { createCart } from '../../../api/userAction';
 
 const CartContainer = ({cart, setCart, handleChange}) => {
+    
   const [price, setPrice] = useState(0);
 
   const handlePrice = ()=>{

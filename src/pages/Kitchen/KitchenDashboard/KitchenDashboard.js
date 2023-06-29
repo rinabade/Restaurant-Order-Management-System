@@ -1,12 +1,12 @@
-import '../../../App.css'
+import './KitchenDashboard.css'
 
 import KitchenSidebar from '../../../components/KitchenComponent/KitchenSidebar/KitchenSidebar';
 import {Outlet} from 'react-router-dom';
 
 function KitchenDashboard() {
   return (
-    <div className="App">
-      <div className="AppGlass">
+    <div className="kitchendashboard">
+      <div className="kitchendashboardGlass">
         <KitchenSidebar/> 
         <Outlet/>
       </div>

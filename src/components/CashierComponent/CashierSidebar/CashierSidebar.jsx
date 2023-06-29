@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { NavLink ,useNavigate} from "react-router-dom"
-import "./KitchenSidebar.css";
+import "./CashierSidebar.css";
 import { UilSignOutAlt } from "@iconscout/react-unicons";
-import { KitchenSidebarData } from "../../../Data/Data";
+import { CashierSidebarData } from "../../../Data/Data";
 import { UilBars } from "@iconscout/react-unicons";
 import { motion } from "framer-motion";
 
 
-const KitchenSidebar = () => {
+const CashierSidebar = () => {
  
 
   function handleLogout() {
     sessionStorage.clear();
-    window.location.href = '/Kitchen/Kitchendash';
+    window.location.href = '/Cashier/Cashierdash';
   }
   const [expanded, setExpaned] = useState(true)
 
@@ -30,22 +30,22 @@ const KitchenSidebar = () => {
       <div className="bars" style={expanded?{left: '60%'}:{left: '5%'}} onClick={()=>setExpaned(!expanded)}>
         <UilBars />
       </div>
-    <motion.div className='kitchensidebar'
+    <motion.div className='Cashiersidebar'
     variants={sidebarVariants}
     animate={window.innerWidth<=768?`${expanded}`:''}
     >
       {/* logo */}
-      <div className="kitchenlogo">
+      <div className="logo">
         <span>
-          <span>Kitchen</span>
+          <span>FOODIE</span>
         </span>
       </div>
 
       <div className="menu">
-        {KitchenSidebarData.map((item, index) => {
+        {CashierSidebarData.map((item, index) => {
           return (
             <NavLink to={item.path} key={index}
-            className={navClass => navClass.isActive ? 'menuItem kitactive'
+            className={navClass => navClass.isActive ? 'menuItem cashactive'
               : 'menuItem'}
 
               // onClick={() => {
@@ -61,8 +61,7 @@ const KitchenSidebar = () => {
         })}
         {/* signoutIcon */}
         <div className="menuItem " >
-          <UilSignOutAlt onClick={handleLogout}/>  Logout
-          Logout
+          <UilSignOutAlt onClick={handleLogout}/> Logout
         </div>
       </div>
     </motion.div>
@@ -70,4 +69,4 @@ const KitchenSidebar = () => {
   );
 };
 
-export default KitchenSidebar;
+export default CashierSidebar;

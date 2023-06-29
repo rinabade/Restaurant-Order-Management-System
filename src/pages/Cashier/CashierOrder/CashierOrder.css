@@ -1,0 +1,9 @@
+.CashButton{
+    background: #245f4a!important;
+    box-shadow: inset 6px 6px 8px #3a6354, inset -6px -6px 8px #125a41!important;
+    margin:50px 50px 10px 50px!important ;
+    padding: 40px 40px 40px 40px!important;
+    border-radius: 10px!important;
+    color: white!important;
+    font-weight: bold!important;
+}

@@ -1,0 +1,9 @@
+.tablebutton{
+    background: #3063a7!important;
+    box-shadow: inset 6px 6px 8px #456997, inset -6px -6px 8px #1d5399!important;
+    margin:50px 50px 10px 50px!important ;
+    padding: 40px 40px 40px 40px!important;
+    border-radius: 10px!important;
+    color: white!important;
+    font-weight: bold!important;
+}
