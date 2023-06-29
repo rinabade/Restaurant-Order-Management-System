@@ -44,6 +44,7 @@ const CartContainer = ({cart, setCart, handleChange}) => {
       .then((response) => {
         // Handle the response from the backend if needed
         console.log(response.data.data);
+        setCart([])
       })
       .catch((error) => {
         // Handle any error that occurs during the request
