@@ -58,10 +58,9 @@ if (cart === undefined || cart.length === 0) {
     
       createCart(cartData)
       .then((response) => {
-          // Handle the response from the backend if needed
-          console.log(response.data);
-          setData(response.data);
-          refreshPage();
+        // Handle the response from the backend if needed
+        console.log(response.data.data);
+        setCart([])
       })
       .catch((error) => {
         // Handle any error that occurs during the request

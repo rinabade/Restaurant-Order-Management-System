@@ -56,7 +56,7 @@ export default function Menu() {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
 
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
   const navigate = useNavigate();
 
   const refreshPage = () => {
@@ -82,12 +82,11 @@ export default function Menu() {
 
   const handleImageUpload = (event) => {
     // setSelectedImage(event.target.files[0])
-    setImage({
-      ...image,
-      [image]: event.target.files[0],
-      //   image: file,
-    });
-    console.log(selectedImage.file.name)
+      if(event?.target?.files && event.target.files[0])
+            setImage(event.target.files[0]);
+
+      console.log(image)
+    // console.log(selectedImage.file.name)
   };
   //   const handleInputChange = (event) => {
   //     const { name, value } = event.target;
@@ -104,7 +103,8 @@ export default function Menu() {
     formData.append("item", item);
     formData.append("description", description);
     formData.append("price", price);
-    // formData.append("image", selectedImage.file);
+    if(image)
+        formData.append("image", image);
 
     createMenu(formData)
       .then((response) => {
@@ -219,7 +219,7 @@ export default function Menu() {
   const handleEditClick = (menuData) => {
     // setEditItemId(menuData);
     setEditedItem({ ...menuData });
-    setConfirmEditDialogOpen(true);    
+    setConfirmEditDialogOpen(true);
   };
 
   const handleConfirmEdit = (e) => {
@@ -232,7 +232,7 @@ export default function Menu() {
         if (index > -1) {
           data[index] = editedItem;
           setData(data);
-          
+
         }
         refreshPage();
         // handleCancelEdit();
@@ -362,12 +362,11 @@ export default function Menu() {
               fullWidth
               margin="normal"
             />
-            {/* <div
+            <div
               className="upload-image-container"
               encType="multipart/form-data"
-            > */}
-            {/* {isSucces !==null ? <h4> {isSucces} </h4> : null}    */}
-            {/* <label htmlFor="upload-image" className="upload-image-label">
+            >
+            <label htmlFor="upload-image" className="upload-image-label">
                 Choose Image
               </label>
               <input
@@ -383,7 +382,9 @@ export default function Menu() {
               <span className="upload-image-text">
                 {image? image.name : "No file chosen"}
               </span>
-            </div> */}
+            </div>
+              {image ? <><img src={URL.createObjectURL(image)} width={200} /><br/></> : null }
+
             <Button type="submit" variant="contained" color="success">
               Add
             </Button>
@@ -442,7 +443,7 @@ export default function Menu() {
         <DialogTitle>Edit Menu</DialogTitle>
         <DialogContent>
           <form onSubmit={handleConfirmEdit}>
-            
+
             <TextField
               name="item_name"
               label="Enter Item Name"
@@ -486,7 +487,7 @@ export default function Menu() {
               margin="normal"
             />
             <br></br>
-            
+
               <Button
                 type="submit"
                 onClick={handleConfirmEdit}
