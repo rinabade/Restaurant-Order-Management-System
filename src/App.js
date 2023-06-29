@@ -33,6 +33,7 @@ import CashierOrder from './pages/Cashier/CashierOrder/CashierOrder';
 
 import Menu from './pages/User/Menu/Menu';
 import useToken from './components/Token/useToken';
+import "./components/Token/axiosInterceptor";
 
 function setToken(userToken) {
   sessionStorage.setItem('token', JSON.stringify(userToken));

@@ -154,7 +154,7 @@ function AdminLogin() {
     );
 };
 AdminLogin.propTypes = {
-    setToken: PropTypes.func.isRequired
+    setToken: PropTypes.func
   }
 export default AdminLogin
 

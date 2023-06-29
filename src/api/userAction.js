@@ -60,7 +60,7 @@ export const deleteCategory = (id) => {
 export const createMenu = (formData) => {
     let url = `${Config.BaseUrl}admin/menu`;
     return axios.post(url,formData,{
-        headers: {"Content-Type" : "application/json"}
+        headers: {"Content-Type" : "multipart/form-data"}
     });
 }
 
