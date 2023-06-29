@@ -261,12 +261,12 @@ const Navbar = ({size,handleClick,toggleCart}) => {
            
        
            </section>
-           {/* <section>
+           <section>
                     
                     <Footer />
                
            
-               </section> */}
+               </section>
             
         </>
     );
