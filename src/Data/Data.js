@@ -296,20 +296,4 @@ export const cartItems = [
     img: require("../imgs/header.jpg"),
     amount: 1,
   },
-  {
-    id: 9,
-    title: "Blossom Moral Story Book for Kids ",
-    discription:"" ,
-    price: 80,
-    img: require("../imgs/header.jpg"),
-    amount: 1,
-  },
-  {
-    id: 10,
-    title: "Brain Activity Book for Kids",
-    discription:"" ,
-    price: 86,
-    img: require("../imgs/header.jpg"),
-    amount: 1,
-  },
 ];

@@ -88,7 +88,12 @@ h6 {
   font-size: 18px;
   color: #fff1f1;
 }
+.warning{
+font-size: 18px;
+color: red;
+font-weight: bold;
 
+}
 @media screen and (max-width: 1200px) {
   .AppGlass{
     grid-template-columns: 10% 50% auto;

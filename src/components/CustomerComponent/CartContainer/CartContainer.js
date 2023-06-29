@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 const CartContainer = ({cart, setCart, handleChange}) => {
     
   const [price, setPrice] = useState(0);
+  const [showPopup, setShowPopup] = useState(false);
 
   const handlePrice = ()=>{
       let ans = 0;
@@ -22,11 +23,18 @@ const CartContainer = ({cart, setCart, handleChange}) => {
       // handlePrice();
   }
 
+  const handleDone = () => {
+    setShowPopup(true);
+  };
+  const handlepopupDone = () => {
+    window.location.href = '/';
+  };
+
   useEffect(()=>{
       handlePrice();
   })
   if (cart.length === 0) {
-    return <p>Your cart is empty.</p>;
+    return <p className='empty'>Your cart is empty.</p>;
   }
 
 return (
@@ -39,7 +47,7 @@ return (
                   </div>
                   <div>
                       <button onClick={()=>handleChange(item, +1)}> + </button>
-                      <button>1</button>
+                      <button>{item.amount}</button>
                       <button onClick={()=>handleChange(item, -1)}> - </button>
                   </div>
                   <div>
@@ -52,6 +60,27 @@ return (
           <span>Total Price of your Cart</span>
           <span>Rs - {price}</span>
       </div>
+      <button className="done-button" onClick={handleDone}>
+        Done
+      </button>
+      {showPopup && (
+        <div className="popup">
+            <div className='popup-container'>
+          <p>
+            <span>There is your code:</span> <br></br>
+          <span>12345</span><br></br>
+          <span>Please save or take a screenshot of it.</span>
+          </p>
+          
+          <button className="done-button" onClick={handlepopupDone}>
+            Done
+          </button>
+          <button className="cancel-button" onClick={() => setShowPopup(false)}>
+            Cancel
+          </button>
+          </div>
+        </div>
+      )}
   </article>
 )
 

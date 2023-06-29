@@ -8,7 +8,8 @@ import leaf from "../../../imgs/leaf.png";
 import MenuSection from '../MenuSection/MenuSection';
 import { FaSistrix, FaUser, FaBars, FaTimes } from 'react-icons/fa';
 import { FaCartShopping } from 'react-icons/fa6';
-import CartContainer from '../CartContainer/CartContainer';
+import Feedback from '../Feedback/Feedback';
+import Footer from '../Footer/Footer';
 import { gsap, Power2 } from 'gsap';
 import mixitup from 'mixitup';
 import {motion} from "framer-motion";
@@ -17,6 +18,7 @@ import menu2 from "../../../imgs/menu-2.png";
 import menu3 from "../../../imgs/menu-3.png";
 import menu4 from "../../../imgs/menu-4.png";
 import { FaAngleLeft, FaAngleRight, FaPlus, FaMinus } from "react-icons/fa";
+
 
 
 const Navbar = ({size,handleClick,toggleCart}) => {
@@ -245,6 +247,26 @@ const Navbar = ({size,handleClick,toggleCart}) => {
             ))}
        
            </section>
+           <section className='feedback-section' ref={contact}>
+           <div className="row">
+            <div className="col-lg-12">
+              <div className="sec-title text-center mb-5">
+                <h2 className="h2-title">Feedback</h2>
+                <p>Should you have face any issue, feel free to contact us, we will soon get back to you as soon as we can.</p>
+              </div>
+            </div>
+          </div>
+                    
+                <Feedback  />
+           
+       
+           </section>
+           {/* <section>
+                    
+                    <Footer />
+               
+           
+               </section> */}
             
         </>
     );

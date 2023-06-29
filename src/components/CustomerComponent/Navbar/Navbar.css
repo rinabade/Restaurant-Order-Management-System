@@ -463,7 +463,7 @@ transition: background-color 0.3s ease;
 
 .filters li:hover,
 .filters li.filter-active {
-background: linear-gradient(145deg, #e3a92b, #ffc933);;
+background: linear-gradient(145deg, #e3a92b, #ffc933);
 }
 .menu-section{
   margin-left: 50px;
@@ -472,6 +472,9 @@ background: linear-gradient(145deg, #e3a92b, #ffc933);;
   
 }
 
+.feedback-section{
+  margin-top: 10%;
+}
   @media (max-width: 1290px){
     .header-search-form button{
         right: 90px;
@@ -494,7 +497,12 @@ background: linear-gradient(145deg, #e3a92b, #ffc933);;
         height: 75vw;
         padding-top: 30px;
     }
-    
+    .menu-section{
+      margin-left: 50px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      
+    }
 
   }
   
@@ -561,6 +569,12 @@ background: linear-gradient(145deg, #e3a92b, #ffc933);;
         min-height: 60vw;
         width: auto;
     }
+    .menu-section{
+      margin-left: 50px;
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      
+    }
   }
   @media (max-width: 575px) {
    
@@ -574,5 +588,17 @@ background: linear-gradient(145deg, #e3a92b, #ffc933);;
     }
     .banner-img-wp {
         height: 90vw;
+    }
+    .navbar-search input[type='text'] {
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      margin-right: 3px;
+    }
+    .menu-section{
+      margin-left: 50px;
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      
     }
 }

@@ -1,0 +1,63 @@
+.top-footer, .bottom-footer {
+    border-top: 1px solid rgb(204 204 204 / 40%);
+    position: relative;
+}
+
+.footer-logo {
+    margin-bottom: 30px;
+}
+
+.footer-info .social-icon {
+    margin-top: 20px;
+}
+
+.footer-flex-box {
+    display: flex;
+    margin: 0 -10px;
+}
+
+.footer-flex-box>div {
+    flex: 1;
+    padding: 0 10px;
+}
+
+.footer-flex-box .h3-title {
+    text-transform: capitalize;
+    margin-bottom: 23px;
+}
+
+.footer-menu ul li a {
+    color: #0d0d25;
+    transition: 0.3s;
+    text-transform: capitalize;
+}
+
+.footer-menu ul li a:hover, .footer-menu ul li .footer-active-menu {
+    color: #ff8243;
+}
+
+.footer-menu ul li {
+    margin-bottom: 8px;
+}
+
+.footer-table-info ul li {
+    margin-bottom: 10px;
+    text-transform: capitalize;
+}
+
+.uil-clocl {
+    font-size: 17px;
+}
+
+.copyright-text {
+    padding: 20px 0;
+}
+
+.copyright-text p {
+    margin: 0;
+}
+
+.name {
+    color: #ff8243;
+    font-weight: bold;
+}

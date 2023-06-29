@@ -65,7 +65,13 @@ function Menu() {
         </div>
       )}
         {
-			warning && <div className='warning'>Item is already added to your cart</div>
+			warning && 
+			<div className='cart-overlay'>
+				<div className='cart-popup'>
+					
+				<p className='warning'>Item is already added to your cart</p>
+				</div>
+				</div>
 		}
        
      </div>
