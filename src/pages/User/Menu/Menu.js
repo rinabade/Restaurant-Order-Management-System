@@ -5,8 +5,8 @@ import CartContainer from '../../../components/CustomerComponent/CartContainer/C
 import {Outlet} from 'react-router-dom';
 import { FaSistrix, FaUser, FaBars, FaTimes } from 'react-icons/fa';
 
-function Menu() {
 
+function Menu() {
   const [show, setShow] = useState(true);
 	const [cart , setCart] = useState([]);
 	const [warning, setWarning] = useState(false);

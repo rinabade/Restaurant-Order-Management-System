@@ -103,7 +103,6 @@ function ExpandedCard({ param, setExpanded }) {
     },
   };
   
-
   return (
     <motion.div
       className="ExpandedCard"

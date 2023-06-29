@@ -37,4 +37,5 @@ const MenuSection = ({ item, handleClick }) => {
   );
 };
 
+
 export default MenuSection;

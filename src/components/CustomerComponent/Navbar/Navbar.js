@@ -45,27 +45,21 @@ const Navbar = ({size,handleClick,toggleCart}) => {
 
 
   const filterItem = (category) => {
-    // console.log("jnedjnej-----------", category)
     // setFilterCategory(category);
     getMenu(category)
     .then(
         (success) => {
         if (success.data) {
           // console.log(success.data.data);
-          // console.log(success.data.data.map(user => user.lastname));
           setFilterCategory(success.data.data);
-          console.log(filterCategory);
-          // setMenuItems(success.data.data);
         } else {
           console.log("Empty Error Response");
         }
       },
       (error) => {
         if (error.response) {
-          //Backend Error message
           console.log(error.response);
         } else {
-            //Server Not working Error
             console.log("Server not working");
           }
         }
@@ -152,7 +146,6 @@ const Navbar = ({size,handleClick,toggleCart}) => {
                             </div>
                             <div className="navbar-icons">
                                 <div className="navbar-icon" onClick={toggleCart}>
-                                    {/* <FaCartPlus /> */}
                                     <BsCartPlusFill />
                                     <span>
                                     {size}

@@ -148,7 +148,6 @@ export const editPassword= (id, data) => {
     return axios.patch(url, data);
 }
 
-
 // add to cart 
 export const createCart = (data) => {
     let url = `${Config.BaseUrl}customer/cart`;

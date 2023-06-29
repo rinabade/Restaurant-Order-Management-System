@@ -12,13 +12,8 @@ const Sidebar = () => {
   function handleLogout() {
     sessionStorage.clear();
     window.location.href = '/admin/Maindash';
-  }
- 
+  } 
 
-  function handleLogout() {
-    sessionStorage.clear();
-    window.location.href = '/admin/Maindash';
-  }
   const [expanded, setExpaned] = useState(true)
 
   const sidebarVariants = {

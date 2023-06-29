@@ -35,26 +35,26 @@ export const SidebarData = [
     heading: "AdminRole",
     path: "/admin/AdminRole",
   },
-  {
-    icon: FaClipboard,
-    heading: "Permission",
-    path: "/admin/Permission",
-  },
+  // {
+  //   icon: FaClipboard,
+  //   heading: "Permission",
+  //   path: "/admin/Permission",
+  // },
   {
     icon: FaClipboardList,
     heading: "Orders",
     path: "/admin/Orders",
   },
-  {
-    icon: FaCubes,
-    heading: "Inventory",
-    path: "/admin/Inventory",
-  },
-  {
-    icon: FaHandshake,
-    heading: "Suppliers",
-    path: "/admin/Suppliers",
-  },
+  // {
+  //   icon: FaCubes,
+  //   heading: "Inventory",
+  //   path: "/admin/Inventory",
+  // },
+  // {
+  //   icon: FaHandshake,
+  //   heading: "Suppliers",
+  //   path: "/admin/Suppliers",
+  // },
   {
     icon: FaClipboard,
     heading: "Feedback",
@@ -65,11 +65,11 @@ export const SidebarData = [
     heading: "Payment",
     path: "/admin/Payment",
   },
-  {
-    icon: FaMoneyCheck,
-    heading: "Suppliers Payment",
-    path: "/admin/Suppliers_payment",
-  },
+  // {
+  //   icon: FaMoneyCheck,
+  //   heading: "Suppliers Payment",
+  //   path: "/admin/Suppliers_payment",
+  // },
   {
     icon: FaUserAlt,
     heading: "Admin Profile",
