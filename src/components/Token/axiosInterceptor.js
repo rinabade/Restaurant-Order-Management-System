@@ -6,6 +6,7 @@ axios.interceptors.request.use(
         const tokenString = sessionStorage.getItem('token');
         const userToken = JSON.parse(tokenString);
         const token = userToken?.token ? userToken.token : null
+        console.log("token--------", token)
         if (token) {
             config.headers['Authorization'] = 'Bearer ' + token
         }

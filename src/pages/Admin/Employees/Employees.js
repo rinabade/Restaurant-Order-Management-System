@@ -142,7 +142,6 @@ export default function BasicTable() {
   };
 
   const handleConfirmDelete = () => {
-    // Perform the delete operation
     if (deleteItemId) {
       deleteUser(deleteItemId)
         .then((response) => {
@@ -175,13 +174,9 @@ export default function BasicTable() {
 
   const handleSaveEdit = (e) => {
     e.preventDefault();
-    // Make the PATCH API request to update the edited item
     editUser(editedItem.employee_id, editedItem)
       .then((response) => {
-        // Handle successful response
         console.log("User updated successfully");
-        // Optionally, perform additional actions after successful update
-        // For example, you can update the table data with the updated item
         let index = data.findIndex(
           (o) => o.employee_id === editedItem.employee_id
         );
@@ -192,9 +187,7 @@ export default function BasicTable() {
         handleCloseEdit();
       })
       .catch((error) => {
-        // Handle error response
         console.error("An error occurred while updating the user");
-        // Optionally, display an error message to the user
       });
   };
 

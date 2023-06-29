@@ -10,6 +10,10 @@ function AdminRegister() {
   const [isChecked, setIsChecked] = useState(false);
   const [radio1, setRadio1] = useState("");
   const [radio2, setRadio2] = useState("");
+
+  const refreshPage = () => {
+    navigate(0);
+}
   
 
   const [values, setValues] = useState({
@@ -37,7 +41,7 @@ function AdminRegister() {
       .then((response) => {
         // Handle successful response
         console.log(response.data);
-        // Optionally, perform additional actions after successful post
+        refreshPage();
       })
       .catch((error) => {
         // Handle error response

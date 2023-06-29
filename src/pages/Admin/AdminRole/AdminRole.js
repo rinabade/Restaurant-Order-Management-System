@@ -15,6 +15,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import { Button } from "react-bootstrap";
 import { createRole, deleteRole, editRole, getAllRole } from "../../../api/userAction";
+import { Navigate } from "react-router-dom";
 
 function AdminRole() {
   const [deleteItemId, setDeleteItemId] = useState(null);
@@ -22,6 +23,10 @@ function AdminRole() {
   const [editedItem, setEditedItem] = React.useState([]);
   const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false);
   const [confirmEditDialogOpen, setConfirmEditDialogOpen] = useState(false);
+
+  const refreshPage = () => {
+    Navigate(0);
+}
 
   const [values, setValues] = useState({
     role_name: "",
@@ -31,14 +36,11 @@ function AdminRole() {
     event.preventDefault();
     createRole(values)
       .then((response) => {
-        // Handle successful response
         console.log(response.data);
-        // Optionally, perform additional actions after successful post
+        refreshPage();
       })
       .catch((error) => {
-        // Handle error response
         console.error(error);
-        // Optionally, display an error message to the user
       });
   };
 
@@ -56,7 +58,6 @@ function AdminRole() {
       (success) => {
         if (success.data) {
           console.log(success.data.data);
-          // console.log(success.data.data.map(user => user.lastname));
           setData(success.data.data);
         } else {
           console.log("Empty Error Response");
@@ -64,10 +65,8 @@ function AdminRole() {
       },
       (error) => {
         if (error.response) {
-          //Backend Error message
           console.log(error.response);
         } else {
-          //Server Not working Error
           console.log("Server not working");
         }
       }
@@ -86,7 +85,6 @@ function AdminRole() {
   };
 
   const handleConfirmDelete = () => {
-    // Perform the delete operation
     if (deleteItemId) {
       deleteRole(deleteItemId)
         .then((response) => {
@@ -107,13 +105,10 @@ function AdminRole() {
 
   const handleConfirmEdit = (e) => {
     e.preventDefault(e);
-    // Make the PATCH API request to update the edited item
     editRole(editedItem.role_id, editedItem)
       .then((response) => {
-        // Handle successful response
         console.log("Role updated successfully");
-        // Optionally, perform additional actions after successful update
-        // For example, you can update the table data with the updated item
+
         let index = data.findIndex(o => o.role_id === editedItem.role_id)
         if(index > -1){
           data[index] = editedItem;
@@ -122,9 +117,7 @@ function AdminRole() {
         handleCancelEdit();
       })
       .catch((error) => {
-        // Handle error response
         console.error("An error occurred while updating the user");
-        // Optionally, display an error message to the user
       });
     };
   

@@ -158,3 +158,8 @@ export const createCart = (data) => {
       
     });
 }
+
+export const getAllCart = () => {
+    let url = `${Config.BaseUrl}customer/cart`;
+    return axios.get(url);
+}

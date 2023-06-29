@@ -22,6 +22,7 @@ import {
   editCategory,
   getAllCategory,
 } from "../../../api/userAction";
+import { Navigate } from "react-router-dom";
 
 export default function BasicTable() {
   const [deleteItemId, setDeleteItemId] = useState(null);
@@ -29,6 +30,10 @@ export default function BasicTable() {
   const [editedItem, setEditedItem] = React.useState([]);
   const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false);
   const [confirmEditDialogOpen, setConfirmEditDialogOpen] = useState(false);
+
+  const refreshPage = () => {
+    Navigate(0);
+}
 
   const [values, setValues] = useState({
     category_name: "",
@@ -38,9 +43,8 @@ export default function BasicTable() {
     event.preventDefault();
     createCategory(values)
       .then((response) => {
-        // Handle successful response
         console.log(response.data);
-        // Optionally, perform additional actions after successful post
+        refreshPage();
       })
       .catch((error) => {
         // Handle error response
