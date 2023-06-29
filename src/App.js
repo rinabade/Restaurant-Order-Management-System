@@ -88,8 +88,8 @@ function App() {
           )}
 
                {/* Cashier route */}
-          {!token && <Route path="/Cashier/Cashierdash" element={<CashierLogin setToken={setToken} />} />}
-          {token && (
+          {!getToken() && <Route path="/Cashier/Cashierdash" element={<CashierLogin />} />}
+          {getToken() && (
             <Route path="/Cashier" element={<CashierDashboard />}>
               <Route path="Cashierdash" element={<CashierDash />} />
               <Route path="Cashier_profile" element={<Cashier_profile />} />

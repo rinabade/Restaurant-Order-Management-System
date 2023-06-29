@@ -1,88 +1,110 @@
-import React, {  useState,useEffect } from 'react';
-import './CartContainer.css';
-import { FaArrowLeft, FaTrashAlt, FaPlus, FaMinus, FaLeaf } from 'react-icons/fa';
-import header from '../../../imgs/header.jpg';
-import { motion } from 'framer-motion';
-import { createCart } from '../../../api/userAction';
+import React, { useState, useEffect } from "react";
+import "./CartContainer.css";
+import {
+  FaArrowLeft,
+  FaTrashAlt,
+  FaPlus,
+  FaMinus,
+  FaLeaf,
+} from "react-icons/fa";
+import header from "../../../imgs/header.jpg";
+import { motion } from "framer-motion";
+import { createCart } from "../../../api/userAction";
+import { Navigate } from "react-router-dom";
 
-const CartContainer = ({cart, setCart, handleChange}) => {
-    
+const CartContainer = ({ cart, setCart, handleChange }) => {
   const [price, setPrice] = useState(0);
+  const [data, setData] = useState("");
 
-  const handlePrice = ()=>{
-      let ans = 0;
-      cart.map((item)=>(
-        ans += item.quantity * item.price
-      ))
-      setPrice(ans);
-  }
+  const refreshPage = () => {
+    Navigate(0);
+}
 
-  const handleRemove = (menu_id) =>{
-      const arr = cart.filter((item)=>item.menu_id !== menu_id);
-      setCart(arr);
-      // handlePrice();
-  }
+  const handlePrice = () => {
+    let ans = 0;
+    cart.map((item) => (ans += item.quantity * item.price));
+    setPrice(ans);
+  };
 
-  useEffect(()=>{
-      handlePrice();
-  })
-  if (cart.length === 0) {
+  const handleRemove = (menu_id) => {
+    const arr = cart.filter((item) => item.menu_id !== menu_id);
+    setCart(arr);
+    // handlePrice();
+  };
+
+  useEffect(() => {
+    handlePrice();
+  });
+
+//   if (cart.length === 0) {
+//     return <p>Your cart is empty.</p>;
+//   }
+
+if (cart === undefined || cart.length === 0) {
     return <p>Your cart is empty.</p>;
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     // Prepare the cart data to be sent to the backend
-    const cartData = cart.map((item) => ({
-      menu_id: item.menu_id,
-      item_name : item.item_name,
-      price: item.price,
-      quantity: item.quantity,
-    }));
-
-    // Send a POST request to the backend API
-    createCart(cartData)
+    const cartData = {
+        cartItems: cart.map((item) => ({
+          menu_id: item.menu_id,
+          item_name: item.item_name,
+          price: item.price,
+          quantity: item.quantity,
+        })),
+      };
+    
+      createCart(cartData)
       .then((response) => {
-        // Handle the response from the backend if needed
-        console.log(response.data.data);
+          // Handle the response from the backend if needed
+          console.log(response.data);
+          setData(response.data);
+          refreshPage();
       })
       .catch((error) => {
         // Handle any error that occurs during the request
-        console.error('Error:', error);
-      });
-  };
-
-return (
-  <article>
-      {
-          cart?.map((item)=>(
-            <div className="cart_box">
-                  <div className="cart_img">
-                      <p>{item.item_name}</p>
-                  </div>
-                  <div>
-                      <button onClick={()=>handleChange(item, +1)}> + </button>
-                      <button>{item.quantity}</button>
-                      <button onClick={()=>handleChange(item, -1)}> - </button>
-                  </div>
-                  <div>
-                      <span>Rs.{item.price}</span>
-                      <button onClick={()=>handleRemove(item.menu_id)}>Remove</button>
-                  </div>
-              </div>
-            ))
-          }
-      <div className='total'>
-          <span>Total Price of your Cart</span>
-          <span>Rs - {price}</span>
-      </div>
-      <button onClick={handleSubmit}>Submit Cart</button>
-
-  </article>
-)
+        console.error("Error:", error);
+    });
 };
 
+  return (
+    <article>
+      {cart?.map((item) => (
+        <div className="cart_box">
+          <div className="cart_img">
+            <p>{item.item_name}</p>
+          </div>
+          <div>
+            <button onClick={() => handleChange(item, +1)}> + </button>
+            <button>{item.quantity}</button>
+            <button onClick={() => handleChange(item, -1)}> - </button>
+          </div>
+          <div>
+            <span>Rs.{item.price}</span>
+            <button onClick={() => handleRemove(item.menu_id)}>Remove</button>
+          </div>
+        </div>
+      ))}
+      <div className="total">
+        <span>Total Price of your Cart</span>
+        <span>Rs - {price}</span>
+      </div>
+      <br></br>
+      <button
+        type="submit"
+        onClick={handleSubmit}
+        style={{
+          color: "white",
+          backgroundColor: "green",
+          border: "none",
+        }}
+      >
+        Submit Cart
+      </button>
+    </article>
+  );
+};
 
 export default CartContainer;
-
-
-
