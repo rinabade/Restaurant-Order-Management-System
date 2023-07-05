@@ -1,0 +1,86 @@
+.MainDash{
+    /* padding-top: 1rem; */
+    display: flex;
+    flex-direction: column;
+    justify-content: normal;  
+    overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none; /* Internet Explorer and Edge */
+     scroll-behavior: smooth;
+    /* WebKit (Chrome, Safari, and Opera) */
+    &::-webkit-scrollbar {
+      display: none;
+    }
+}
+.order-details{
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.order-table{
+  margin-top: 50px;
+  width: 80%;
+  margin-left: 5%;
+}
+ .table-button{
+    background-color: #3063a7!important;
+    box-shadow: inset 6px 6px 8px #456997, inset -6px -6px 8px #1d5399!important;
+    margin:10px 30px 10px 20px!important ;
+    padding: 20px 40px 20px 40px!important;
+    border-radius: 10px!important;
+    color: white!important;
+    font-weight: bold!important;
+}
+
+.title-icon{
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+}
+
+ 
+  
+  .bell-icon {
+    width: 50px;
+    height: 50px;
+    display: inline-flex;
+    justify-content: center;
+    border-radius: 50px;
+    position: relative;
+   margin-right: 40px;
+  transition: 0.3s;
+    box-shadow: inset 6px 6px 7px #dadada, inset -6px -6px 7px #ffffff;
+    align-items: center;
+    padding-left: 10px;
+    cursor: pointer; 
+  }
+  .bell-icon:hover {
+    background: linear-gradient(145deg, #dcdcdc, #ffffff);
+    box-shadow: 10px 10px 30px #cfcfd0;
+}
+ .bell-icon span{
+  padding: 0 4px   ;
+  background: linear-gradient(145deg, #814949, #f80606);
+  box-shadow: 10px 10px 30px #a87b7b;
+  color: white;
+  font-weight: bold;
+  border-radius: 50px;
+  width: 30px;
+  height: 20px;
+  position: relative;
+
+  top: -15px;
+ }
+
+@media screen and (max-width: 1200px) {
+    .MainDash{
+        justify-content:flex-start;
+        margin-top: 2rem;
+    }
+}
+
+@media screen and (max-width: 768px)
+{
+    .MainDash{
+        align-items: center;
+    }
+}
