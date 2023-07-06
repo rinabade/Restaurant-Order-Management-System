@@ -11,7 +11,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "react-bootstrap";
 
-const KitchenDash = () => {
+const CashierDash = () => {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -84,7 +84,7 @@ const KitchenDash = () => {
   return (
     <div className="MainDash">
       <div className="title-icon mb-5 mt-5 dflex">
-        <h1>Kitchen Dashboard</h1>
+        <h1>Cashier Dashboard</h1>
         <div className="bell-icons">
           <div className="bell-icon">
             <FaBell style={{ fontSize: "50px" }} />
@@ -117,8 +117,6 @@ const KitchenDash = () => {
                         <TableCell>Ordered item</TableCell>
                         <TableCell align="left">Quantity</TableCell>
                         <TableCell align="left">Price</TableCell>
-                        <TableCell align="left">Status</TableCell>
-                        <TableCell align="left">Action</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody style={{ color: "white" }}>
@@ -134,20 +132,7 @@ const KitchenDash = () => {
                           </TableCell>
                           <TableCell align="left">{item.amount}</TableCell>
                           <TableCell align="left">{item.price}</TableCell>
-                          <TableCell align="left">
-                            <span className="status">pending</span>
-                          </TableCell>
-                          <TableCell align="left">
-                            <Button
-                              className="bg-success"
-                              style={{ border: "none" }}
-                              onClick={() =>
-                                handleOrderDone(order.code, item.id)
-                              }
-                            >
-                              Done
-                            </Button>
-                          </TableCell>
+
                         </TableRow>
                       ))}
                     </TableBody>
@@ -178,4 +163,4 @@ const KitchenDash = () => {
   );
 };
 
-export default KitchenDash;
+export default  CashierDash;

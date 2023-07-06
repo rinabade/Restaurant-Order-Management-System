@@ -60,7 +60,7 @@ const CashierSidebar = () => {
           );
         })}
         {/* signoutIcon */}
-        <div className="menuItem " >
+        <div className="menuItem-logout " >
           <UilSignOutAlt onClick={handleLogout}/> Logout
         </div>
       </div>
