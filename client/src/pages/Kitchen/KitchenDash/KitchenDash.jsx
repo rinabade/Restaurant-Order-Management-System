@@ -16,7 +16,7 @@ const KitchenDash = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
 
   useEffect(() => {
-    const socket = io("http://localhost:5000");
+    const socket = io("http://localhost:8000");
 
     socket.on("connect", () => {
       console.log("Connected to server");

@@ -12,7 +12,7 @@ const CartContainer = ({cart, setCart, handleChange}) => {
   const [tableNumber, setTableNumber] = useState();
  const[codenum ,setCodenum ]= useState("");
 
- const socket = io("http://localhost:5000");
+ const socket = io("http://localhost:8000");
 
 
 
