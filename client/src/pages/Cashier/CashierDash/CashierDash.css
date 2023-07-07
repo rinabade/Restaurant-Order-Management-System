@@ -12,13 +12,18 @@
       display: none;
     }
 }
-.CashCancel{
-    background-color: #944747!important;
-    color: white!important;
-}
 .CashSave{
 background-color: #0e945c!important;
 color: white!important;
+margin-left: 47rem;
+margin-right: 20px;
+margin-bottom : 1rem
+}
+.CashCancel{
+    background-color: #944747!important;
+    color: white!important;
+    margin-bottom : 1rem
+
 }
 
 @media screen and (max-width: 1200px) {

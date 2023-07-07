@@ -75,7 +75,7 @@ const CashierDash = () => {
   const calculateTotalPrice = (order) => {
     let totalPrice = 0;
     for (const item of order.cart) {
-      totalPrice += item.amount* item.price;
+      totalPrice += item.quantity* item.price;
     }
     return totalPrice;
   };
@@ -136,21 +136,23 @@ const CashierDash = () => {
                       ))}
                     </TableBody>
                   </Table>
+                  <br></br>
                   <p className="CashierOrderTotal">
-  <span>Total Price: </span>
-  <span>Rs. {calculateTotalPrice(order)}</span>
-</p>
+                    <span>Total Price: </span>
+                    <span>Rs. {calculateTotalPrice(order)}</span>
+                  </p>
 
-          <div className="PaymentMethodContainer">
-            <span>Select Payment Method:</span>
-            <select value={paymentMethod} onChange={handlePaymentMethodChange}>
-              <option value="">Choose a payment method</option>
-              <option value="cash">Cash</option>
-              <option value="fonepay">Fonepay</option>
-            </select>
-          </div>   
-           <Button className="CashCancel" onClick={handleDialogClose}>Cancel</Button>
-          <Button className="CashSave" onClick={handleRedirect}>Continue</Button>
+                  <div className="PaymentMethodContainer">
+                    <span>Select Payment Method:</span>
+                    <select value={paymentMethod} onChange={handlePaymentMethodChange}>
+                      <option value="">Choose a payment method</option>
+                      <option value="cash">Cash</option>
+                      <option value="fonepay">Fonepay</option>
+                    </select>
+                  </div>   
+                  <br></br>
+                  <Button className="CashSave" onClick={handleRedirect}>Continue</Button>
+                  <Button className="CashCancel" onClick={handleDialogClose} >Cancel</Button>
                 </TableContainer>
             
               </div>

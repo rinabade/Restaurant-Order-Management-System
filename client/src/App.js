@@ -21,17 +21,17 @@ import AdminLogin from './pages/Admin/AdminLogin/AdminLogin';
 import KitchenDash from './pages/Kitchen/KitchenDash/KitchenDash';
 import KitchenDashboard from './pages/Kitchen/KitchenDashboard/KitchenDashboard';
 import KitchenLogin from './pages/Admin/AdminLogin/AdminLogin';
-
+import Kitchen_profile from './pages/Kitchen/Kitchen_profile/Kitchen_profile';
 
 
 import CashierDash from './pages/Cashier/CashierDash/CashierDash';
 import CashierDashboard from './pages/Cashier/CashierDashboard/CashierDashboard';
 import CashierLogin from './pages/Cashier/CashierLogin/CashierLogin';
+import Cashier_profile from './pages/Cashier/Cashier_profile/Cashier_profile';
 
 import Menu from './pages/User/Menu/Menu';
 import useToken from './components/Token/useToken';
-<<<<<<< HEAD
-import "./components/Token/axiosInterceptor";
+// import "./components/Token/axiosinterceptor";
 import { io } from "socket.io-client";
 
 function setToken(userToken) {
@@ -44,15 +44,8 @@ function getToken() {
   return userToken?.token
 }
 
-// function App() {
-//   const { token, setToken } = useToken();
-  // const [token, setToken] = useState(false);
-=======
-import { io } from "socket.io-client";
->>>>>>> a4af024edd2a4804c99b497e928d57144bd9b7f1
-
 function App() {
-  const { token, setToken } = useToken();
+  // const { token, setToken } = useToken();
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
@@ -97,7 +90,7 @@ function App() {
           {getToken() && (
             <Route path="/Kitchen" element={<KitchenDashboard/>}>
               <Route path="kitchendash" element={<KitchenDash />} />
-            
+              <Route path="Kitchen_profile" element={<Kitchen_profile />} />
             </Route>
           )}
 
@@ -106,7 +99,7 @@ function App() {
           {getToken() && (
             <Route path="/Cashier" element={<CashierDashboard />}>
               <Route path="Cashierdash" element={<CashierDash />} />
-            
+              <Route path="Cashier_profile" element={<Cashier_profile />} />
             </Route>
           )}
         </Routes>
@@ -116,6 +109,3 @@ function App() {
 }
 
 export default App;
-
-
-
