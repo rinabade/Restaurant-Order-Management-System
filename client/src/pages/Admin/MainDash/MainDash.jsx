@@ -6,7 +6,7 @@ const MainDash = () => {
   return (
     <div className="MainDash">
       <div className="mb-5 mt-5">
-      <h1>Dashboard</h1>
+      <h1>Admin Dashboard</h1>
       </div>
       <Cards />
       <Table />

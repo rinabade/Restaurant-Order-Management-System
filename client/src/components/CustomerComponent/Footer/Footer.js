@@ -49,9 +49,9 @@ const Footer = () => {
                                                 <li><i className="uil uil-clock"></i> Fri-Sun : 11am - 10pm</li>
                                             </ul>
                                         </div>
-                                        <div class="footer-menu">
-                                        <div class="copyright-text">
-                                    <p>Copyright &copy; 2021 <span class="name">TechieCoder.</span>All Rights Reserved.
+                                        <div className="footer-menu">
+                                        <div className="copyright-text">
+                                    <p>Copyright &copy; 2021 <span className="name">TechieCoder.</span>All Rights Reserved.
                                     </p>
                                 </div>
                                         </div>

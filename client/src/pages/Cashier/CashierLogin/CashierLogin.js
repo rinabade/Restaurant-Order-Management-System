@@ -131,9 +131,11 @@ function CashierLogin() {
         </div>
     );
 };
-CashierLogin.propTypes = {
-    setToken: PropTypes.func.isRequired
-  }
+
+// CashierLogin.propTypes = {
+//     setToken: PropTypes.func.isRequired
+//   }
+
 export default CashierLogin
 
 

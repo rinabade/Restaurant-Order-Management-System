@@ -38,21 +38,6 @@ const CashierDash = () => {
     };
   }, []);
 
-  const handleOrderDone = (orderCode, itemId) => {
-    setOrders((prevOrders) =>
-      prevOrders.map((order) => {
-        if (order.code === orderCode) {
-          const updatedCart = order.cart.filter((item) => item.id !== itemId);
-          if (updatedCart.length === 0) {
-            return null; // Remove the order from the list
-          }
-          return { ...order, cart: updatedCart };
-        }
-        return order;
-      }).filter(Boolean) // Filter out null orders
-    );
-  };
-
   const handleOrderToggle = (order) => {
     setSelectedOrder((prevOrder) => (prevOrder === order ? null : order));
   };
