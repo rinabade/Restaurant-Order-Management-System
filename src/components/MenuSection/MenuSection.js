@@ -29,44 +29,44 @@ const MenuSection = () => {
   const [selectedItems, setSelectedItems] = React.useState([]);
 
   
-  useEffect(() => {
-    getAllCategory()
-    .then(
-      (success) => {
-        if (success.data) {
-          console.log(success.data.data);
-          // console.log(success.data.data.map(user => user.lastname));
-          setMenuCategories(success.data.data);
-        } else {
-          console.log("Empty Error Response");
-        }
-      },
-      (error) => {
-        if (error.response) {
-          //Backend Error message
-          console.log(error.response);
-        } else {
-          //Server Not working Error
-          console.log("Server not working");
-        }
-      }
-    );
+  // useEffect(() => {
+  //   getAllCategory()
+  //   .then(
+  //     (success) => {
+  //       if (success.data) {
+  //         console.log(success.data.data);
+  //         // console.log(success.data.data.map(user => user.lastname));
+  //         setMenuCategories(success.data.data);
+  //       } else {
+  //         console.log("Empty Error Response");
+  //       }
+  //     },
+  //     (error) => {
+  //       if (error.response) {
+  //         //Backend Error message
+  //         console.log(error.response);
+  //       } else {
+  //         //Server Not working Error
+  //         console.log("Server not working");
+  //       }
+  //     }
+  //   );
 
    
-    const container = containerRef.current;
+  //   const container = containerRef.current;
 
-    const mixer = mixitup(container, {
-      selectors: {
-        target: '.dish-box-wp',
-        control: '.filter',
-      },
-    });
-    mixerRef.current = mixer;
-    // const storedCartItems = localStorage.getItem('cartItems');
-    // if (storedCartItems) {
-    //   setCartItems(JSON.parse(storedCartItems));
-    // }
-  }, []);
+  //   const mixer = mixitup(container, {
+  //     selectors: {
+  //       target: '.dish-box-wp',
+  //       control: '.filter',
+  //     },
+  //   });
+  //   mixerRef.current = mixer;
+  //   // const storedCartItems = localStorage.getItem('cartItems');
+  //   // if (storedCartItems) {
+  //   //   setCartItems(JSON.parse(storedCartItems));
+  //   // }
+  // }, []);
   
   useEffect(() => {
     // Save cart items to local storage whenever they change

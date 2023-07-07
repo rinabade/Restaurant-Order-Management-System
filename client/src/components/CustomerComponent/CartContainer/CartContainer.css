@@ -1,0 +1,176 @@
+
+  /* Rest of the CSS code */
+  *{
+    margin: 0;
+    padding: 0;
+}
+article{
+    width: 100%;
+    margin: auto;
+}
+.cart_box img{
+    width: 50px;
+    height: 50px;
+}
+.cart_img{
+    display: flex;
+    width: 400px;
+
+}
+.empty{
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  color: rgb(161, 6, 6);
+}
+.cart_img p {
+    font-weight: bold;
+    margin-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.cart_box{
+  width: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    border-bottom: 2px solid rgb(114, 114, 114);
+    padding-bottom: 5px;
+}
+.cart_box div:nth-child(2) button{
+    padding: 5px 10px;
+    font-weight: bold;
+    margin-right: 5px;
+    background: #f8f8f8;
+  box-shadow: inset 6px 6px 8px #dadada, inset -6px -6px 8px #ffffff;
+  outline: none !important;
+  padding: 5px 10px;
+  color: #0d0d25;
+  border-radius: 10px;
+  border: none;
+}
+.cart_box div:nth-child(3) button{
+  background: #f8f8f8;
+  box-shadow: inset 6px 6px 8px #dadada, inset -6px -6px 8px #ffffff;
+  outline: none !important;
+  padding: 5px 10px;
+  color: #0d0d25;
+  border-radius: 10px;
+  border: none;
+}
+.cart_box div:nth-child(3) button:hover{
+  background: #f0a4a4;
+  box-shadow: inset 6px 6px 8px #dba7a7, inset -6px -6px 8px #da7272;
+}
+.cart_box div:nth-child(3) span{
+  background: #f8f8f8;
+  box-shadow: inset 6px 6px 8px #dadada, inset -6px -6px 8px #ffffff;
+  outline: none !important;
+  padding: 5px 10px;
+  color: #0d0d25;
+  border-radius: 10px;
+  border: none;
+    padding: 5px 10px;
+    margin-right: 10px;
+}
+.total{
+  margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.total span:nth-child(1){
+    font-size: 25px;
+    color: rgb(2, 2, 2);
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+.total span:nth-child(2){
+    font-size: 25px;
+    color: green;
+    font-weight: bold;
+}
+
+/* Button Styles */
+.done-button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-left: 45%;
+}
+
+.done-button:hover {
+  background-color: #45a049;
+  
+}
+
+/* Popup Styles */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+}
+.popup-container{
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+}
+.popup p {
+  text-align: center;
+}
+.popup p span:nth-child(1) {
+  font-size: 18px;
+}
+.popup p span:nth-child(5) {
+  font-size: 18px;
+   font-weight: 500;
+}
+.popup p span:nth-child(3) {
+  font-size: 22px;
+    font-weight: bold;
+}
+.popup .done-button {
+  padding: 8px 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer; 
+  margin-left: 40%;
+}
+
+.popup .done-button:hover {
+  background-color: #45a049;
+ 
+}
+.popup .cancel-button {
+  padding: 8px 16px;
+  background-color: #af4c4c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer; 
+  margin-left: 10px;
+}
+
+.popup .cancel-button:hover {
+  background-color: #45a049;
+ 
+}
+
+/* Rest of the CSS code */
