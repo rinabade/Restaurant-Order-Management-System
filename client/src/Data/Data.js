@@ -83,18 +83,6 @@ export const KitchenSidebarData = [
     heading: "Dashboard",
     path: "/Kitchen/Kitchendash",
   },
-
-  {
-    icon: FaClipboard,
-    heading: "Order",
-    path: "/Kitchen/KitchenOrder",
-  
-  },
-  {
-    icon: FaUserAlt,
-    heading: "Profile",
-    path: "/Kitchen/Kitchen_profile",
-  },
 ];
 
 export const CashierSidebarData = [
@@ -102,18 +90,6 @@ export const CashierSidebarData = [
     icon: FaHome,
     heading: "Dashboard",
     path: "/Cashier/Cashierdash",
-  },
-
-  {
-    icon: FaClipboard,
-    heading: "Order",
-    path: "/Cashier/CashierOrder",
-  
-  },
-  {
-    icon: FaUserAlt,
-    heading: "Profile",
-    path: "/Cashier/Cashier_profile",
   },
 ];
 
@@ -170,58 +146,6 @@ export const cardsData = [
   },
 ];
 
-// kitchen cards
-export const kitchencardsData = [
-  {
-    title: "Sales",
-    color: {
-      backGround: "#db8a39",
-      boxShadow: "0px 10px 20px 0px #e0c6f5",
-    },
-    barValue: 70,
-    value: "25,970",
-    png: FaClipboard,
-    series: [
-      {
-        name: "Sales",
-        data: [31, 40, 28, 51, 42, 109, 100],
-      },
-    ],
-  },
-  {
-    title: "Revenue",
-    color: {
-      backGround: "#16805c",
-      boxShadow: "0px 10px 20px 0px #FDC0C7",
-    },
-    barValue: 80,
-    value: "14,270",
-    png: FaClipboard,
-    series: [
-      {
-        name: "Revenue",
-        data: [10, 100, 50, 70, 80, 30, 40],
-      },
-    ],
-  },
-  {
-    title: "Expenses",
-    color: {
-      backGround:
-        "#db4c39",
-      boxShadow: "0px 10px 20px 0px #F9D59B",
-    },
-    barValue: 60,
-    value: "4,270",
-    png: FaClipboard,
-    series: [
-      {
-        name: "Expenses",
-        data: [10, 25, 15, 30, 12, 15, 20],
-      },
-    ],
-  },
-];
 
 
 // Recent Update Card Data

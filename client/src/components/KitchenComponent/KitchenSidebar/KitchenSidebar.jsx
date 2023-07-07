@@ -60,8 +60,8 @@ const KitchenSidebar = () => {
           );
         })}
         {/* signoutIcon */}
-        <div className="menuItem " >
-          <UilSignOutAlt onClick={handleLogout}/>  Logout
+        <div className="menuItem-logout " >
+          <UilSignOutAlt onClick={handleLogout}/> Logout
         </div>
       </div>
     </motion.div>

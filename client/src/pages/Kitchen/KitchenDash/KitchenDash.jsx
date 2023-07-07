@@ -29,7 +29,6 @@ const KitchenDash = () => {
     socket.on("newOrder", (order) => {
       console.log("Received new order:", order);
       setOrders((prevOrders) => [order, ...prevOrders]);
-      console.log("jbebfjbwjf----------", orders);
     });
 
     return () => {
@@ -53,7 +52,6 @@ const KitchenDash = () => {
   };
 
   const handleOrderToggle = (order) => {
-    console.log("hbshcsb-----------", order);
     setSelectedOrder((prevOrder) => (prevOrder === order ? null : order));
   };
 
@@ -91,7 +89,6 @@ const KitchenDash = () => {
                     <TableHead>
                       <TableRow>
                         <TableCell>Ordered item</TableCell>
-                        {/* <TableCell align="left">Order_id</TableCell> */}
                         <TableCell align="left">Quantity</TableCell>
                         <TableCell align="left">Status</TableCell>
                         <TableCell align="left">Action</TableCell>
@@ -104,13 +101,11 @@ const KitchenDash = () => {
                           sx={{
                             "&:last-child td, &:last-child th": { border: 0 },
                           }}
-                          
                         >
                           <TableCell component="th" scope="row">
-                            {item.item_name}
+                            {item.title}
                           </TableCell>
-                          {/* <TableCell align="left">{item.order_id}</TableCell> */}
-                          <TableCell align="left">{item.quantity}</TableCell>
+                          <TableCell align="left">{item.amount}</TableCell>
                           <TableCell align="left">
                             <span className="status">pending</span>
                           </TableCell>
