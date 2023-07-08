@@ -63,7 +63,7 @@ const CartContainer = ({ cart, table_number, setCart, handleChange }) => {
       });
 
     socket.emit("order", { code: values, cart, table_number }); // Emit a socket event with the order details
-    console.log("cart--------", cart)
+    // console.log("cart--------", cart)
     window.location.href = "/";
   };
   useEffect(() => {

@@ -15,26 +15,26 @@ export default function BasicTable() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    getAllCart().then(
-      (success) => {
-        if (success.data) {
-          console.log(success.data.data);
-          // console.log(success.data.data.map(user => user.lastname));
-          setData(success.data.data);
-        } else {
-          console.log("Empty Error Response");
-        }
-      },
-      (error) => {
-        if (error.response) {
-          //Backend Error message
-          console.log(error.response);
-        } else {
-          //Server Not working Error
-          console.log("Server not working");
-        }
-      }
-    );
+    // getAllCart().then(
+    //   (success) => {
+    //     if (success.data) {
+    //       console.log(success.data.data);
+    //       // console.log(success.data.data.map(user => user.lastname));
+    //       setData(success.data.data);
+    //     } else {
+    //       console.log("Empty Error Response");
+    //     }
+    //   },
+    //   (error) => {
+    //     if (error.response) {
+    //       //Backend Error message
+    //       console.log(error.response);
+    //     } else {
+    //       //Server Not working Error
+    //       console.log("Server not working");
+    //     }
+    //   }
+    // );
   }, []);
 
 

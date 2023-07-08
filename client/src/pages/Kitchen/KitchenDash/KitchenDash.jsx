@@ -40,7 +40,7 @@ const KitchenDash = () => {
     setOrders((prevOrders) =>
       prevOrders.map((order) => {
         if (order.code === orderCode) {
-          const updatedCart = order.cart.filter((item) => item.orderDetail_id !== itemId);
+          const updatedCart = order.cart.filter((item) => item.id !== itemId);
           if (updatedCart.length === 0) {
             return null; // Remove the order from the list
           }
@@ -97,7 +97,7 @@ const KitchenDash = () => {
                     <TableBody style={{ color: "white" }}>
                       {order.cart.map((item) => (
                         <TableRow
-                          key={item.orderDetail_id}
+                          key={item.id}
                           sx={{
                             "&:last-child td, &:last-child th": { border: 0 },
                           }}
@@ -114,7 +114,7 @@ const KitchenDash = () => {
                               className="bg-success"
                               style={{ border: "none" }}
                               onClick={() =>
-                                handleOrderDone(order.code, item.orderDetail_id)
+                                handleOrderDone(order.code, item.id)
                               }
                             >
                               Done
