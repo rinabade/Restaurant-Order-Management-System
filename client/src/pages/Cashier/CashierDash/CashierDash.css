@@ -12,11 +12,77 @@
       display: none;
     }
 }
+.CashierOrderTotal{
+    font-weight: bold;
+    font-size: 20px;
+    text-align: right;
+    margin-top: 10px;
+  }
+  .CashierOrderTotal  span:nth-child(1){
+    font-weight: bold;
+    font-size: 25px;
+    text-align: right;
+    margin-top: 10px;
+    margin-right: 10px;
+  }
+  
+  .CashierOrderTotal  span:nth-child(2){
+    font-weight: bold;
+    font-size: 25px;
+    text-align: right;
+    margin-top: 10px;
+    margin-right: 50px;
+    color: #0e9465;
+  }
+   
+  .CashButton {
+    background-color: #c25555;
+    color: #333;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-weight: bold;
+  }
+  
+  .CashButton:hover {
+    background-color: #ddd;
+  }
+  
+  .CashButton:active {
+    background-color: #ccc;
+  }
+  .PaymentMethodContainer {
+    margin-top: 20px;
+    margin-left: 30px;
+  }
+  
+  .PaymentMethodContainer span {
+    font-weight: bold;
+    margin-right: 10px;
+    font-size: 18px;
+  }
+  
+  .PaymentMethodContainer select {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
 .CashCancel{
+    margin-left: 40%;
     background-color: #944747!important;
     color: white!important;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: none!important;
 }
 .CashSave{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left:  20px;
+    border: none!important;
 background-color: #0e945c!important;
 color: white!important;
 }

@@ -38,20 +38,17 @@ const CashierDash = () => {
     };
   }, []);
 
-  const handleOrderDone = (orderCode, itemId) => {
-    setOrders((prevOrders) =>
-      prevOrders.map((order) => {
-        if (order.code === orderCode) {
-          const updatedCart = order.cart.filter((item) => item.id !== itemId);
-          if (updatedCart.length === 0) {
-            return null; // Remove the order from the list
-          }
-          return { ...order, cart: updatedCart };
-        }
-        return order;
-      }).filter(Boolean) // Filter out null orders
-    );
-  };
+ 
+  useEffect(() => {
+    const storedOrders = localStorage.getItem("orders");
+    if (storedOrders) {
+      setOrders(JSON.parse(storedOrders));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("orders", JSON.stringify(orders));
+  }, [orders]);
 
   const handleOrderToggle = (order) => {
     setSelectedOrder((prevOrder) => (prevOrder === order ? null : order));
@@ -59,10 +56,17 @@ const CashierDash = () => {
 
   const handleRedirect = () => {
     setIsDialogOpen(false);
-    window.location.href = '/fonepay';
+    if (paymentMethod === "cash") {
+      setOrders((prevOrders) =>
+        prevOrders.filter((order) => order !== selectedOrder)
+      );
+      setSelectedOrder(null);
+    } else {
+      window.location.href = "/fonepay";
+    }
   };
-   // Function to handle dialog close
-   const handleDialogClose = () => {
+  // Function to handle dialog close
+  const handleDialogClose = () => {
     setIsDialogOpen(false);
   };
 
@@ -75,7 +79,7 @@ const CashierDash = () => {
   const calculateTotalPrice = (order) => {
     let totalPrice = 0;
     for (const item of order.cart) {
-      totalPrice += item.amount* item.price;
+      totalPrice += item.amount * item.price;
     }
     return totalPrice;
   };
@@ -138,22 +142,22 @@ const CashierDash = () => {
                     </TableBody>
                   </Table>
                   <p className="CashierOrderTotal">
-  <span>Total Price: </span>
-  <span>Rs. {calculateTotalPrice(order)}</span>
-</p>
+                    <span>Total Price: </span>
+                    <span>Rs. {calculateTotalPrice(order)}</span>
+                  </p>
 
-          <div className="PaymentMethodContainer">
-            <span>Select Payment Method:</span>
-            <select value={paymentMethod} onChange={handlePaymentMethodChange}>
-              <option value="">Choose a payment method</option>
-              <option value="cash">Cash</option>
-              <option value="fonepay">Fonepay</option>
-            </select>
-          </div>   
-           <Button className="CashCancel" onClick={handleDialogClose}>Cancel</Button>
-          <Button className="CashSave" onClick={handleRedirect}>Continue</Button>
+                  <div className="PaymentMethodContainer">
+                    <span>Select Payment Method:</span>
+                    <select value={paymentMethod} onChange={handlePaymentMethodChange}>
+                      <option value="">Choose a payment method</option>
+                      <option value="cash">Cash</option>
+                      <option value="fonepay">Fonepay</option>
+                    </select>
+                  </div>
+                  <Button className="CashCancel" onClick={handleDialogClose}>Cancel</Button>
+                  <Button className="CashSave" onClick={handleRedirect}>Continue</Button>
                 </TableContainer>
-            
+
               </div>
             )}
           </div>
@@ -163,4 +167,4 @@ const CashierDash = () => {
   );
 };
 
-export default  CashierDash;
+export default CashierDash;
