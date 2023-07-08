@@ -187,10 +187,11 @@ const CashierDash = () => {
       {showInvoice && (
         <div className="InvoicePopup">
           
-          <div className="InvoiceDetails"  id="invoice"> 
+          <div className="InvoiceDetails"  > 
           <button className="CloseButton" onClick={() => setShowInvoice(false)}>
                 X
               </button>
+              <div id="invoice">
             <h2>Foodie</h2>
            
             <h3>Order Details</h3>
@@ -223,6 +224,7 @@ const CashierDash = () => {
                 </p>
               </>
             )} 
+            </div>
             <Button className="PrintButton" onClick={printInvoice}>
             Print
           </Button>
