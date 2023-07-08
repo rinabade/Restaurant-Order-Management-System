@@ -38,16 +38,35 @@ const CashierDash = () => {
     };
   }, []);
 
+ 
+  useEffect(() => {
+    const storedOrders = localStorage.getItem("orders");
+    if (storedOrders) {
+      setOrders(JSON.parse(storedOrders));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("orders", JSON.stringify(orders));
+  }, [orders]);
+
   const handleOrderToggle = (order) => {
     setSelectedOrder((prevOrder) => (prevOrder === order ? null : order));
   };
 
   const handleRedirect = () => {
     setIsDialogOpen(false);
-    window.location.href = '/fonepay';
+    if (paymentMethod === "cash") {
+      setOrders((prevOrders) =>
+        prevOrders.filter((order) => order !== selectedOrder)
+      );
+      setSelectedOrder(null);
+    } else {
+      window.location.href = "/fonepay";
+    }
   };
-   // Function to handle dialog close
-   const handleDialogClose = () => {
+  // Function to handle dialog close
+  const handleDialogClose = () => {
     setIsDialogOpen(false);
   };
 
@@ -60,7 +79,7 @@ const CashierDash = () => {
   const calculateTotalPrice = (order) => {
     let totalPrice = 0;
     for (const item of order.cart) {
-      totalPrice += item.quantity* item.price;
+      totalPrice += item.amount* item.price;
     }
     return totalPrice;
   };
@@ -134,12 +153,11 @@ const CashierDash = () => {
                       <option value="cash">Cash</option>
                       <option value="fonepay">Fonepay</option>
                     </select>
-                  </div>   
-                  <br></br>
+                  </div>
+                  <Button className="CashCancel" onClick={handleDialogClose}>Cancel</Button>
                   <Button className="CashSave" onClick={handleRedirect}>Continue</Button>
-                  <Button className="CashCancel" onClick={handleDialogClose} >Cancel</Button>
                 </TableContainer>
-            
+
               </div>
             )}
           </div>
@@ -149,4 +167,4 @@ const CashierDash = () => {
   );
 };
 
-export default  CashierDash;
+export default CashierDash;

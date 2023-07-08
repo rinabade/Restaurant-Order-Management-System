@@ -14,6 +14,7 @@ import { Button } from "react-bootstrap";
 const KitchenDash = () => {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [clickedDone, setClickedDone] = useState(false);
 
   useEffect(() => {
     const socket = io("http://localhost:8000");
@@ -36,6 +37,21 @@ const KitchenDash = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const storedOrders = localStorage.getItem("orders");
+    if (storedOrders) {
+      setOrders(JSON.parse(storedOrders));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("orders", JSON.stringify(orders));
+  }, [orders]);
+
+  const handleTableButtonClick = (order) => {
+    setSelectedOrder((prevOrder) => (prevOrder === order ? null : order));
+  };
+
   const handleOrderDone = (orderCode, itemId) => {
     setOrders((prevOrders) =>
       prevOrders.map((order) => {
@@ -51,9 +67,8 @@ const KitchenDash = () => {
     );
   };
 
-  const handleOrderToggle = (order) => {
-    setSelectedOrder((prevOrder) => (prevOrder === order ? null : order));
-  };
+  const remainingOrders = orders.filter((order) => order.cart.length > 0);
+  const allOrdersDone = remainingOrders.length === 0;
 
   return (
     <div className="MainDash">
@@ -73,8 +88,10 @@ const KitchenDash = () => {
           <div key={order.code}>
             <Button
               variant="secondary"
-              className="table-button"
-              onClick={() => handleOrderToggle(order)}
+              className={`table-button ${
+                selectedOrder === order ? "selected" : ""
+              }`}
+              onClick={() => handleTableButtonClick(order)}
             >
               Table {order.table_number[0]}
             </Button>
@@ -129,6 +146,9 @@ const KitchenDash = () => {
             )}
           </div>
         ))}
+        {allOrdersDone && (
+          <div className="no-orders">No orders remaining.</div>
+        )}
       </div>
     </div>
   );
