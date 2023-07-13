@@ -31,7 +31,7 @@
     font-size: 25px;
     text-align: right;
     margin-top: 10px;
-    margin-right: 50px;
+    margin-right: 120px;
     color: #0e9465;
   }
    
@@ -71,7 +71,7 @@
     border-radius: 4px;
   }
 .CashCancel{
-    margin-left: 40%;
+    margin-left: 70%;
     background-color: #944747!important;
     color: white!important;
     margin-top: 20px;
@@ -79,15 +79,15 @@
     border: none!important;
 }
 .CashSave{
-    margin-top: 20px;
-    margin-bottom: 20px;
+  margin-left: 70%;
+  background-color: #0e945c!important;
+  color: white!important;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: none!important;
+  margin-bottom : 1rem;
     margin-left:  20px;
-    border: none!important;
-background-color: #0e945c!important;
-color: white!important;
-margin-left: 47rem;
 margin-right: 20px;
-margin-bottom : 1rem
 }
 .CashCancel{
     background-color: #944747!important;

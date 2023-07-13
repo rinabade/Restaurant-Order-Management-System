@@ -28,7 +28,7 @@ const KitchenDash = () => {
     });
 
     socket.on("newOrder", (order) => {
-      console.log("Received new order:", order);
+      // console.log("Received new order:", order);
       setOrders((prevOrders) => [order, ...prevOrders]);
     });
 
@@ -56,7 +56,7 @@ const KitchenDash = () => {
     setOrders((prevOrders) =>
       prevOrders.map((order) => {
         if (order.code === orderCode) {
-          const updatedCart = order.cart.filter((item) => item.id !== itemId);
+          const updatedCart = order.cart.filter((item) => item.menu_id !== itemId);
           if (updatedCart.length === 0) {
             return null; // Remove the order from the list
           }
@@ -107,14 +107,14 @@ const KitchenDash = () => {
                       <TableRow>
                         <TableCell>Ordered item</TableCell>
                         <TableCell align="left">Quantity</TableCell>
-                        <TableCell align="left">Status</TableCell>
+                        {/* <TableCell align="left">Status</TableCell> */}
                         <TableCell align="left">Action</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody style={{ color: "white" }}>
                       {order.cart.map((item) => (
                         <TableRow
-                          key={item.id}
+                          key={item.menu_id}
                           sx={{
                             "&:last-child td, &:last-child th": { border: 0 },
                           }}
@@ -123,15 +123,15 @@ const KitchenDash = () => {
                             {item.item_name}
                           </TableCell>
                           <TableCell align="left">{item.quantity}</TableCell>
-                          <TableCell align="left">
+                          {/* <TableCell align="left">
                             <span className="status">pending</span>
-                          </TableCell>
+                          </TableCell> */}
                           <TableCell align="left">
                             <Button
                               className="bg-success"
                               style={{ border: "none" }}
                               onClick={() =>
-                                handleOrderDone(order.code, item.id)
+                                handleOrderDone(order.code, item.menu_id)
                               }
                             >
                               Done

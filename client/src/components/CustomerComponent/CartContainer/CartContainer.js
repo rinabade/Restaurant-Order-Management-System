@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./CartContainer.css";
 import header from "../../../imgs/header.jpg";
 import { motion } from "framer-motion";
-import { createCart, createOrder, getOrderID } from "../../../api/userAction";
+import { createOrder, getOrderID } from "../../../api/userAction";
 import {
   FaArrowLeft,
   FaTrashAlt,
@@ -14,8 +14,8 @@ import io from "socket.io-client";
 
 const CartContainer = ({ cart, table_number, setCart, handleChange }) => {
   const [price, setPrice] = useState(0);
-  const [data, setData] = useState("");
-  const [values, setValues] = useState("");
+  const [data, setData] = useState([]);
+  const [values, setValues] = useState();
   const [loading, setLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [tableNumber, setTableNumber] = useState();
@@ -46,49 +46,69 @@ const CartContainer = ({ cart, table_number, setCart, handleChange }) => {
     const cartData = {
       cartItems: cart.map((item) => ({
         menu_id: item.menu_id,
-        // item_name: item.item_name,
-        // price: item.price,
         quantity: item.quantity,
       })),
       table_number: table_number[0],
     };
-    createCart(cartData)
+    createOrder(cartData)
       .then((response) => {
-        console.log(response.data);
-        setData(response.data);
-        setCart([]);
-      })
+        // console.log(response.data);
+        setCart([]);       
+      
+  })        
       .catch((error) => {
         console.error("Error:", error);
       });
 
-    socket.emit("order", { code: values, cart, table_number }); // Emit a socket event with the order details
-    // console.log("cart--------", cart)
-    window.location.href = "/";
+    //   getOrderID()
+    //   .then((response) => {
+    //     if (response.data) {
+    //       console.log("data----------", response.data.data)
+    //       setValues(response.data.data);
+    //       console.log("Values--------", values)
+    //     } else {
+    //       console.log("Empty Error Response");
+    //     }
+    //   },
+    //   (error) => {
+    //     if (error.response) {
+    //       console.log(error.response);
+    //     } else {
+    //       console.log("Server not working");
+    //     }
+    //   }
+    // );
+      
+    socket.emit("order", { cart, table_number }); // Emit a socket event with the order details
+    // console.log("values--------", values)
+    // window.location.href = "/";
   };
-  useEffect(() => {
-    // const generatedCode = "123"; // Generate the code here
-    // setCodenum(generatedCode); // Set the generated code to the state
-    // const generatedTableNumber = 1; // Generate the table number here
-    // setTableNumber(generatedTableNumber);
 
-    getOrderID().then(
-      (success) => {
-        if (success.data) {
-          setValues(success.data);
-        } else {
-          console.log("Empty Error Response");
-        }
-      },
-      (error) => {
-        if (error.response) {
-          console.log(error.response);
-        } else {
-          console.log("Server not working");
-        }
-      }
-    );
-  }, []);
+  // useEffect(() => {
+  // //   // const generatedCode = "123"; // Generate the code here
+  // //   // setCodenum(generatedCode); // Set the generated code to the state
+  // //   // const generatedTableNumber = 1; // Generate the table number here
+  // //   // setTableNumber(generatedTableNumber);
+
+  // getOrderID()
+  //     .then((response) => {
+  //       if (response.data) {
+  //         // console.log("data----------", response.data.data)
+  //         setValues(response.data.data);
+  //         // console.log("Values--------", values)
+  //       } else {
+  //         console.log("Empty Error Response");
+  //       }
+  //     },
+  //     (error) => {
+  //       if (error.response) {
+  //         console.log(error.response);
+  //       } else {
+  //         console.log("Server not working");
+  //       }
+  //     }
+  //   );
+  // }, []);
 
   useEffect(() => {
     handlePrice();
@@ -129,10 +149,12 @@ const CartContainer = ({ cart, table_number, setCart, handleChange }) => {
         <div className="popup">
           <div className="popup-container">
             <p>
-              <span>There is your code:</span> <br></br>
+            <span>Are you sure you want to confirm this order?</span>
+
+              {/* <span>There is your code:</span> <br></br>
               <span>{values}</span>
               <br></br>
-              <span>Please save or take a screenshot of it.</span>
+              <span>Please save or take a screenshot of it.</span> */}
             </p>
 
             <button
@@ -140,7 +162,7 @@ const CartContainer = ({ cart, table_number, setCart, handleChange }) => {
               className="done-button"
               onClick={handleDone}
             >
-              Done
+              confirm
             </button>
             <button
               className="cancel-button"

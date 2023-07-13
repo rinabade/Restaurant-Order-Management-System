@@ -79,7 +79,7 @@ const CashierDash = () => {
   const calculateTotalPrice = (order) => {
     let totalPrice = 0;
     for (const item of order.cart) {
-      totalPrice += item.amount* item.price;
+      totalPrice += item.quantity* item.price;
     }
     return totalPrice;
   };

@@ -149,7 +149,7 @@ export const editPassword = (id, data) => {
 // };
 
 // add to cart
-export const createCart = (data) => {
+export const createOrder = (data) => {
   let url = `${Config.BaseUrl}customer/orderDetail`;
   return axios.post(url, data, {
     headers: {
