@@ -16,6 +16,7 @@ const CashierDash = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [showInvoice, setShowInvoice] = useState(false); // New state for controlling invoice popup visibility
 
   useEffect(() => {
     const socket = io("http://localhost:8000");
@@ -38,16 +39,15 @@ const CashierDash = () => {
     };
   }, []);
 
- 
   useEffect(() => {
-    const storedOrders = localStorage.getItem("orders");
+    const storedOrders = localStorage.getItem("cashierOrders");
     if (storedOrders) {
       setOrders(JSON.parse(storedOrders));
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("orders", JSON.stringify(orders));
+    localStorage.setItem("cashierOrders", JSON.stringify(orders));
   }, [orders]);
 
   const handleOrderToggle = (order) => {
@@ -57,25 +57,20 @@ const CashierDash = () => {
   const handleRedirect = () => {
     setIsDialogOpen(false);
     if (paymentMethod === "cash") {
-      setOrders((prevOrders) =>
-        prevOrders.filter((order) => order !== selectedOrder)
-      );
-      setSelectedOrder(null);
+      setShowInvoice(true); // Show invoice popup
     } else {
       window.location.href = "/fonepay";
     }
   };
-  // Function to handle dialog close
+
   const handleDialogClose = () => {
     setIsDialogOpen(false);
   };
 
-  // Function to handle payment method change
   const handlePaymentMethodChange = (event) => {
     setPaymentMethod(event.target.value);
   };
 
-  // Function to calculate total price
   const calculateTotalPrice = (order) => {
     let totalPrice = 0;
     for (const item of order.cart) {
@@ -84,6 +79,25 @@ const CashierDash = () => {
     return totalPrice;
   };
 
+  const printInvoice = () => {
+    const invoiceElement = document.getElementById("invoice"); // Get the invoice element by its ID
+    if (invoiceElement) {
+      const printWindow = window.open("", "_blank"); // Open a new window for printing
+      printWindow.document.write(invoiceElement.innerHTML); // Write the invoice content to the new window
+      printWindow.document.close();
+      printWindow.print(); // Print the new window
+      printWindow.close(); // Close the new window after printing
+      setShowInvoice(false); // Hide the invoice popup
+      setOrders((prevOrders) =>
+      prevOrders.filter((order) => order !== selectedOrder)
+    );
+    setSelectedOrder(null);
+    localStorage.setItem(
+      "cashierOrders",
+      JSON.stringify(orders.filter((order) => order !== selectedOrder))
+    );
+    }
+  };
 
   return (
     <div className="MainDash">
@@ -148,21 +162,77 @@ const CashierDash = () => {
 
                   <div className="PaymentMethodContainer">
                     <span>Select Payment Method:</span>
-                    <select value={paymentMethod} onChange={handlePaymentMethodChange}>
+                    <select
+                      value={paymentMethod}
+                      onChange={handlePaymentMethodChange}
+                    >
                       <option value="">Choose a payment method</option>
                       <option value="cash">Cash</option>
                       <option value="fonepay">Fonepay</option>
                     </select>
                   </div>
-                  <Button className="CashCancel" onClick={handleDialogClose}>Cancel</Button>
-                  <Button className="CashSave" onClick={handleRedirect}>Continue</Button>
+                  <Button className="CashCancel" onClick={handleDialogClose}>
+                    Cancel
+                  </Button>
+                  <Button className="CashSave" onClick={handleRedirect}>
+                    Continue
+                  </Button>
                 </TableContainer>
-
               </div>
             )}
           </div>
         ))}
       </div>
+
+      {/* Invoice Popup */}
+      {showInvoice && (
+        <div className="InvoicePopup">
+          
+          <div className="InvoiceDetails"  > 
+          <button className="CloseButton" onClick={() => setShowInvoice(false)}>
+                X
+              </button>
+              <div id="invoice">
+            <h2>Foodie</h2>
+           
+            <h3>Order Details</h3>
+            {selectedOrder && (
+              <>
+                <p>Order Code: {selectedOrder.code}</p>
+                <p>Table Number: {selectedOrder.tableNumber}</p>
+                <TableContainer component={Paper}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Ordered item</TableCell>
+                        <TableCell align="left">Quantity</TableCell>
+                        <TableCell align="left">Price</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {selectedOrder.cart.map((item) => (
+                        <TableRow key={item.id}>
+                          <TableCell>{item.title}</TableCell>
+                          <TableCell align="left">{item.amount}</TableCell>
+                          <TableCell align="left">{item.price}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <p className="InvoiceTotal">
+                  Total Price: Rs. {calculateTotalPrice(selectedOrder)}
+                </p>
+              </>
+            )} 
+            </div>
+            <Button className="PrintButton" onClick={printInvoice}>
+            Print
+          </Button>
+          </div>
+         
+        </div>
+      )}
     </div>
   );
 };

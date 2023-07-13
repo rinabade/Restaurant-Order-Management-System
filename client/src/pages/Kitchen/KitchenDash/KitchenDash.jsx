@@ -15,6 +15,7 @@ const KitchenDash = () => {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [clickedDone, setClickedDone] = useState(false);
+  
 
   useEffect(() => {
     const socket = io("http://localhost:8000");
@@ -65,6 +66,8 @@ const KitchenDash = () => {
         return order;
       }).filter(Boolean) // Filter out null orders
     );
+    setClickedDone(true);
+    localStorage.setItem('orders', JSON.stringify(orders)); // Update the orders in localStorage
   };
 
   const remainingOrders = orders.filter((order) => order.cart.length > 0);
