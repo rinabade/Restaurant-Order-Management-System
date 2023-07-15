@@ -31,13 +31,6 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
   const about = useRef(null);
   const menu = useRef(null);
   const contact = useRef(null);
-  // const scrollToSection = (elementRef) => {
-  //   window.scrollTo({
-  //     top: elementRef.current.offsetTop,
-  //     behavior: "smooth",
-  //   });
-  // };
-
   const scrollToSection = (ref) => {
     if (ref && ref.current) {
       window.scrollTo({
@@ -46,15 +39,6 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
       });
     }
   };
-  // const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  // const toggleMenu = () => {
-  //   setIsMenuOpen(!isMenuOpen);
-  // };
-  // // category filter js
-  // const [filterCategory, setFilterCategory] = useState('all');
-  // const [items, setItems] = useState(cartItems);
-
   
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -72,7 +56,6 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
     getAllCategory().then(
       (success) => {
         if (success.data) {
-          // console.log(success.data.data);
           const _data = success.data.data;
           setMenuCategories(_data);
           console.log("category-------", menuCategories);
@@ -85,10 +68,8 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
       },
       (error) => {
         if (error.response) {
-          //Backend Error message
           console.log(error.response);
         } else {
-          //Server Not working Error
           console.log("Server not working");
         }
       }
@@ -97,52 +78,24 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
 
     
     const filterItem = (category) => {
-      // setFilterCategory(category);
       getMenu(category).then(
         (success) => {
           if (success.data) {
-            // console.log(success.data.data);
             setFilterCategory(success.data.data);
             console.log("Menu--------", filterCategory);
-            // const filteredItems = category === 'all'
-            //   ? filterCategory.filter((item) => item.item_name.toLowerCase().includes(searchQuery.toLowerCase()))
-            //   : filterCategory.filter((item) => item.category === category && item.item_name.toLowerCase().includes(searchQuery.toLowerCase()));
-            // setSearchResults(filteredItems);
         } else {
           console.log("Empty Error Response");
         }
       },
       (error) => {
         if (error.response) {
-          //Backend Error message
           console.log(error.response);
         } else {
-          //Server Not working Error
           console.log("Server not working");
         }
       }
     );
   };
-
-      // const filterItem = (categItem) => {
-      //   setFilterCategory(categItem);
-      //   const filteredItems = categItem === 'all'
-      //   ? cartItems.filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()))
-      //   : cartItems.filter((item) => item.category === categItem && item.title.toLowerCase().includes(searchQuery.toLowerCase()));
-      //    setSearchResults(filteredItems);
-      // };
-
-  // const fetchData = (value) => {
-  //   getSearchFood()
-  //   .then((response) => 
-  //     response.json()) .then(json => {
-  //       // console.log(json);
-  //       const results = json.filter((menus) => {
-  //         return menus && menus.item_name && menus. 
-  //       })
-  //     });
-    
-  // }
 
   //search filter 
   const [searchQuery, setSearchQuery] = useState({
@@ -152,16 +105,6 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
  
 
   const handleSearch = async(query) => { 
-    // event.preventDefault();
-    // const query = event.target.value;
-
-    // setSearchQuery({
-      //   ...searchQuery,
-    //   [event.target.name]: event.target.value,
-    // });
-    // console.log("query--------", searchQuery)
-    
-    // console.log("query--------", query)
     if (query === "") {
       setSearchQuery({
         item_name: ""
@@ -172,15 +115,12 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
       try{
       const response = await searchFood(query)
       const items = response.data
-      // .then((response) => {
         setSearchQuery({
           item_name: query
         })
         console.log(response.data);
         setSearchResults(items);
-        // console.log("search------", searchQuery[0])
         
-      // })
       scrollToSection(menuSectionRef);
       }
       catch(error) {
@@ -197,20 +137,12 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
           setFilterCategory(categItem);
           const filteredItems = categItem === filterCategory.category_name
           ? filterCategory.filter((item) => item.item_name && item.item_name.toLowerCase().includes(searchQuery.item_name && searchQuery.item_name.toLowerCase()))
-          // : menuCategories.filter((item) => item.category_name === categItem && item.category_name.toLowerCase().includes(searchQuery.item_name && searchQuery.item_name.toLowerCase()));
           : menuCategories.filter((item) =>  item.category_name && item.category_name.toLowerCase().includes(searchQuery.category_name && searchQuery.category_name.toLowerCase())
           );
            setSearchResults(filteredItems);
         };
-    // setSearchResults(filteredItems);
   }, [searchQuery,filterCategory,menuCategories]);
 
-  // useEffect(() => {
-  //   const filteredItems = filterCategory.filter((item) =>
-  //     item.category_name && item.item_name.toLowerCase().includes(searchQuery.item_name && searchQuery.item_name.toLowerCase())
-  //   );
-  //   setSearchResults(filteredItems);
-  // }, [searchQuery, filterCategory]);
 
   const handleSliderLeft = () => {
     const slider = sliderRef.current;
@@ -407,17 +339,6 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
           </div>
         </div>
       </section>
-
-      {/* <section className="menu-section" ref={menuSectionRef}>
-        {(searchResults.length > 0 ? searchResults : filterCategory).map((item) => (
-          <MenuSection
-            item={item}
-            table_number={table_number}
-            handleClick={handleClick}
-            key={item.menu_id}
-          />
-        ))}
-      </section> */}
 
       <section className="menu-section" ref={menuSectionRef}>
         {searchResults.length > 0 ? (
