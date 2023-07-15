@@ -31,6 +31,7 @@ import CashierLogin from './pages/Cashier/CashierLogin/CashierLogin';
 import Menu from './pages/User/Menu/Menu';
 import useToken from './components/Token/useToken';
 import { io } from "socket.io-client";
+import Billlist from './pages/Cashier/Bill_list/Billlist';
 
 function App() {
   const { token, setToken } = useToken();
@@ -84,7 +85,7 @@ function App() {
           {token && (
             <Route path="/Cashier" element={<CashierDashboard />}>
               <Route path="Cashierdash" element={<CashierDash />} />
-            
+              <Route path="Billlist" element={<Billlist />} />
             </Route>
           )}
         </Routes>

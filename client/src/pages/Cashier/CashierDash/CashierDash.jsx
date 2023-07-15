@@ -10,6 +10,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "react-bootstrap";
+import Box from "@mui/material/Box"; // Import Box component from MUI
 
 const CashierDash = () => {
   const [orders, setOrders] = useState([]);
@@ -89,13 +90,13 @@ const CashierDash = () => {
       printWindow.close(); // Close the new window after printing
       setShowInvoice(false); // Hide the invoice popup
       setOrders((prevOrders) =>
-      prevOrders.filter((order) => order !== selectedOrder)
-    );
-    setSelectedOrder(null);
-    localStorage.setItem(
-      "cashierOrders",
-      JSON.stringify(orders.filter((order) => order !== selectedOrder))
-    );
+        prevOrders.filter((order) => order !== selectedOrder)
+      );
+      setSelectedOrder(null);
+      localStorage.setItem(
+        "cashierOrders",
+        JSON.stringify(orders.filter((order) => order !== selectedOrder))
+      );
     }
   };
 
@@ -110,6 +111,7 @@ const CashierDash = () => {
           </div>
         </div>
       </div>
+
       <h3>Recent Orders</h3>
 
       <div className="order-table">
@@ -132,19 +134,28 @@ const CashierDash = () => {
                   <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                       <TableRow>
+                        <TableCell>SN</TableCell>
                         <TableCell>Ordered item</TableCell>
                         <TableCell align="left">Quantity</TableCell>
                         <TableCell align="left">Price</TableCell>
                       </TableRow>
+                      <TableRow>
+                        <Box
+                          borderBottom={1}
+                          borderColor="grey.300"
+                          colspan={4} // span across all columns
+                        />
+                      </TableRow>
                     </TableHead>
                     <TableBody style={{ color: "white" }}>
-                      {order.cart.map((item) => (
+                      {order.cart.map((item, index) => (
                         <TableRow
                           key={item.id}
                           sx={{
                             "&:last-child td, &:last-child th": { border: 0 },
                           }}
                         >
+                          <TableCell>{index + 1}</TableCell> {/* Add SN */}
                           <TableCell component="th" scope="row">
                             {item.title}
                           </TableCell>
@@ -186,50 +197,56 @@ const CashierDash = () => {
       {/* Invoice Popup */}
       {showInvoice && (
         <div className="InvoicePopup">
-          
-          <div className="InvoiceDetails"  > 
-          <button className="CloseButton" onClick={() => setShowInvoice(false)}>
-                X
-              </button>
-              <div id="invoice">
-            <h2>Foodie</h2>
-           
-            <h3>Order Details</h3>
-            {selectedOrder && (
-              <>
-                <p>Order Code: {selectedOrder.code}</p>
-                <p>Table Number: {selectedOrder.tableNumber}</p>
-                <TableContainer component={Paper}>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Ordered item</TableCell>
-                        <TableCell align="left">Quantity</TableCell>
-                        <TableCell align="left">Price</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {selectedOrder.cart.map((item) => (
-                        <TableRow key={item.id}>
-                          <TableCell>{item.title}</TableCell>
-                          <TableCell align="left">{item.amount}</TableCell>
-                          <TableCell align="left">{item.price}</TableCell>
+          <div className="InvoiceDetails">
+            <button
+              className="CloseButton"
+              onClick={() => setShowInvoice(false)}
+            >
+              X
+            </button>
+            <div id="invoice">
+              <p className="foodie">Foodie</p>
+              {selectedOrder && (
+                <>
+                  <p className="bill-details">Order Code: {selectedOrder.code}</p>
+                  <p className="bill-details">Table Number: {selectedOrder.tableNumber}</p>
+                  <p className="bill-details">Payment method: </p>
+                  <div className="billborder"></div>
+                  <TableContainer component={Paper}>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>SN</TableCell>
+                          <TableCell>Ordered item</TableCell>
+                          <TableCell align="left">Quantity</TableCell>
+                          <TableCell align="left">Price</TableCell>
                         </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                <p className="InvoiceTotal">
-                  Total Price: Rs. {calculateTotalPrice(selectedOrder)}
-                </p>
-              </>
-            )} 
+                        <TableRow>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {selectedOrder.cart.map((item, index) => (
+                          <TableRow key={item.id}>
+                            <TableCell>{index + 1}</TableCell> {/* Add SN */}
+                            <TableCell>{item.title}</TableCell>
+                            <TableCell align="left">{item.amount}</TableCell>
+                            <TableCell align="left">{item.price}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                  <div className="billborder"></div>
+                  <p className="InvoiceTotal">
+                    Total Price:<span> Rs. {calculateTotalPrice(selectedOrder)}</span>
+                  </p>
+                </>
+              )}
             </div>
             <Button className="PrintButton" onClick={printInvoice}>
-            Print
-          </Button>
+              Print
+            </Button>
           </div>
-         
         </div>
       )}
     </div>
