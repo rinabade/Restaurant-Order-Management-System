@@ -52,6 +52,7 @@ const CashierDash = () => {
 
   const handleOrderToggle = (order) => {
     setSelectedOrder((prevOrder) => (prevOrder === order ? null : order));
+    // console.log("selectedOrder-------", selectedOrder);
   };
 
   const handleRedirect = () => {
@@ -110,7 +111,7 @@ const CashierDash = () => {
           </div>
         </div>
       </div>
-      <h3>Recent Orders</h3>
+      <h3>Recent Payments</h3>
 
       <div className="order-table">
         {orders.map((order) => (
@@ -193,13 +194,14 @@ const CashierDash = () => {
                 X
               </button>
               <div id="invoice">
-            <h2>Foodie</h2>
+            {/* <h2>Foodie</h2> */}
            
-            <h3>Order Details</h3>
+            <h3>Payment Details</h3>
             {selectedOrder && (
               <>
-                <p>Order Code: {selectedOrder.code}</p>
-                <p>Table Number: {selectedOrder.tableNumber}</p>
+              <br></br>
+                {/* <p>Order Code: {selectedOrder.code}</p> */}
+                <p>Table Number: {selectedOrder.table_number[0]}</p>
                 <TableContainer component={Paper}>
                   <Table>
                     <TableHead>
@@ -212,20 +214,22 @@ const CashierDash = () => {
                     <TableBody>
                       {selectedOrder.cart.map((item) => (
                         <TableRow key={item.id}>
-                          <TableCell>{item.title}</TableCell>
-                          <TableCell align="left">{item.amount}</TableCell>
+                          <TableCell>{item.item_name}</TableCell>
+                          <TableCell align="left">{item.quantity}</TableCell>
                           <TableCell align="left">{item.price}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
                   </Table>
                 </TableContainer>
+                <br></br>
                 <p className="InvoiceTotal">
                   Total Price: Rs. {calculateTotalPrice(selectedOrder)}
                 </p>
               </>
             )} 
             </div>
+            <br></br>
             <Button className="PrintButton" onClick={printInvoice}>
             Print
           </Button>

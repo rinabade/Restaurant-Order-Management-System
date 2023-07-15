@@ -108,11 +108,11 @@ margin-right: 20px;
   
   .InvoiceDetails {
     background-color: white;
-    width: 40%;
-    height: 85%;
-    padding: 20px 0px 0px 120px;
+    width: 30%;
+    height: 75%;
+    padding: 10px 0px 0px 90px;
     border-radius: 8px;
-    margin: 40px 0px 0px 500px;
+    margin: 120px 0px 0px 500px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   }
   
@@ -130,11 +130,12 @@ margin-right: 20px;
   
   .PrintButton {
     padding: 8px 16px;
-    background-color: #007bff;
+    background-color: #149712!important;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    margin-left: 100px;
   }
   
   .InvoiceContent {
@@ -162,7 +163,7 @@ margin-right: 20px;
     cursor: pointer;
     font-size: 18px;
     color: #999;
-   margin: 0 0 0 350px;
+   margin: 0 0 0 300px;
   }
   .css-11xur9t-MuiPaper-root-MuiTableContainer-root {
     border: none;

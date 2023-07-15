@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./CartContainer.css";
 import header from "../../../imgs/header.jpg";
 import { motion } from "framer-motion";
-import { createOrder, getOrderID } from "../../../api/userAction";
+import { createOrder, getOrderDetails, getOrderID } from "../../../api/userAction";
 import {
   FaArrowLeft,
   FaTrashAlt,
@@ -48,8 +48,10 @@ const CartContainer = ({ cart, table_number, setCart, handleChange }) => {
         menu_id: item.menu_id,
         quantity: item.quantity,
       })),
+
       table_number: table_number[0],
     };
+    
     createOrder(cartData)
       .then((response) => {
         // console.log(response.data);
@@ -59,63 +61,19 @@ const CartContainer = ({ cart, table_number, setCart, handleChange }) => {
       .catch((error) => {
         console.error("Error:", error);
       });
-
-    //   getOrderID()
-    //   .then((response) => {
-    //     if (response.data) {
-    //       console.log("data----------", response.data.data)
-    //       setValues(response.data.data);
-    //       console.log("Values--------", values)
-    //     } else {
-    //       console.log("Empty Error Response");
-    //     }
-    //   },
-    //   (error) => {
-    //     if (error.response) {
-    //       console.log(error.response);
-    //     } else {
-    //       console.log("Server not working");
-    //     }
-    //   }
-    // );
       
-    socket.emit("order", { cart, table_number }); // Emit a socket event with the order details
+    socket.emit("order", {cart, table_number }); // Emit a socket event with the order details
     // console.log("values--------", values)
     // window.location.href = "/";
   };
 
-  // useEffect(() => {
-  // //   // const generatedCode = "123"; // Generate the code here
-  // //   // setCodenum(generatedCode); // Set the generated code to the state
-  // //   // const generatedTableNumber = 1; // Generate the table number here
-  // //   // setTableNumber(generatedTableNumber);
-
-  // getOrderID()
-  //     .then((response) => {
-  //       if (response.data) {
-  //         // console.log("data----------", response.data.data)
-  //         setValues(response.data.data);
-  //         // console.log("Values--------", values)
-  //       } else {
-  //         console.log("Empty Error Response");
-  //       }
-  //     },
-  //     (error) => {
-  //       if (error.response) {
-  //         console.log(error.response);
-  //       } else {
-  //         console.log("Server not working");
-  //       }
-  //     }
-  //   );
-  // }, []);
-
+ 
   useEffect(() => {
     handlePrice();
   });
 
   if (cart === undefined || cart.length === 0) {
-    return <p>Your cart is empty.</p>;
+    return <p>Your order is successful. Thank You </p>;
   }
 
   return (

@@ -13,12 +13,12 @@
     }
 }
 .order-details{
-  margin-top: 50px;
+  margin-top: 20px;
   margin-bottom: 50px;
 }
 .order-table{
-  margin-top: 50px;
-  width: 80%;
+  margin-top: 35px;
+  width: 70%;
   margin-left: 5%;
 }
  .table-button{
@@ -67,7 +67,6 @@ justify-content: space-between;
   width: 30px;
   height: 20px;
   position: relative;
-
   top: -15px;
  }
 
@@ -84,3 +83,9 @@ justify-content: space-between;
         align-items: center;
     }
 }
+
+
+
+
+
+

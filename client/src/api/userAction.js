@@ -163,11 +163,21 @@ export const getAllCart = () => {
   return axios.get(url);
 };
 
-export const getOrderID = () => {
+export const getOrderDetails = () => {
   let url = `${Config.BaseUrl}customer/orderDetail`;
   return axios.get(url);
 };
 
+// export const updateOrderStatus = (id, data) => {
+//   let url = `${Config.BaseUrl}customer/orderDetail/${id}`;
+//   return axios.patch(url, data);
+// }; 
+
+export const updateOrderStatus = (itemId, tableNumber) => {
+  const url = `${Config.BaseUrl}customer/orderDetail/${itemId}`;
+  const data = { table_number: tableNumber };
+  return axios.patch(url, data);
+};
 
 
 
