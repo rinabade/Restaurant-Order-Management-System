@@ -33,6 +33,7 @@ import Menu from './pages/User/Menu/Menu';
 import useToken from './components/Token/useToken';
 // import "./components/Token/axiosinterceptor";
 import { io } from "socket.io-client";
+import Billlist from './pages/Cashier/Bill_list/Billlist';
 
 function setToken(userToken) {
   sessionStorage.setItem('token', JSON.stringify(userToken));
@@ -100,6 +101,7 @@ function App() {
             <Route path="/Cashier" element={<CashierDashboard />}>
               <Route path="Cashierdash" element={<CashierDash />} />
               <Route path="Cashier_profile" element={<Cashier_profile />} />
+              <Route path="Billlist" element={<Billlist />} />
             </Route>
           )}
         </Routes>

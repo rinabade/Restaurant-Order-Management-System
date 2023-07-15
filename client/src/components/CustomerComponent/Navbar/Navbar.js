@@ -1,18 +1,19 @@
-import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
-import "./Navbar.css";
+import React, { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import './Navbar.css';
+import { cartItems } from '../../../Data/Data';
 import header from "../../../imgs/header.jpg";
 import berry from "../../../imgs/berry.png";
 import leaf from "../../../imgs/leaf.png";
-import MenuSection from "../MenuSection/MenuSection";
-import { FaSistrix, FaUser, FaBars, FaTimes } from "react-icons/fa";
-import Feedback from "../Feedback/Feedback";
-import Footer from "../Footer/Footer";
+import MenuSection from '../MenuSection/MenuSection';
+import { FaSistrix, FaUser, FaBars, FaTimes } from 'react-icons/fa';
+import { FaCartShopping } from 'react-icons/fa6';
 import { BsCartPlusFill } from "react-icons/bs";
-// import CartContainer from "../CartContainer/CartContainer";
-import { gsap, Power2 } from "gsap";
-// import mixitup from "mixitup";
-// import { motion } from "framer-motion";
+import Feedback from '../Feedback/Feedback';
+import Footer from '../Footer/Footer';
+import { gsap, Power2 } from 'gsap';
+import mixitup from 'mixitup';
+import { motion } from "framer-motion";
 import menu1 from "../../../imgs/menu-1.png";
 import menu2 from "../../../imgs/menu-2.png";
 import menu3 from "../../../imgs/menu-3.png";
@@ -20,8 +21,13 @@ import menu4 from "../../../imgs/menu-4.png";
 import { FaAngleLeft, FaAngleRight, FaPlus, FaMinus } from "react-icons/fa";
 import { getAllCategory, getMenu } from "../../../api/userAction";
 
+
+
 const Navbar = ({ size, handleClick, toggleCart }) => {
+
   const sliderRef = useRef(null);
+  const menuSectionRef = useRef(null);
+
   const about = useRef(null);
   const menu = useRef(null);
   const contact = useRef(null);
@@ -31,6 +37,23 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
       behavior: "smooth",
     });
   };
+
+  // const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // const toggleMenu = () => {
+  //   setIsMenuOpen(!isMenuOpen);
+  // };
+  // // category filter js
+  // const [filterCategory, setFilterCategory] = useState('all');
+  // const [items, setItems] = useState(cartItems);
+
+  // const filterItem = (categItem) => {
+  //   setFilterCategory(categItem);
+  //   const filteredItems = categItem === 'all'
+  //     ? cartItems.filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()))
+  //     : cartItems.filter((item) => item.category === categItem && item.title.toLowerCase().includes(searchQuery.toLowerCase()));
+  //   setSearchResults(filteredItems);
+  // };
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -69,10 +92,34 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
   // const filteredItems = filterCategory === 'all' ? cartItems : cartItems.filter((item) => item.category === filterCategory);
   // const filteredItems = filterCategory;
 
+  // const handleSliderLeft = () => {
+  //   const slider = sliderRef.current;
+  //   gsap.to(slider, {
+  //     x: "+=100",
+  //search filter 
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+ 
+
+  const handleSearch = (event) => {
+   
+    setSearchQuery(event.target.value);
+    scrollToSection(menuSectionRef);
+   
+    return false; // Add this line
+  };
+  useEffect(() => {
+    const filteredItems = cartItems.filter((item) =>
+      item.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setSearchResults(filteredItems);
+  }, [searchQuery]);
+
+
   const handleSliderLeft = () => {
     const slider = sliderRef.current;
     gsap.to(slider, {
-      x: "+=100",
+      x: '+=100',
       duration: 0.3,
     });
   };
@@ -80,7 +127,7 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
   const handleSliderRight = () => {
     const slider = sliderRef.current;
     gsap.to(slider, {
-      x: "-=100",
+      x: '-=100',
       duration: 0.3,
     });
   };
@@ -120,42 +167,42 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
               <Link to="/">FOODIE</Link>
             </div>
             <div className="navbar-menu1">
-              <div className={`navbar-menu ${isMenuOpen ? "active" : ""}`}>
+              <div className={`navbar-menu ${isMenuOpen ? 'active' : ''}`}>
                 <ul className="navbar-links ">
-                  <li
-                    onClick={() => scrollToSection(about)}
-                    className="navbar-item"
-                  >
-                    <Link className="navbar-link">About</Link>
+                  <li onClick={() => scrollToSection(about)} className="navbar-item">
+                    <Link className="navbar-link" >
+                      About
+                    </Link>
                   </li>
-                  <li
-                    onClick={() => scrollToSection(menu)}
-                    className="navbar-item"
-                  >
-                    <Link className="navbar-link">Menu</Link>
+                  <li onClick={() => scrollToSection(menu)} className="navbar-item">
+                    <Link className="navbar-link">
+                      Menu
+                    </Link>
                   </li>
-                  <li
-                    onClick={() => scrollToSection(contact)}
-                    className="navbar-item"
-                  >
-                    <Link className="navbar-link">Feedback</Link>
+                  <li onClick={() => scrollToSection(contact)} className="navbar-item">
+                    <Link className="navbar-link" >
+                      Feedback
+                    </Link>
                   </li>
                 </ul>
               </div>
               <div className="navbar-search">
-                <form action="#" className="header-search-form for-des">
-                  <input
-                    type="search"
-                    className="form-input"
+                <form action="#" class="header-search-form for-des">
+                  <input type="search"
+                    class="form-input"
                     placeholder="Search Here..."
-                  />
-                  <button type="submit">{/* <FaSistrix /> */}</button>
+                    value={searchQuery}
+                    onChange={handleSearch}
+                    />
+                  <button type="submit">
+                    <FaSistrix />
+                  </button>
                 </form>
               </div>
               <div className="navbar-icons">
                 <div className="navbar-icon" onClick={toggleCart}>
                   {/* <FaCartPlus /> */}
-                  <BsCartPlusFill />
+                  <BsCartPlusFill style={{ fontSize: "100px" }} />
                   <span>{size}</span>
                 </div>
               </div>
@@ -184,20 +231,19 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
                 <div className="banner-text">
                   <h1 className="h1-title">
                     Welcome <br></br>
-                    to our
-                    <br />
+                    to our<br />
                     Restaurant.
                   </h1>
+
                 </div>
               </div>
               <div className="col-lg-6">
                 <div className="banner-img-wp">
-                  <div
-                    className="banner-img"
-                    style={{ backgroundImage: `url(${header})` }}
-                  ></div>
+                  <div className="banner-img" style={{ backgroundImage: `url(${header})` }}>
+                  </div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
@@ -214,15 +260,11 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
                 <div className="sec-title-shape mb-4">
                   <img src="assets/images/title-shape.svg" alt="" />
                 </div>
-                <p>
-                  Garden and restaurant !! A magnificent dine out and hand out?!
-                  It is one of the best place in town. It is counted as most
-                  happening restaurant with parking space and plenty of room for
-                  friends and families. In terms of food, it is out standing and
-                  keeps our mouth watering feeling on and on.Located at very
-                  convenient place at Lazimpat main road and offers you the one
-                  of the greatest hospitality in Kathmandu.
-                </p>
+                <p>Garden and restaurant !! A magnificent dine out and hand out?! It is one of the best place
+                  in town. It is counted as most happening restaurant with parking space and plenty of room for
+                  friends and families. In terms of food, it is out standing and keeps our mouth watering feeling
+                  on and on.Located at very convenient place at Lazimpat main road and offers you the one of the
+                  greatest hospitality in Kathmandu.</p>
               </div>
             </div>
           </div>

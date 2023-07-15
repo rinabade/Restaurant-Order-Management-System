@@ -91,6 +91,11 @@ export const CashierSidebarData = [
     heading: "Dashboard",
     path: "/Cashier/Cashierdash",
   },
+  {
+    icon: FaClipboardList,
+    heading: "Bill List",
+    path: "/Cashier/Billlist",
+  },
 ];
 
 // Analytics Cards Data
