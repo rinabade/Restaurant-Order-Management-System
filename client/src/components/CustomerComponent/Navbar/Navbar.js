@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
-import { cartItems } from '../../../Data/Data';
+// import { cartItems } from '../../../Data/Data';
 import header from "../../../imgs/header.jpg";
 import berry from "../../../imgs/berry.png";
 import leaf from "../../../imgs/leaf.png";
@@ -19,7 +19,7 @@ import menu2 from "../../../imgs/menu-2.png";
 import menu3 from "../../../imgs/menu-3.png";
 import menu4 from "../../../imgs/menu-4.png";
 import { FaAngleLeft, FaAngleRight, FaPlus, FaMinus } from "react-icons/fa";
-import { getAllCategory, getMenu } from "../../../api/userAction";
+import { getAllCategory, getMenu, getSearchFood, searchFood } from "../../../api/userAction";
 
 
 
@@ -31,13 +31,21 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
   const about = useRef(null);
   const menu = useRef(null);
   const contact = useRef(null);
-  const scrollToSection = (elementRef) => {
-    window.scrollTo({
-      top: elementRef.current.offsetTop,
-      behavior: "smooth",
-    });
-  };
+  // const scrollToSection = (elementRef) => {
+  //   window.scrollTo({
+  //     top: elementRef.current.offsetTop,
+  //     behavior: "smooth",
+  //   });
+  // };
 
+  const scrollToSection = (ref) => {
+    if (ref && ref.current) {
+      window.scrollTo({
+        top: ref.current.offsetTop,
+        behavior: 'smooth',
+      });
+    }
+  };
   // const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // const toggleMenu = () => {
@@ -47,14 +55,7 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
   // const [filterCategory, setFilterCategory] = useState('all');
   // const [items, setItems] = useState(cartItems);
 
-  // const filterItem = (categItem) => {
-  //   setFilterCategory(categItem);
-  //   const filteredItems = categItem === 'all'
-  //     ? cartItems.filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()))
-  //     : cartItems.filter((item) => item.category === categItem && item.title.toLowerCase().includes(searchQuery.toLowerCase()));
-  //   setSearchResults(filteredItems);
-  // };
-
+  
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -67,13 +68,46 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
   
   const table_number = "A1";
 
-  const filterItem = (category) => {
-    // setFilterCategory(category);
-    getMenu(category).then(
+  useEffect(() => {
+    getAllCategory().then(
       (success) => {
         if (success.data) {
           // console.log(success.data.data);
-          setFilterCategory(success.data.data);
+          const _data = success.data.data;
+          setMenuCategories(_data);
+          console.log("category-------", menuCategories);
+          if (_data[0]) {
+            filterItem(_data[0].category_id);
+          }
+        } else {
+          console.log("Empty Error Response");
+        }
+      },
+      (error) => {
+        if (error.response) {
+          //Backend Error message
+          console.log(error.response);
+        } else {
+          //Server Not working Error
+          console.log("Server not working");
+        }
+      }
+      );
+    }, []);
+
+    
+    const filterItem = (category) => {
+      // setFilterCategory(category);
+      getMenu(category).then(
+        (success) => {
+          if (success.data) {
+            // console.log(success.data.data);
+            setFilterCategory(success.data.data);
+            console.log("Menu--------", filterCategory);
+            // const filteredItems = category === 'all'
+            //   ? filterCategory.filter((item) => item.item_name.toLowerCase().includes(searchQuery.toLowerCase()))
+            //   : filterCategory.filter((item) => item.category === category && item.item_name.toLowerCase().includes(searchQuery.toLowerCase()));
+            // setSearchResults(filteredItems);
         } else {
           console.log("Empty Error Response");
         }
@@ -89,32 +123,94 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
       }
     );
   };
-  // const filteredItems = filterCategory === 'all' ? cartItems : cartItems.filter((item) => item.category === filterCategory);
-  // const filteredItems = filterCategory;
 
-  // const handleSliderLeft = () => {
-  //   const slider = sliderRef.current;
-  //   gsap.to(slider, {
-  //     x: "+=100",
+      // const filterItem = (categItem) => {
+      //   setFilterCategory(categItem);
+      //   const filteredItems = categItem === 'all'
+      //   ? cartItems.filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()))
+      //   : cartItems.filter((item) => item.category === categItem && item.title.toLowerCase().includes(searchQuery.toLowerCase()));
+      //    setSearchResults(filteredItems);
+      // };
+
+  // const fetchData = (value) => {
+  //   getSearchFood()
+  //   .then((response) => 
+  //     response.json()) .then(json => {
+  //       // console.log(json);
+  //       const results = json.filter((menus) => {
+  //         return menus && menus.item_name && menus. 
+  //       })
+  //     });
+    
+  // }
+
   //search filter 
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState({
+    item_name: ""
+  });
   const [searchResults, setSearchResults] = useState([]);
  
 
-  const handleSearch = (event) => {
-   
-    setSearchQuery(event.target.value);
-    scrollToSection(menuSectionRef);
+  const handleSearch = async(query) => { 
+    // event.preventDefault();
+    // const query = event.target.value;
+
+    // setSearchQuery({
+      //   ...searchQuery,
+    //   [event.target.name]: event.target.value,
+    // });
+    // console.log("query--------", searchQuery)
+    
+    // console.log("query--------", query)
+    if (query === "") {
+      setSearchQuery({
+        item_name: ""
+      });
+      setSearchResults([]);
+    } 
+    else {
+      try{
+      const response = await searchFood(query)
+      const items = response.data
+      // .then((response) => {
+        setSearchQuery({
+          item_name: query
+        })
+        console.log(response.data);
+        setSearchResults(items);
+        // console.log("search------", searchQuery[0])
+        
+      // })
+      scrollToSection(menuSectionRef);
+      }
+      catch(error) {
+        console.log(error);
+      }
+  }
    
     return false; // Add this line
   };
-  useEffect(() => {
-    const filteredItems = cartItems.filter((item) =>
-      item.title.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setSearchResults(filteredItems);
-  }, [searchQuery]);
 
+  
+  useEffect(() => {
+    const filterItem = (categItem) => {
+          setFilterCategory(categItem);
+          const filteredItems = categItem === filterCategory.category_name
+          ? filterCategory.filter((item) => item.item_name && item.item_name.toLowerCase().includes(searchQuery.item_name && searchQuery.item_name.toLowerCase()))
+          // : menuCategories.filter((item) => item.category_name === categItem && item.category_name.toLowerCase().includes(searchQuery.item_name && searchQuery.item_name.toLowerCase()));
+          : menuCategories.filter((item) =>  item.category_name && item.category_name.toLowerCase().includes(searchQuery.category_name && searchQuery.category_name.toLowerCase())
+          );
+           setSearchResults(filteredItems);
+        };
+    // setSearchResults(filteredItems);
+  }, [searchQuery,filterCategory,menuCategories]);
+
+  // useEffect(() => {
+  //   const filteredItems = filterCategory.filter((item) =>
+  //     item.category_name && item.item_name.toLowerCase().includes(searchQuery.item_name && searchQuery.item_name.toLowerCase())
+  //   );
+  //   setSearchResults(filteredItems);
+  // }, [searchQuery, filterCategory]);
 
   const handleSliderLeft = () => {
     const slider = sliderRef.current;
@@ -132,31 +228,6 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
     });
   };
 
-  useEffect(() => {
-    getAllCategory().then(
-      (success) => {
-        if (success.data) {
-          // console.log(success.data.data);
-          const _data = success.data.data;
-          setMenuCategories(_data);
-          if (_data[0]) {
-            filterItem(_data[0].category_id);
-          }
-        } else {
-          console.log("Empty Error Response");
-        }
-      },
-      (error) => {
-        if (error.response) {
-          //Backend Error message
-          console.log(error.response);
-        } else {
-          //Server Not working Error
-          console.log("Server not working");
-        }
-      }
-    );
-  }, []);
 
   return (
     <>
@@ -187,12 +258,13 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
                 </ul>
               </div>
               <div className="navbar-search">
-                <form action="#" class="header-search-form for-des">
-                  <input type="search"
-                    class="form-input"
+                <form  class="header-search-form for-des">
+                  <input 
+                    type="search"
+                    className="form-input"
                     placeholder="Search Here..."
-                    value={searchQuery}
-                    onChange={handleSearch}
+                    value={searchQuery.item_name}
+                    onChange={(event) => handleSearch(event.target.value)}
                     />
                   <button type="submit">
                     <FaSistrix />
@@ -336,8 +408,8 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
         </div>
       </section>
 
-      <section className="menu-section">
-        {filterCategory.map((item) => (
+      {/* <section className="menu-section" ref={menuSectionRef}>
+        {(searchResults.length > 0 ? searchResults : filterCategory).map((item) => (
           <MenuSection
             item={item}
             table_number={table_number}
@@ -345,6 +417,23 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
             key={item.menu_id}
           />
         ))}
+      </section> */}
+
+      <section className="menu-section" ref={menuSectionRef}>
+        {searchResults.length > 0 ? (
+          searchResults.map((item)=> (
+            <MenuSection item={item} table_number={table_number} handleClick={handleClick} key={item.menu_id} />
+          ))
+        ) : (
+          filterCategory.map((item) => (
+          <MenuSection
+            item={item}
+            table_number={table_number}
+            handleClick={handleClick}
+            key={item.menu_id}
+          />
+        ))
+        )}
       </section>
 
       <section className="feedback-section" ref={contact}>

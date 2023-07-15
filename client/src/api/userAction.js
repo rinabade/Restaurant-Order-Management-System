@@ -200,3 +200,9 @@ export const updateOrderStatus = (itemId, tableNumber) => {
     let url = `${Config.BaseUrl}auth2/role_permission/${id}`;
     return axios.delete(url);
   };
+
+
+  export const searchFood = (query) => {
+    let url = `${Config.BaseUrl}customer/search/?query=${query}`;
+    return axios.get(url);
+  };
