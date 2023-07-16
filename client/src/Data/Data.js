@@ -83,6 +83,11 @@ export const KitchenSidebarData = [
     heading: "Dashboard",
     path: "/Kitchen/Kitchendash",
   },
+  {
+    icon: FaUserAlt,
+    heading: "Profile",
+    path: "/Kitchen/Kitchen_profile",
+  },
 ];
 
 export const CashierSidebarData = [
@@ -95,6 +100,11 @@ export const CashierSidebarData = [
     icon: FaClipboardList,
     heading: "Bill List",
     path: "/Cashier/Billlist",
+  },
+  {
+    icon: FaUserAlt,
+    heading: "Profile",
+    path: "/Cashier/Cashier_profile",
   },
 ];
 

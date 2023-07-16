@@ -124,7 +124,7 @@ const Kitchen_profile = () => {
 
   return (
     <div className="d-flex align-items-center justify-content-center vh-100">
-      <div className="kitglass p-3 rounded w-50">
+      <div className="glass p-3 rounded w-50">
         <div className="profile_img text-center p-4">
           <div className="flex flex-column justify-content-center align-items-center ">
             <img

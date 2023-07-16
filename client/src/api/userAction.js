@@ -206,3 +206,10 @@ export const updateOrderStatus = (itemId, tableNumber) => {
     let url = `${Config.BaseUrl}customer/search/?query=${query}`;
     return axios.get(url);
   };
+
+
+  // Payment
+  export const createPayment = (data) => {
+    let url = `${Config.BaseUrl}customer/payment`;
+    return axios.post(url, data);
+  };

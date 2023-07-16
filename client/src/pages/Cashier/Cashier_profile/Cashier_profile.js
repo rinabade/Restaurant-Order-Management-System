@@ -3,12 +3,14 @@ import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import img from "../../../imgs/profile.png";
 import "./Kitchen_profile.css";
+import "./Cashier_profile.css";
 import Avatar from "react-avatar-edit";
 import { Button } from "primereact/button";
 import "primereact/resources/primereact.min.css";
 import { editProfile, getUser } from "../../../api/userAction";
 
 const Cashier_profile = () => {
+// const Admin_profiledata = () => {
   const [image, setImage] = useState("");
   const [imageCrop, setImageCrop] = useState(false);
   const [src, setSrc] = useState(false);
@@ -375,3 +377,4 @@ const Cashier_profile = () => {
 };
 
 export default Cashier_profile;
+// export default Admin_profiledata;

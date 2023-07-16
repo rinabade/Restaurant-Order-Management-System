@@ -27,13 +27,14 @@ import Kitchen_profile from './pages/Kitchen/Kitchen_profile/Kitchen_profile';
 import CashierDash from './pages/Cashier/CashierDash/CashierDash';
 import CashierDashboard from './pages/Cashier/CashierDashboard/CashierDashboard';
 import CashierLogin from './pages/Cashier/CashierLogin/CashierLogin';
+import Billlist from './pages/Cashier/Bill_list/Billlist';
 import Cashier_profile from './pages/Cashier/Cashier_profile/Cashier_profile';
 
 import Menu from './pages/User/Menu/Menu';
 import useToken from './components/Token/useToken';
 // import "./components/Token/axiosinterceptor";
 import { io } from "socket.io-client";
-import Billlist from './pages/Cashier/Bill_list/Billlist';
+
 
 function setToken(userToken) {
   sessionStorage.setItem('token', JSON.stringify(userToken));
@@ -102,6 +103,7 @@ function App() {
               <Route path="Cashierdash" element={<CashierDash />} />
               <Route path="Cashier_profile" element={<Cashier_profile />} />
               <Route path="Billlist" element={<Billlist />} />
+              <Route path="Cashier_profile" element={<Cashier_profile />} />
             </Route>
           )}
         </Routes>

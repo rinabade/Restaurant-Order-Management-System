@@ -34,7 +34,7 @@ const Billlist = () => {
     });
 
     socket.on("newOrder", (order) => {
-      console.log("Received new order:", order);
+      console.log("New order received:", order);
       setOrders((prevOrders) => [...prevOrders, order]);
     });
 

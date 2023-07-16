@@ -21,6 +21,8 @@ const CashierDash = () => {
   const [showInvoice, setShowInvoice] = useState(false);
   const [showQRCode, setShowQRCode] = useState(false); // New state for controlling QR code popup visibility
 
+  console.log("rfnkernj---------", selectedOrder);
+
   useEffect(() => {
     const socket = io("http://localhost:8000");
 
@@ -33,7 +35,7 @@ const CashierDash = () => {
     });
 
     socket.on("newOrder", (order) => {
-      console.log("Received new order:", order);
+      // console.log("Received new order:", order);
       setOrders((prevOrders) => [order, ...prevOrders]);
     });
 
@@ -58,13 +60,16 @@ const CashierDash = () => {
     // console.log("selectedOrder-------", selectedOrder);
   };
 
-  const handleRedirect = () => {
+  const handleRedirect = (itemId, table_number) => {
     setIsDialogOpen(false);
     if (paymentMethod === "cash") {
       setShowInvoice(true);
+
     } else if (paymentMethod === "fonepay") {
       setShowQRCode(true);
     }
+
+
   };
 
   const handleDialogClose = () => {
@@ -98,6 +103,11 @@ const CashierDash = () => {
       localStorage.setItem("cashierOrders", JSON.stringify(updatedOrders));
     }
   };
+
+  useEffect(()=> {
+
+
+  })
 
   return (
     <div className="MainDash">
@@ -139,28 +149,24 @@ const CashierDash = () => {
                       <TableRow>
                         <TableCell className="border">SN</TableCell>
                         <TableCell className="border">Ordered item</TableCell>
-                        <TableCell align="left" className="border">
-                          Quantity
-                        </TableCell>
-                        <TableCell align="left" className="border">
-                          Price
-                        </TableCell>
+                        <TableCell align="left" className="border">Quantity</TableCell>
+                        <TableCell align="left" className="border">Price</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody style={{ color: "white" }}>
                       {order.cart.map((item, index) => (
                         <TableRow
-                          key={item.id}
+                          key={item.menu_id}
                           sx={{
                             "&:last-child td, &:last-child th": { border: 0 },
                           }}
                         >
                           <TableCell className="border">{index + 1}</TableCell>
                           <TableCell component="th" scope="row" className="border">
-                            {item.title}
+                            {item.item_name}
                           </TableCell>
                           <TableCell align="left" className="border">
-                            {item.amount}
+                            {item.quantity}
                           </TableCell>
                           <TableCell align="left" className="border">
                             {item.price}
@@ -189,7 +195,7 @@ const CashierDash = () => {
                   <Button className="CashCancel" onClick={handleDialogClose}>
                     Cancel
                   </Button>
-                  <Button className="CashSave" onClick={handleRedirect}>
+                  <Button className="CashSave" onClick={() => handleRedirect(order.menu_id, order.table_number[0])}>
                     Continue
                   </Button>
                 </TableContainer>
@@ -214,7 +220,7 @@ const CashierDash = () => {
               {selectedOrder && (
                 <>
                   <p className="bill-details">Order Code: {selectedOrder.code}</p>
-                  <p className="bill-details">Table Number: {selectedOrder.tableNumber}</p>
+                  <p className="bill-details">Table Number: {selectedOrder.table_number[0]}</p>
                   <p className="bill-details">Payment method: {paymentMethod}</p>
                   <div className="billborder"></div>
                   <TableContainer component={Paper}>
@@ -236,9 +242,9 @@ const CashierDash = () => {
                         {selectedOrder.cart.map((item, index) => (
                           <TableRow key={item.id}>
                             <TableCell className="border">{index + 1}</TableCell>
-                            <TableCell className="border">{item.title}</TableCell>
+                            <TableCell className="border">{item.item_name}</TableCell>
                             <TableCell align="left" className="border">
-                              {item.amount}
+                              {item.quantity}
                             </TableCell>
                             <TableCell align="left" className="border">
                               {item.price}
