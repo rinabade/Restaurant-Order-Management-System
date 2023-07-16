@@ -223,7 +223,33 @@ margin-right: 20px;
   .orderrow{
     background-color: #89ac9f;
   }
+  .QRCodePopup{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;    
+  }
+  
+  .QRCodeDetails {
+    background-color: white;
+    width: 40%;
+    height: 75%;
+    padding: 20px 20px 0px 30px;
+    border-radius: 8px;
+    margin: 40px 0px 0px 500px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  }
+  .QRCodeContainer{
+   margin: 80px 50px 50px 120px;
 
+  }
+  .QRCodeDescription{
+    margin: 5px 0px 0 100px;
+  }
 @media screen and (max-width: 1200px) {
     .MainDash{
         justify-content:flex-start;

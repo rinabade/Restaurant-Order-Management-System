@@ -65,26 +65,28 @@ const Billlist = () => {
           <Table className="bill-tab">
             <TableHead>
               <TableRow className="orderrow">
+              <TableCell className="border">SN</TableCell>
                 <TableCell className="border">Order Code</TableCell>
                 <TableCell className="border">Table Number</TableCell>
+                <TableCell className="border">Payment method</TableCell>
                 <TableCell className="border">Total Price</TableCell>
                 <TableCell className="border">Date</TableCell>
-                <TableCell className="border">Payment method</TableCell>
                 <TableCell align="left" className="border">
                   Status
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {orders.map((order) => (
+              {orders.map((order,index) => (
                 <TableRow key={order.code} className="border">
+                  <TableCell>{index + 1}</TableCell>
                   <TableCell className="border">{order.code}</TableCell>
                   <TableCell className="border">{order.tableNumber}</TableCell>
+                  <TableCell className="border">{order.paymentMethod}</TableCell>
                   <TableCell className="border">
                     {calculateTotalPrice(order)}
                   </TableCell>
                   <TableCell className="border">{order.date}</TableCell>
-                  <TableCell className="border">{order.paymentMethod}</TableCell>
                   <TableCell align="left" className="border">
                     <span className="status">pending</span>
                   </TableCell>

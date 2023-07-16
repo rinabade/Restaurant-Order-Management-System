@@ -10,14 +10,16 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "react-bootstrap";
-import Box from "@mui/material/Box"; // Import Box component from MUI
+import Box from "@mui/material/Box";
+import QRCode from "react-qr-code"; // Import QRCode component
 
 const CashierDash = () => {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("");
-  const [showInvoice, setShowInvoice] = useState(false); // New state for controlling invoice popup visibility
+  const [showInvoice, setShowInvoice] = useState(false);
+  const [showQRCode, setShowQRCode] = useState(false); // New state for controlling QR code popup visibility
 
   useEffect(() => {
     const socket = io("http://localhost:8000");
@@ -59,9 +61,9 @@ const CashierDash = () => {
   const handleRedirect = () => {
     setIsDialogOpen(false);
     if (paymentMethod === "cash") {
-      setShowInvoice(true); // Show invoice popup
-    } else {
-      window.location.href = "/fonepay";
+      setShowInvoice(true);
+    } else if (paymentMethod === "fonepay") {
+      setShowQRCode(true);
     }
   };
 
@@ -82,24 +84,20 @@ const CashierDash = () => {
   };
 
   const printInvoice = () => {
-    const invoiceElement = document.getElementById("invoice"); // Get the invoice element by its ID
+    const invoiceElement = document.getElementById("invoice");
     if (invoiceElement) {
-      const printWindow = window.open("", "_blank"); // Open a new window for printing
-      printWindow.document.write(invoiceElement.innerHTML); // Write the invoice content to the new window
+      const printWindow = window.open("", "_blank");
+      printWindow.document.write(invoiceElement.innerHTML);
       printWindow.document.close();
-      printWindow.print(); // Print the new window
-      printWindow.close(); // Close the new window after printing
-      setShowInvoice(false); // Hide the invoice popup
-  
-      // Remove the order from the orders list
+      printWindow.print();
+      printWindow.close();
+      setShowInvoice(false);
       const updatedOrders = orders.filter((order) => order !== selectedOrder);
       setOrders(updatedOrders);
-  
-      setSelectedOrder(null); // Deselect the current order
+      setSelectedOrder(null);
       localStorage.setItem("cashierOrders", JSON.stringify(updatedOrders));
     }
   };
-  
 
   return (
     <div className="MainDash">
@@ -132,16 +130,21 @@ const CashierDash = () => {
                   component={Paper}
                   style={{ boxShadow: "0px 13px 20px 0px #80808029" }}
                 >
-                  <Table sx={{ minWidth: 650 }} aria-label="simple table" className="cash-table">
+                  <Table
+                    sx={{ minWidth: 650 }}
+                    aria-label="simple table"
+                    className="cash-table"
+                  >
                     <TableHead>
-                      <TableRow >
+                      <TableRow>
                         <TableCell className="border">SN</TableCell>
                         <TableCell className="border">Ordered item</TableCell>
-                        <TableCell align="left" className="border">Quantity</TableCell>
-                        <TableCell align="left" className="border">Price</TableCell>
-                      </TableRow>
-                      <TableRow>
-                     
+                        <TableCell align="left" className="border">
+                          Quantity
+                        </TableCell>
+                        <TableCell align="left" className="border">
+                          Price
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody style={{ color: "white" }}>
@@ -152,12 +155,16 @@ const CashierDash = () => {
                             "&:last-child td, &:last-child th": { border: 0 },
                           }}
                         >
-                          <TableCell>{index + 1}</TableCell> {/* Add SN */}
-                          <TableCell component="th" scope="row">
+                          <TableCell className="border">{index + 1}</TableCell>
+                          <TableCell component="th" scope="row" className="border">
                             {item.title}
                           </TableCell>
-                          <TableCell align="left" className="border">{item.amount}</TableCell>
-                          <TableCell align="left" className="border">{item.price}</TableCell>
+                          <TableCell align="left" className="border">
+                            {item.amount}
+                          </TableCell>
+                          <TableCell align="left" className="border">
+                            {item.price}
+                          </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
@@ -208,7 +215,7 @@ const CashierDash = () => {
                 <>
                   <p className="bill-details">Order Code: {selectedOrder.code}</p>
                   <p className="bill-details">Table Number: {selectedOrder.tableNumber}</p>
-                  <p className="bill-details">Payment method: </p>
+                  <p className="bill-details">Payment method: {paymentMethod}</p>
                   <div className="billborder"></div>
                   <TableContainer component={Paper}>
                     <Table>
@@ -216,19 +223,26 @@ const CashierDash = () => {
                         <TableRow>
                           <TableCell className="border">SN</TableCell>
                           <TableCell className="border">Ordered item</TableCell>
-                          <TableCell align="left" className="border">Quantity</TableCell>
-                          <TableCell align="left" className="border">Price</TableCell>
+                          <TableCell align="left" className="border">
+                            Quantity
+                          </TableCell>
+                          <TableCell align="left" className="border">
+                            Price
+                          </TableCell>
                         </TableRow>
-                        <TableRow>
-                        </TableRow>
+                        <TableRow></TableRow>
                       </TableHead>
                       <TableBody>
                         {selectedOrder.cart.map((item, index) => (
                           <TableRow key={item.id}>
-                            <TableCell className="border">{index + 1}</TableCell> {/* Add SN */}
+                            <TableCell className="border">{index + 1}</TableCell>
                             <TableCell className="border">{item.title}</TableCell>
-                            <TableCell align="left" className="border">{item.amount}</TableCell>
-                            <TableCell align="left" className="border">{item.price}</TableCell>
+                            <TableCell align="left" className="border">
+                              {item.amount}
+                            </TableCell>
+                            <TableCell align="left" className="border">
+                              {item.price}
+                            </TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
@@ -245,6 +259,25 @@ const CashierDash = () => {
             <Button className="PrintButton" onClick={printInvoice}>
               Print
             </Button>
+          </div>
+        </div>
+      )}
+
+      {/* QR Code Popup */}
+      {showQRCode && (
+        <div className="QRCodePopup">
+          <div className="QRCodeDetails">
+            <button className="CloseButton" onClick={() => setShowQRCode(false)}>
+              X
+            </button>
+            <div className="QRCodeContainer">
+    
+                  <QRCode
+                    value={`order code: ${selectedOrder.code} and table no: ${selectedOrder.tableNumber}`}
+                   
+                  />
+              
+            </div><p className="QRCodeDescription">Scan QR Code to make payment</p>
           </div>
         </div>
       )}

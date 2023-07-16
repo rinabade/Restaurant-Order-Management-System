@@ -68,12 +68,19 @@ const CartContainer = ({ cart, table_number, setCart, handleChange }) => {
   };
 
  
-  useEffect(() => {
-    handlePrice();
-  });
+  // useEffect(() => {
+  //   const generatedCode = '456'; // Generate the code here
+  //   setCodenum(generatedCode); // Set the generated code to the state
+  //   const generatedTableNumber = 2; // Generate the table number here
+  //   setTableNumber(generatedTableNumber);
+  // }, []);
 
-  if (cart === undefined || cart.length === 0) {
-    return <p>Your order is successful. Thank You </p>;
+
+  useEffect(()=>{
+      handlePrice();
+  })
+  if (cart.length === 0) {
+    return <p className='empty'>Your cart is empty.</p>;
   }
 
   return (
