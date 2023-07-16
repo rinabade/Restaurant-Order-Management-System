@@ -21,17 +21,19 @@ import AdminLogin from './pages/Admin/AdminLogin/AdminLogin';
 import KitchenDash from './pages/Kitchen/KitchenDash/KitchenDash';
 import KitchenDashboard from './pages/Kitchen/KitchenDashboard/KitchenDashboard';
 import KitchenLogin from './pages/Admin/AdminLogin/AdminLogin';
-
+import Kitchen_profile from './pages/Kitchen/Kitchen_profile/Kitchen_profile';
 
 
 import CashierDash from './pages/Cashier/CashierDash/CashierDash';
 import CashierDashboard from './pages/Cashier/CashierDashboard/CashierDashboard';
 import CashierLogin from './pages/Cashier/CashierLogin/CashierLogin';
+import Billlist from './pages/Cashier/Bill_list/Billlist';
+import Cashier_profile from './pages/Cashier/Cashier_profile/Cashier_profile';
 
 import Menu from './pages/User/Menu/Menu';
 import useToken from './components/Token/useToken';
 import { io } from "socket.io-client";
-import Billlist from './pages/Cashier/Bill_list/Billlist';
+
 
 function App() {
   const { token, setToken } = useToken();
@@ -76,7 +78,7 @@ function App() {
           {token && (
             <Route path="/Kitchen" element={<KitchenDashboard />}>
               <Route path="kitchendash" element={<KitchenDash />} />
-            
+              <Route path="Kitchen_profile" element={<Kitchen_profile />} />
             </Route>
           )}
 
@@ -86,6 +88,7 @@ function App() {
             <Route path="/Cashier" element={<CashierDashboard />}>
               <Route path="Cashierdash" element={<CashierDash />} />
               <Route path="Billlist" element={<Billlist />} />
+              <Route path="Cashier_profile" element={<Cashier_profile />} />
             </Route>
           )}
         </Routes>
