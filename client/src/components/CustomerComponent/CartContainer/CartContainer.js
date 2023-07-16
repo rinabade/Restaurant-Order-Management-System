@@ -39,9 +39,9 @@ const CartContainer = ({cart, setCart, handleChange}) => {
     window.location.href = '/';
   };
   useEffect(() => {
-    const generatedCode = '456'; // Generate the code here
+    const generatedCode = '123'; // Generate the code here
     setCodenum(generatedCode); // Set the generated code to the state
-    const generatedTableNumber = 2; // Generate the table number here
+    const generatedTableNumber = 1; // Generate the table number here
     setTableNumber(generatedTableNumber);
   }, []);
 
