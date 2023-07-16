@@ -90,16 +90,16 @@ const CashierDash = () => {
       printWindow.print(); // Print the new window
       printWindow.close(); // Close the new window after printing
       setShowInvoice(false); // Hide the invoice popup
-      setOrders((prevOrders) =>
-        prevOrders.filter((order) => order !== selectedOrder)
-      );
-      setSelectedOrder(null);
-      localStorage.setItem(
-        "cashierOrders",
-        JSON.stringify(orders.filter((order) => order !== selectedOrder))
-      );
+  
+      // Remove the order from the orders list
+      const updatedOrders = orders.filter((order) => order !== selectedOrder);
+      setOrders(updatedOrders);
+  
+      setSelectedOrder(null); // Deselect the current order
+      localStorage.setItem("cashierOrders", JSON.stringify(updatedOrders));
     }
   };
+  
 
   return (
     <div className="MainDash">
@@ -132,20 +132,16 @@ const CashierDash = () => {
                   component={Paper}
                   style={{ boxShadow: "0px 13px 20px 0px #80808029" }}
                 >
-                  <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                  <Table sx={{ minWidth: 650 }} aria-label="simple table" className="cash-table">
                     <TableHead>
-                      <TableRow>
-                        <TableCell>SN</TableCell>
-                        <TableCell>Ordered item</TableCell>
-                        <TableCell align="left">Quantity</TableCell>
-                        <TableCell align="left">Price</TableCell>
+                      <TableRow >
+                        <TableCell className="border">SN</TableCell>
+                        <TableCell className="border">Ordered item</TableCell>
+                        <TableCell align="left" className="border">Quantity</TableCell>
+                        <TableCell align="left" className="border">Price</TableCell>
                       </TableRow>
                       <TableRow>
-                        <Box
-                          borderBottom={1}
-                          borderColor="grey.300"
-                          colspan={4} // span across all columns
-                        />
+                     
                       </TableRow>
                     </TableHead>
                     <TableBody style={{ color: "white" }}>
@@ -158,10 +154,10 @@ const CashierDash = () => {
                         >
                           <TableCell>{index + 1}</TableCell> {/* Add SN */}
                           <TableCell component="th" scope="row">
-                            {item.item_name}
+                            {item.title}
                           </TableCell>
-                          <TableCell align="left">{item.quantity}</TableCell>
-                          <TableCell align="left">{item.price}</TableCell>
+                          <TableCell align="left" className="border">{item.amount}</TableCell>
+                          <TableCell align="left" className="border">{item.price}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
@@ -207,7 +203,7 @@ const CashierDash = () => {
               X
             </button>
             <div id="invoice">
-              <p className="foodie">Foodie</p>
+              <p className="foodie">Resturant Management System</p>
               {selectedOrder && (
                 <>
                   <p className="bill-details">Order Code: {selectedOrder.code}</p>
@@ -218,10 +214,10 @@ const CashierDash = () => {
                     <Table>
                       <TableHead>
                         <TableRow>
-                          <TableCell>SN</TableCell>
-                          <TableCell>Ordered item</TableCell>
-                          <TableCell align="left">Quantity</TableCell>
-                          <TableCell align="left">Price</TableCell>
+                          <TableCell className="border">SN</TableCell>
+                          <TableCell className="border">Ordered item</TableCell>
+                          <TableCell align="left" className="border">Quantity</TableCell>
+                          <TableCell align="left" className="border">Price</TableCell>
                         </TableRow>
                         <TableRow>
                         </TableRow>
@@ -229,10 +225,10 @@ const CashierDash = () => {
                       <TableBody>
                         {selectedOrder.cart.map((item, index) => (
                           <TableRow key={item.id}>
-                            <TableCell>{index + 1}</TableCell> {/* Add SN */}
-                            <TableCell>{item.title}</TableCell>
-                            <TableCell align="left">{item.amount}</TableCell>
-                            <TableCell align="left">{item.price}</TableCell>
+                            <TableCell className="border">{index + 1}</TableCell> {/* Add SN */}
+                            <TableCell className="border">{item.title}</TableCell>
+                            <TableCell align="left" className="border">{item.amount}</TableCell>
+                            <TableCell align="left" className="border">{item.price}</TableCell>
                           </TableRow>
                         ))}
                       </TableBody>

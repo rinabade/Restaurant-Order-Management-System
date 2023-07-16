@@ -45,7 +45,10 @@
     margin-right: 10px;
     font-weight: bold;
   }
-  
+  .cash-table{
+    margin: 20px 20px 0 20px;
+    width: 95%!important;
+  }
   .CashButton:hover {
     background-color: #ddd;
   }
@@ -109,7 +112,7 @@ margin-right: 20px;
   .InvoiceDetails {
     background-color: white;
     width: 40%;
-    height: 85%;
+    height: 75%;
     padding: 20px 20px 0px 30px;
     border-radius: 8px;
     margin: 120px 0px 0px 500px;
@@ -119,6 +122,7 @@ margin-right: 20px;
     display: flex;
     justify-content: center;
     font-size: large;
+    margin-bottom: 30px;
   }
   .bill-details{
     font-size: medium;
@@ -127,10 +131,7 @@ margin-right: 20px;
     border-style:dashed;
     border-width: 1px;
   }
-  .css-1ex1afd-MuiTableCell-root{
-    border:none!important;
-   
-  }
+
   .InvoiceHeader {
     display: flex;
     align-items: center;
@@ -144,6 +145,7 @@ margin-right: 20px;
   }
   
   .PrintButton {
+   margin:10px 0 0 200px;
     padding: 8px 16px;
     background-color: #149712!important;
     color: white;
@@ -171,12 +173,12 @@ margin-right: 20px;
     display: flex;
     justify-content: flex-end;
     margin-top: 10px;
-    margin-right: 40px;
+    margin-right: 30px;
   }
   .InvoiceTotal span{
     display: flex;
     justify-content: flex-end;
-    margin-left: 60px;
+    margin-left: 50px;
   }
   
   .CloseButton {
@@ -185,10 +187,10 @@ margin-right: 20px;
     cursor: pointer;
     font-size: 18px;
     color: #999;
-   margin: 0 0 0 300px;
+   margin: 0 0 0 450px;
   }
   .css-11xur9t-MuiPaper-root-MuiTableContainer-root {
-    border: none;
+
     box-shadow: none!important;
   }
   /* .css-rqglhn-MuiTable-root {
