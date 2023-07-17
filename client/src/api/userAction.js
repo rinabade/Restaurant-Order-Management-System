@@ -209,7 +209,7 @@ export const updateOrderStatus = (itemId, tableNumber) => {
 
 
   // Payment
-  export const createPayment = (data) => {
+  export const createPayment = (table_number,paymentMethod,transactionCode) => {
     let url = `${Config.BaseUrl}customer/payment`;
-    return axios.post(url, data);
+    return axios.post(url, table_number,paymentMethod,transactionCode);
   };

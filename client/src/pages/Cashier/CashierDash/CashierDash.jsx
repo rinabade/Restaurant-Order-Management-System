@@ -14,6 +14,7 @@ import Box from "@mui/material/Box";
 import QRCode from "react-qr-code"; // Import QRCode component
 import Qr from "../../../imgs/Qr.JPG";
 import esewalogo from "../../../imgs/esewa-logo.png";
+import { createPayment } from "../../../api/userAction";
 
 const CashierDash = () => {
   const [orders, setOrders] = useState([]);
@@ -103,7 +104,6 @@ const CashierDash = () => {
   };
 
   const printInvoice = () => {
-
     const invoiceElement = document.getElementById("invoice");
     if (invoiceElement) {
       const printWindow = window.open("", "_blank");
@@ -308,7 +308,7 @@ const CashierDash = () => {
               )}
             </div>
             <br></br>
-            <Button className="PrintButton" onClick={printInvoice}>
+            <Button className="PrintButton" onClick={()=> printInvoice()}>
               Print
             </Button>
           </div>
