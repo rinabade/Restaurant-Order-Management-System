@@ -21,21 +21,22 @@ function AdminLogin({ setToken }) {
 
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
+    const [error, setError] = useState('');
 
     const handleSubmit = async e => {
         e.preventDefault();
-        const token = await loginUser({
-          email,
-          password
-        });
-        setToken(token);
-      }
+        try {
+            const token = await loginUser({
+              email,
+              password
+            });
+            setToken(token);
+          } catch (error) {
+            setError('Password is incorrect');
+          }
+        }
 
-    // const navigate = useNavigate();
-    // const [values, setValues] = useState({
-    //     email: '',
-    //     password: ''
-    // })
+    
 
     const [showPopup, setShowPopup] = useState(false);
     
@@ -43,24 +44,6 @@ function AdminLogin({ setToken }) {
         email : ""
     })
 
-    // const handleRegisterClick = () => {
-    //     navigate("/admin/MainDash");
-    //   };
-
-    // const handleSubmit = (event) => {
-    //     event.preventDefault();
-    //     loginUser(values)
-    //   .then((response) => {
-    //     // Handle successful response
-    //     console.log(response.data);
-    //     // Optionally, perform additional actions after successful post
-    //   })
-    //   .catch((error) => {
-    //     // Handle error response
-    //     console.error(error);
-    //     // Optionally, display an error message to the user
-    //   });
-    // };
 
     const handleResetEmailChange = (event) => {
         setResetEmail(event.target.value);
@@ -97,9 +80,11 @@ function AdminLogin({ setToken }) {
                         <input type="password" placeholder='Enter Password' name='name'
                              onChange={e => setPassword(e.target.value)} className="form-control rounded-0" required />
                     </div >
+                    {error && <p className="error">{error}</p>}
                     <div className='forget text-primary'>
                         <p onClick={() => setShowPopup(true)}>Forget Password?</p>
                     </div>
+                    
                     <div className="align-items-center d-flex justify-content-center">
                         <button type='submit' className='btn btn3 w-50 rounded-12  mt-3 mb-3'>Log in</button>
                     </div>
