@@ -158,8 +158,8 @@ export const createOrder = (data) => {
   });
 };
 
-export const getAllCart = () => {
-  let url = `${Config.BaseUrl}customer/orderDetail`;
+export const getAllOrderDetails = () => {
+  let url = `${Config.BaseUrl}customer/orders`;
   return axios.get(url);
 };
 

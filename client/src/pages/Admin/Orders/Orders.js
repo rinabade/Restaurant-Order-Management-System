@@ -8,38 +8,38 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import "../Table.css";
 import { useState, useEffect } from "react";
-import { getAllCart } from "../../../api/userAction";
+import { getAllOrderDetails } from "../../../api/userAction";
 
 
 export default function BasicTable() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    // getAllCart().then(
-    //   (success) => {
-    //     if (success.data) {
-    //       console.log(success.data.data);
-    //       // console.log(success.data.data.map(user => user.lastname));
-    //       setData(success.data.data);
-    //     } else {
-    //       console.log("Empty Error Response");
-    //     }
-    //   },
-    //   (error) => {
-    //     if (error.response) {
-    //       //Backend Error message
-    //       console.log(error.response);
-    //     } else {
-    //       //Server Not working Error
-    //       console.log("Server not working");
-    //     }
-    //   }
-    // );
+    getAllOrderDetails().then(
+      (success) => {
+        if (success.data) {
+          console.log(success.data.data);
+          // console.log(success.data.data.map(user => user.lastname));
+          setData(success.data.data);
+        } else {
+          console.log("Empty Error Response");
+        }
+      },
+      (error) => {
+        if (error.response) {
+          //Backend Error message
+          console.log(error.response);
+        } else {
+          //Server Not working Error
+          console.log("Server not working");
+        }
+      }
+    );
   }, []);
 
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(10);
 
   const npage = Math.ceil(data.length / pageSize);
   const pages = [...Array(npage + 1).keys()].slice(1);
@@ -70,7 +70,8 @@ export default function BasicTable() {
           <TableHead>
             <TableRow>
               <TableCell>S.No. </TableCell>
-              <TableCell align="left">ItemName</TableCell>
+              <TableCell align="left">Table Number</TableCell>
+              <TableCell align="left">Item Name</TableCell>
               <TableCell align="left">Quantity</TableCell>
               <TableCell align="left">Price</TableCell>
             </TableRow>
@@ -79,7 +80,10 @@ export default function BasicTable() {
             {records.map((dataItem, cart_id) => (
               <TableRow key={cart_id}>
                 <TableCell component="th" scope="row">
-                  {dataItem.cart_id}
+                  {dataItem.orderdetails_id}
+                </TableCell>
+                <TableCell align="left" className="table-cell">
+                  {dataItem.table_number}
                 </TableCell>
                 <TableCell align="left" className="table-cell">
                   {dataItem.item_name}

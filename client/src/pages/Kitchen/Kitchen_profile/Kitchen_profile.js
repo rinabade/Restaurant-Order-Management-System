@@ -6,7 +6,11 @@ import "./Kitchen_profile.css";
 import Avatar from "react-avatar-edit";
 import { Button } from "primereact/button";
 import "primereact/resources/primereact.min.css";
-import { editProfile, getUser } from "../../../api/userAction";
+import {editPassword, editProfile, getUser } from "../../../api/userAction";
+import jwt from "jwt-decode";
+import useToken from "../../../components/Token/useToken";
+import { Config } from "../../../Config";
+import { Navigate } from "react-router-dom";
 
 const Kitchen_profile = () => {
   const [image, setImage] = useState("");
@@ -17,6 +21,15 @@ const Kitchen_profile = () => {
   const [showDialog, setShowDialog] = useState(false);
   const [isChangingInformation, setIsChangingInformation] = useState(false);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
+  const [editItemId, setEditItemId] = useState(null);
+  const [editedItem, setEditedItem] = useState({
+    employee_id: "",
+    firstname: "",
+    lastname: "",
+    email: "",
+    phone: "",
+    address: "",
+  });
 
   const [data, setData] = useState({
     firstname: "",
@@ -28,28 +41,61 @@ const Kitchen_profile = () => {
 
   const [values, setValues] = useState([]);
 
-  useEffect((id) => {
-    getUser().then(
-      (success) => {
-        if (success.data) {
-          console.log(success.data.data);
-          // console.log(success.data.data.map(user => user.lastname));
-          setData(success.data.data);
-        } else {
-          console.log("Empty Error Response");
+  const refreshPage = () => {
+    Navigate(0);
+}
+  const { getToken } = useToken();
+
+  // useEffect((id) => {
+  //   getUser().then(
+  //     (success) => {
+  //       if (success.data) {
+  //         console.log(success.data.data);
+  //         // console.log(success.data.data.map(user => user.lastname));
+  //         setData(success.data.data);
+  //       } else {
+  //         console.log("Empty Error Response");
+  //       }
+  //     },
+  //     (error) => {
+  //       if (error.response) {
+  //         //Backend Error message
+  //         console.log(error.response);
+  //       } else {
+  //         //Server Not working Error
+  //         console.log("Server not working");
+  //       }
+  //     }
+  //   );
+  // }, []);
+
+  useEffect(() => {
+    const token = getToken();
+    const user = token ? jwt(token) : null;
+    if (user?.employee_id) {
+      getUser(user.employee_id).then(
+        (success) => {
+          if (success?.data?.data) {
+            console.log(success.data.data[0]);
+            // console.log(success.data.data.map(user => user.lastname));
+            if (success.data.data[0])
+             setData(success.data.data[0]);
+          } else {
+            console.log("Empty Error Response");
+          }
+        },
+        (error) => {
+          if (error.response) {
+            //Backend Error message
+            console.log(error.response);
+          } else {
+            //Server Not working Error
+            console.log("Server not working");
+          }
         }
-      },
-      (error) => {
-        if (error.response) {
-          //Backend Error message
-          console.log(error.response);
-        } else {
-          //Server Not working Error
-          console.log("Server not working");
-        }
-      }
-    );
-  }, []);
+      );
+    }
+  },[]);
 
   const profileFinal = profile.length ? profile[0].pview : "";
 
@@ -84,43 +130,89 @@ const Kitchen_profile = () => {
     setShowDialog(false);
   };
   
-  const handleChangeInformation = () => {
+  // const handleChangeInformation = () => {
+  //   setIsChangingInformation(true);
+  // };
+
+  const handleChangeInformation = (employeeData) => {
+    setEditItemId(employeeData);
+    setEditedItem({ ...employeeData });
     setIsChangingInformation(true);
   };
 
   const handleSubmitInformation = (event) => {
     event.preventDefault();
-    editProfile(values)
+    editProfile(editedItem.employee_id, editedItem)
       .then((response) => {
-        // Handle successful response
-        console.log(response.data);
-        // Optionally, perform additional actions after successful post
+        console.log("Profile updated successfully");
+        let index = data.findIndex(
+          (o) => o.employee_id === editedItem.employee_id
+        );
+        if (index > -1) {
+          data[index] = editedItem;
+          setData(data);
+          // setData((prevData) => ({
+          //   ...prevData,
+          //   ...editedItem,
+          // }));
+          refreshPage();
+        }
+        handleCloseEdit();
       })
       .catch((error) => {
-        // Handle error response
-        console.error(error);
-        // Optionally, display an error message to the user
+        console.error("An error occurred while updating the user");
       });
-    // Handle form submission for change information
     setIsChangingInformation(false);
   };
 
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const handleChangePassword = () => {
+  
+  const handleChangePassword = (employeeData) => {
+    setEditItemId(employeeData);
+    setEditedItem({ ...employeeData });
+    console.log("cjdbchjb--------", editedItem);
     setIsChangingPassword(true);
   };
 
   const handleSubmitPassword = (event) => {
     event.preventDefault();
-    // Handle form submission for change password
+    editPassword(editedItem.employee_id, editedItem)
+      .then((response) => {
+        console.log("Permission updated successfully");
+        let index = data.findIndex(
+          (o) => o.employee_id === editedItem.employee_id
+        );
+        if (index > -1) {
+          data[index] = editedItem;
+          setData(data);
+        }
+        handleCloseEdit();
+      })
+      .catch((error) => {
+        console.error("An error occurred while updating the user");
+      });
     setIsChangingPassword(false);
   };
+
+  const handleCloseEdit = () => {
+    setEditItemId(null);
+  };
+
+  // const handleChange = (event) => {
+  //   setValues({
+  //     ...values,
+  //     [event.target.name]: event.target.value,
+  //   });
+  // };
+
+  // const handleChangePassword = () => {
+  //   setIsChangingPassword(true);
+  // };
+
+  // const handleSubmitPassword = (event) => {
+  //   event.preventDefault();
+  //   // Handle form submission for change password
+  //   setIsChangingPassword(false);
+  // };
 
   return (
     <div className="d-flex align-items-center justify-content-center vh-100">
@@ -141,7 +233,7 @@ const Kitchen_profile = () => {
             />
             <br />
             <label htmlFor="" className="mt-3 fw-bold fs-2">
-              Aditi Shrestha
+            {`${data.firstname} ${data.lastname}`}
             </label>
             {showDialog && (
               <div className="dialog-overlay">
@@ -205,30 +297,31 @@ const Kitchen_profile = () => {
             </label>
           </div>
           <div className="mb-3 d-flex justify-content-around">
-            {/* <label htmlFor='password'>
-              <strong>Email:</strong>
-            </label> */}
+
             <label htmlFor="phone">
               <strong>Phone number:</strong> {data.phone}
             </label>
           </div>
+          <br></br>
+          <br></br>
           <div className="change flex-row d-flex justify-content-around">
             <button
               type="button"
               className="btn btn2 rounded-12"
-              onClick={handleChangeInformation}
+              onClick={() =>handleChangeInformation(data)}
             >
               Change Information
             </button>
             <button
               type="button"
               className="btn btn2 rounded-12 "
-              onClick={handleChangePassword}
+              onClick={() => handleChangePassword(data)}
             >
               Change password
             </button>
           </div>
         </form>
+
         {isChangingInformation && (
           <div className="dialog-overlay1">
             <Dialog
@@ -250,8 +343,13 @@ const Kitchen_profile = () => {
                       type="text"
                       placeholder="Enter First name"
                       name="firstname"
-                      onChange={handleChange}
-                      value={values.firstname}
+                      onChange={(e) =>
+                        setEditedItem((prevItem) => ({
+                          ...prevItem,
+                          firstname: e.target.value,
+                        }))
+                      }
+                      value={editedItem.firstname}
                       className="form-control rounded-0"
                       required
                     />
@@ -262,8 +360,13 @@ const Kitchen_profile = () => {
                       type="text"
                       placeholder="Enter Last name"
                       name="lastname"
-                      onChange={handleChange}
-                      value={values.lastname}
+                      onChange={(e) =>
+                        setEditedItem((prevItem) => ({
+                          ...prevItem,
+                          lastname: e.target.value,
+                        }))
+                      }
+                      value={editedItem.lastname}
                       className="form-control rounded-0"
                       required
                     />
@@ -276,8 +379,13 @@ const Kitchen_profile = () => {
                       type="email"
                       placeholder="Enter email"
                       name="email"
-                      onChange={handleChange}
-                      value={values.email}
+                      onChange={(e) =>
+                        setEditedItem((prevItem) => ({
+                          ...prevItem,
+                          email: e.target.value,
+                        }))
+                      }
+                      value={editedItem.email}
                       className="form-control rounded-0"
                       required
                     />
@@ -288,8 +396,13 @@ const Kitchen_profile = () => {
                       type="text"
                       placeholder="Enter address"
                       name="address"
-                      onChange={handleChange}
-                      value={values.address}
+                      onChange={(e) =>
+                        setEditedItem((prevItem) => ({
+                          ...prevItem,
+                          address: e.target.value,
+                        }))
+                      }
+                      value={editedItem.address}
                       className="form-control rounded-0"
                       required
                     />
@@ -301,21 +414,44 @@ const Kitchen_profile = () => {
                     type="number"
                     placeholder="Enter phone number"
                     name="phone"
-                    onChange={handleChange}
-                    value={values.phone}
+                    onChange={(e) =>
+                      setEditedItem((prevItem) => ({
+                        ...prevItem,
+                        phone: e.target.value,
+                      }))
+                    }
+                    value={editedItem.phone}
                     className="form-control rounded-0"
                     required
                   />
                 </div>
                 <Button
                   type="submit"
-                  label="Save Changes"
                   className="btn bg-success text-white"
-                />
+                  style={{
+                    variant: "contained",
+                    color: "primary",
+                  }}
+                >
+                  Save
+                </Button>
+                <Button
+                  // type="danger"
+                  className="btn bg-danger text-white"
+                  style={{
+                    marginLeft: "10px",
+                    variant: "contained",
+                    color: "error",
+                  }}
+                  onClick={handleCloseEdit}
+                >
+                  Cancel
+                </Button>
               </form>
             </Dialog>
           </div>
         )}
+
         {isChangingPassword && (
           <div className="dialog-overlay1">
             <Dialog
@@ -335,7 +471,14 @@ const Kitchen_profile = () => {
                   <input
                     type="password"
                     placeholder="Enter Current password"
-                    name="name"
+                    name="o_password"
+                    value={editedItem?.o_password}
+                    onChange={(e) =>
+                      setEditedItem((prevItem) => ({
+                        ...prevItem,
+                        o_password: e.target.value,
+                      }))
+                    }
                     className="form-control rounded-0"
                     required
                   />
@@ -345,7 +488,14 @@ const Kitchen_profile = () => {
                   <input
                     type="password"
                     placeholder="Enter New password"
-                    name="name"
+                    name="n_password"
+                    value={editedItem?.n_password}
+                    onChange={(e) =>
+                      setEditedItem((prevItem) => ({
+                        ...prevItem,
+                        n_password: e.target.value,
+                      }))
+                    }
                     className="form-control rounded-0"
                     required
                   />
@@ -355,16 +505,37 @@ const Kitchen_profile = () => {
                   <input
                     type="password"
                     placeholder="Enter New password"
-                    name="name"
+                    name="c_password"
+                    value={editedItem?.c_password}
+                    onChange={(e) =>
+                      setEditedItem((prevItem) => ({
+                        ...prevItem,
+                        c_password: e.target.value,
+                      }))
+                    }
                     className="form-control rounded-0"
                     required
                   />
                 </div>
                 <Button
                   type="submit"
-                  label="Save Password"
+                  // label="Save Password"
                   className="btn bg-success text-white"
-                />
+                >
+                  Save
+                </Button>
+                <Button
+                  // type="danger"
+                  className="btn bg-danger text-white"
+                  style={{
+                    marginLeft: "10px",
+                    variant: "contained",
+                    color: "error",
+                  }}
+                  onClick={handleCloseEdit}
+                >
+                  Cancel
+                </Button>
               </form>
             </Dialog>
           </div>
