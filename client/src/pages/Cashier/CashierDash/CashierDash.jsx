@@ -19,7 +19,8 @@ const CashierDash = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [showInvoice, setShowInvoice] = useState(false);
-  const [showQRCode, setShowQRCode] = useState(false); // New state for controlling QR code popup visibility
+  const [showQRCode, setShowQRCode] = useState(false);
+  const [transactionCode, setTransactionCode] = useState(""); // New state for transaction code input field
 
   console.log("rfnkernj---------", selectedOrder);
 
@@ -66,7 +67,7 @@ const CashierDash = () => {
       setShowInvoice(true);
 
     } else if (paymentMethod === "fonepay") {
-      setShowQRCode(true);
+      setShowInvoice(true);
     }
 
 
@@ -77,7 +78,18 @@ const CashierDash = () => {
   };
 
   const handlePaymentMethodChange = (event) => {
-    setPaymentMethod(event.target.value);
+    const selectedMethod = event.target.value;
+    setPaymentMethod(selectedMethod);
+
+    if (selectedMethod === "fonepay") {
+      setShowQRCode(true);
+    } else {
+      setShowQRCode(false);
+    }
+  };
+
+  const handleTransactionCodeChange = (event) => {
+    setTransactionCode(event.target.value);
   };
 
   const calculateTotalPrice = (order) => {
@@ -101,6 +113,7 @@ const CashierDash = () => {
       setOrders(updatedOrders);
       setSelectedOrder(null);
       localStorage.setItem("cashierOrders", JSON.stringify(updatedOrders));
+      window.location.href = '/Cashier/Cashierdash';
     }
   };
 
@@ -192,6 +205,17 @@ const CashierDash = () => {
                       <option value="fonepay">Fonepay</option>
                     </select>
                   </div>
+                  {/* transition code */}
+                  {paymentMethod === "fonepay" && (
+                    <div className="TransactionCodeContainer">
+                      <span>Transaction Code:</span>
+                      <input
+                        type="text"
+                        value={transactionCode}
+                        onChange={handleTransactionCodeChange}
+                      />
+                    </div>
+                  )}
                   <Button className="CashCancel" onClick={handleDialogClose}>
                     Cancel
                   </Button>
@@ -222,6 +246,9 @@ const CashierDash = () => {
                   <p className="bill-details">Order Code: {selectedOrder.code}</p>
                   <p className="bill-details">Table Number: {selectedOrder.table_number[0]}</p>
                   <p className="bill-details">Payment method: {paymentMethod}</p>
+                  {paymentMethod === "fonepay" && (
+                    <p className="bill-details">Transaction Code: {transactionCode}</p>
+                  )}
                   <div className="billborder"></div>
                   <TableContainer component={Paper}>
                     <Table>
@@ -277,13 +304,13 @@ const CashierDash = () => {
               X
             </button>
             <div className="QRCodeContainer">
-    
-                  <QRCode
-                    value={`order code: ${selectedOrder.code} and table no: ${selectedOrder.tableNumber}`}
-                   
-                  />
-              
-            </div><p className="QRCodeDescription">Scan QR Code to make payment</p>
+              {selectedOrder && (
+                <QRCode
+                  value={`Order Code: ${selectedOrder.code}\nTable Number: ${selectedOrder.tableNumber}`}
+                />
+              )}
+            </div>
+            <p className="QRCodeDescription">Scan QR Code to make payment</p>
           </div>
         </div>
       )}
