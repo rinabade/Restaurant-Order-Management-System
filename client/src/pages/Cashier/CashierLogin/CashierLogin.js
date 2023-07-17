@@ -21,15 +21,27 @@ function CashierLogin({ setToken }) {
 
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
+    const [error, setError] = useState('');
 
     const handleSubmit = async e => {
         e.preventDefault();
-        const token = await loginUser({
-          email,
-          password
-        });
-        setToken(token);
-      }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          setError(" Email is invalid ");
+          return;
+        }
+        try {
+            const token = await loginUser({
+              email,
+              password
+            });
+            setToken(token);
+          } catch (error) {
+            setError('Password is incorrect');
+          }
+        }
+
 
     // const navigate = useNavigate();
     // const [values, setValues] = useState({
@@ -97,6 +109,7 @@ function CashierLogin({ setToken }) {
                         <input type="password" placeholder='Enter Password' name='name'
                              onChange={e => setPassword(e.target.value)} className="form-control rounded-0" required />
                     </div >
+                    {error && <p className="error">{error}</p>}
                     <div className='forget text-primary'>
                         <p onClick={() => setShowPopup(true)}>Forget Password?</p>
                     </div>

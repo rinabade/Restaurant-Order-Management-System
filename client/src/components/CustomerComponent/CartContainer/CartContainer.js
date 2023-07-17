@@ -50,7 +50,7 @@ const CartContainer = ({cart, setCart, handleChange}) => {
       handlePrice();
   })
   if (cart.length === 0) {
-    return <p className='empty'>Your cart is empty.</p>;
+    return <p className='empty'> Thank you. Your order is successfully placed... </p>;
   }
 
 return (

@@ -1,6 +1,9 @@
 .login{
     background-color: rgba(27, 4, 82, 0.596);
 }
+.error{
+   color: red;
+}
 
 .glass{
     backdrop-filter: blur(20px) saturate(180%);

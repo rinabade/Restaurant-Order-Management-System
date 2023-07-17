@@ -25,6 +25,12 @@ function AdminLogin({ setToken }) {
 
     const handleSubmit = async e => {
         e.preventDefault();
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          setError(" Email is invalid ");
+          return;
+        }
         try {
             const token = await loginUser({
               email,
