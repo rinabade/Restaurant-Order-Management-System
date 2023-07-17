@@ -463,9 +463,11 @@ border-radius: 20px;
 transition: background-color 0.3s ease;
 }
 
-.filters li:hover,
-.filters li.filter-active {
+.filters li:hover {
 background: linear-gradient(145deg, #e3a92b, #ffc933);
+}
+.filactive {
+  background: linear-gradient(145deg, #e3a92b, #ffc933);
 }
 .menu-section{
   margin-left: 50px;

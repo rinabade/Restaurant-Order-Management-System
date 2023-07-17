@@ -234,23 +234,23 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
                     </button>
                     <ul className="filters">
                       <div className="slider" ref={sliderRef}>
-                        <li className={`filter ${filterCategory === 'all' ? 'active' : ''}`} onClick={() => filterItem('all')}>
+                        <li className={`filter ${filterCategory === 'all' ? 'active filactive': ''}`} onClick={() => filterItem('all')}>
                           <img src={menu1} alt="" />
                           All
                         </li>
-                        <li className={`filter ${filterCategory === 'breakfast' ? 'active' : ''}`} onClick={() => filterItem('breakfast')}>
+                        <li className={`filter ${filterCategory === 'breakfast' ? 'active  filactive' : ''}`} onClick={() => filterItem('breakfast')}>
                           <img src={menu2} alt="" />
                           Breakfast
                         </li>
-                        <li className={`filter ${filterCategory === 'lunch' ? 'active' : ''}`} onClick={() => filterItem('lunch')}>
+                        <li className={`filter ${filterCategory === 'lunch' ? 'active  filactive' : ''}`} onClick={() => filterItem('lunch')}>
                           <img src={menu3} alt="" />
                           Lunch
                         </li>
-                        <li className={`filter ${filterCategory === 'dinner' ? 'active' : ''}`} onClick={() => filterItem('dinner')}>
+                        <li className={`filter ${filterCategory === 'dinner' ? 'active  filactive' : ''}`} onClick={() => filterItem('dinner')}>
                           <img src={menu4} alt="" />
                           Dinner
                         </li>
-                        <li className={`filter ${filterCategory === 'snacks' ? 'active' : ''}`} onClick={() => filterItem('snacks')}>
+                        <li className={`filter ${filterCategory === 'snacks' ? 'active  filactive' : ''}`} onClick={() => filterItem('snacks')}>
                           <img src={menu4} alt="" />
                           Snacks
                         </li>
@@ -273,7 +273,7 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
     ))
   ) : (
     filteredItems.map((item) => (
-      <MenuSection item={item} handleClick={handleClick} key={item.id} />
+      <MenuSection item={item} handleClick={handleClick} key={item.id}  className={item.category === filterCategory ? 'active' : ''}/>
     ))
   )}
       </section>
