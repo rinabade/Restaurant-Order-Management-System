@@ -213,6 +213,13 @@ color: white!important;
   .orderrow{
     background-color: #89ac9f;
   }
+  .TransactionCodeContainer{
+    margin: 20px 0 0 50px;
+  }
+  .Qr-image{
+    width: 200px;
+    margin-left:120px ;
+  }
   .QRCodePopup{
     position: fixed;
     top: 0;
@@ -223,14 +230,14 @@ color: white!important;
     align-items: center;
     justify-content: center;    
   }
-  
+ 
   .QRCodeDetails {
     background-color: white;
     width: 40%;
-    height: 75%;
-    padding: 20px 20px 0px 30px;
+    height: 80%;
+    padding: 20px 20px 50px 30px;
     border-radius: 8px;
-    margin: 40px 0px 0px 500px;
+    margin: 20px 0px 0px 500px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   }
   .QRCodeContainer{

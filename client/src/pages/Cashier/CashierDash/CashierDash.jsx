@@ -12,6 +12,8 @@ import Paper from "@mui/material/Paper";
 import { Button } from "react-bootstrap";
 import Box from "@mui/material/Box";
 import QRCode from "react-qr-code"; // Import QRCode component
+import Qr from "../../../imgs/Qr.JPG";
+import esewalogo from "../../../imgs/esewa-logo.png";
 
 const CashierDash = () => {
   const [orders, setOrders] = useState([]);
@@ -205,6 +207,7 @@ const CashierDash = () => {
                         type="text"
                         value={transactionCode}
                         onChange={handleTransactionCodeChange}
+                        className="transaction"
                       />
                     </div>
                   )}
@@ -294,13 +297,22 @@ const CashierDash = () => {
             <button className="CloseButton" onClick={() => setShowQRCode(false)}>
               X
             </button>
-            <div className="QRCodeContainer">
+            <div className="Qr">
+            <img src={esewalogo} className="Qr-image" alt="" />
+            </div>
+             <p className="QRCodeDescription">Restaurant Management System</p>
+             <br></br>
+            <div className="Qr">
+            <img src={Qr} className="Qr-image" alt="" />
+            </div>
+            {/* <div className="QRCodeContainer">
               {selectedOrder && (
                 <QRCode
-                  value={`Order Code: ${selectedOrder.code}\nTable Number: ${selectedOrder.tableNumber}`}
+                  value={`Table Number: ${selectedOrder.tableNumber}`}
                 />
               )}
-            </div>
+            </div> */}<br></br>
+            
             <p className="QRCodeDescription">Scan QR Code to make payment</p>
           </div>
         </div>
