@@ -101,6 +101,7 @@ const CashierDash = () => {
   };
 
   const printInvoice = () => {
+
     const invoiceElement = document.getElementById("invoice");
     if (invoiceElement) {
       const printWindow = window.open("", "_blank");
@@ -121,6 +122,21 @@ const CashierDash = () => {
 
 
   })
+
+  // const UniqueCodeGenerator = () => {
+    const generateUniqueCode = (table_number) => {
+      const currentDate = new Date();
+      const currentTime = currentDate.getTime();
+      const tableNumber = table_number; // Replace with the actual table number
+  
+      const uniqueCode = `${currentDate.getFullYear()}${currentDate.getMonth() + 1}${currentDate.getDate()}${currentTime}${tableNumber}`;
+
+  
+      console.log(uniqueCode); // Output the unique code to the console (optional)
+      return uniqueCode
+  
+      // You can use the uniqueCode variable in your React component as needed
+    };
 
   return (
     <div className="MainDash">
@@ -243,7 +259,7 @@ const CashierDash = () => {
               <p className="foodie">Resturant Management System</p>
               {selectedOrder && (
                 <>
-                  <p className="bill-details">Order Code: {selectedOrder.code}</p>
+                  <p className="bill-details">Invoice Number: {generateUniqueCode(selectedOrder.table_number[0])}</p>
                   <p className="bill-details">Table Number: {selectedOrder.table_number[0]}</p>
                   <p className="bill-details">Payment method: {paymentMethod}</p>
                   {paymentMethod === "fonepay" && (
