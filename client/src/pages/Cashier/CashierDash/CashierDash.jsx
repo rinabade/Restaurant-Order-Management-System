@@ -12,7 +12,7 @@ import Paper from "@mui/material/Paper";
 import { Button } from "react-bootstrap";
 import Box from "@mui/material/Box";
 import QRCode from "react-qr-code"; // Import QRCode component
-import { createPayment, updatePaymentStatus } from "../../../api/userAction";
+import { createPayment } from "../../../api/userAction";
 
 const CashierDash = () => {
   const [orders, setOrders] = useState([]);
@@ -123,23 +123,9 @@ const CashierDash = () => {
       setOrders(updatedOrders);
       setSelectedOrder(null);
       localStorage.setItem("cashierOrders", JSON.stringify(updatedOrders));
-
-      // updatePaymentStatus({transactionCode, table_number, paymentMethod})
-      // .then(response => {
-      //   console.log(response.data)
-      // })
-      // .catch(error => {
-      //   console.log(error);
-      // })
-
       window.location.href = '/Cashier/Cashierdash';
     }
   };
-
-  useEffect(()=> {
-
-
-  })
 
   // const UniqueCodeGenerator = () => {
     const generateUniqueCode = (table_number) => {
@@ -149,9 +135,9 @@ const CashierDash = () => {
   
       const uniqueCode = `${currentDate.getFullYear()}${currentDate.getMonth() + 1}${currentDate.getDate()}${currentTime}${tableNumber}`;
 
-      // const limitedCode = uniqueCode.substring(0, 8)
-      // console.log(limitedCode); // Output the unique code to the console (optional)
-      return uniqueCode
+      const limitedCode = uniqueCode.substring(0, 8)
+      console.log(limitedCode); // Output the unique code to the console (optional)
+      return limitedCode
   
       // You can use the uniqueCode variable in your React component as needed
     };
@@ -323,7 +309,7 @@ const CashierDash = () => {
               )}
             </div>
             <br></br>
-            <Button className="PrintButton" onClick={() => printInvoice(selectedOrder.table_number[0], paymentMethod, transactionCode)}>
+            <Button className="PrintButton" onClick={() => printInvoice()}>
               Print
             </Button>
           </div>
