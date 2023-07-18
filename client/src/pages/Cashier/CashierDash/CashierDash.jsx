@@ -320,7 +320,7 @@ const CashierDash = () => {
       {showQRCode && (
         <div className="QRCodePopup">
           <div className="QRCodeDetails">
-            <button className="CloseButton" onClick={() => setShowQRCode(false)}>
+            <button className="QrCloseButton" onClick={() => setShowQRCode(false)}>
               X
             </button>
             <div className="QRCodeContainer">

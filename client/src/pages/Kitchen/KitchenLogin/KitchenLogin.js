@@ -12,15 +12,39 @@ function KitchenLogin() {
 
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
+    const [error, setError] = useState('');
 
     const { setToken } = useToken();
+    // const handleSubmit = async e => {
+    //     e.preventDefault();
+
+    //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    //     if (!emailRegex.test(email)) {
+    //       setError(" Email is invalid ");
+    //       return;
+    //     }
+    //     try {
+    //         const token = await loginUser({
+    //           email,
+    //           password
+    //         });
+    //         setToken(token);
+    //       } catch (error) {
+    //         setError('Password is incorrect');
+    //       }
+    //     }
 
     const refreshPage = () => {
         navigate(0);
     }
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async e => {
         e.preventDefault();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          setError(" Email is invalid ");
+          return;
+        }
         await loginUser({email,password})
         .then((response) => {
               // Handle successful response
@@ -34,7 +58,9 @@ function KitchenLogin() {
             })
             .catch((error) => {
               // Handle error response
-              console.error(error);
+            setError('Password is incorrect');
+
+            //   console.error(error);
               // Optionally, display an error message to the user
             });
       }
@@ -95,6 +121,7 @@ function KitchenLogin() {
                         <input type="password" placeholder='Enter Password' name='name'
                              onChange={e => setPassword(e.target.value)} className="form-control rounded-0" required />
                     </div >
+                    {error && <p className="error">{error}</p>}
                     <div className='forget text-primary'>
                         <p onClick={() => setShowPopup(true)}>Forget Password?</p>
                     </div>
