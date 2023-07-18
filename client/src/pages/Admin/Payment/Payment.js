@@ -33,9 +33,9 @@ export default function BasicTable() {
               <TableRow>
                 <TableCell>SN</TableCell>
                 <TableCell align="left">Table no.</TableCell>
-                <TableCell align="left">Transaction code</TableCell>
                 <TableCell align="left">Payment mode</TableCell>
-                <TableCell align="left">Price</TableCell>
+                <TableCell align="left">Transaction code</TableCell>
+                {/* <TableCell align="left">Price</TableCell> */}
                 <TableCell align="left">Date</TableCell>
               </TableRow>
             </TableHead>
@@ -48,9 +48,9 @@ export default function BasicTable() {
                     <TableCell className="border">{index + 1}</TableCell>
                   <TableCell align="left">{row.ID}</TableCell>
                   <TableCell align="left">{row.Category}</TableCell>
-                  <TableCell align="left">
+                  {/* <TableCell align="left">
                     <span className="status">{row.Price}</span>
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell align="left" className="Details">Delete</TableCell>
                   <TableCell align="left" className="Details">2023/17/7</TableCell>
                 </TableRow>

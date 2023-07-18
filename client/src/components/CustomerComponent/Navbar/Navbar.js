@@ -312,14 +312,7 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
                     <ul className="filters">
                       <div className="slider" ref={sliderRef}>
                         {menuCategories.map((dataItem, category_name) => (
-                          <li
-                            className={`filter ${
-                              filterCategory === dataItem.category_name
-                                ? "active"
-                                : ""
-                            }`}
-                            onClick={() => filterItem(dataItem.category_id)}
-                          >
+                          <li className={`filter ${filterCategory === dataItem.category_name ? 'active filactive ' : '' }`} onClick={() => filterItem(dataItem.category_id)} >
                             <img src={menu1} alt="" />
                             {dataItem.category_name}
                           </li>

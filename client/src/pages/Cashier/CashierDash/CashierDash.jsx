@@ -12,9 +12,7 @@ import Paper from "@mui/material/Paper";
 import { Button } from "react-bootstrap";
 import Box from "@mui/material/Box";
 import QRCode from "react-qr-code"; // Import QRCode component
-import Qr from "../../../imgs/Qr.JPG";
-import esewalogo from "../../../imgs/esewa-logo.png";
-import { createPayment } from "../../../api/userAction";
+import { createPayment, updatePaymentStatus } from "../../../api/userAction";
 
 const CashierDash = () => {
   const [orders, setOrders] = useState([]);
@@ -64,7 +62,7 @@ const CashierDash = () => {
     // console.log("selectedOrder-------", selectedOrder);
   };
 
-  const handleRedirect = (itemId, table_number) => {
+  const handleRedirect = (table_number, paymentMethod, transactionCode) => {
     setIsDialogOpen(false);
     if (paymentMethod === "cash") {
       setShowInvoice(true);
@@ -72,6 +70,14 @@ const CashierDash = () => {
     } else if (paymentMethod === "fonepay") {
       setShowInvoice(true);
     }
+
+    createPayment({table_number, paymentMethod, transactionCode})
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.log(error);
+    })
 
 
   };
@@ -103,7 +109,8 @@ const CashierDash = () => {
     return totalPrice;
   };
 
-  const printInvoice = () => {
+  const printInvoice = (table_number, paymentMethod, transactionCode) => {
+    
     const invoiceElement = document.getElementById("invoice");
     if (invoiceElement) {
       const printWindow = window.open("", "_blank");
@@ -116,6 +123,15 @@ const CashierDash = () => {
       setOrders(updatedOrders);
       setSelectedOrder(null);
       localStorage.setItem("cashierOrders", JSON.stringify(updatedOrders));
+
+      // updatePaymentStatus({transactionCode, table_number, paymentMethod})
+      // .then(response => {
+      //   console.log(response.data)
+      // })
+      // .catch(error => {
+      //   console.log(error);
+      // })
+
       window.location.href = '/Cashier/Cashierdash';
     }
   };
@@ -133,8 +149,8 @@ const CashierDash = () => {
   
       const uniqueCode = `${currentDate.getFullYear()}${currentDate.getMonth() + 1}${currentDate.getDate()}${currentTime}${tableNumber}`;
 
-  
-      console.log(uniqueCode); // Output the unique code to the console (optional)
+      // const limitedCode = uniqueCode.substring(0, 8)
+      // console.log(limitedCode); // Output the unique code to the console (optional)
       return uniqueCode
   
       // You can use the uniqueCode variable in your React component as needed
@@ -231,14 +247,13 @@ const CashierDash = () => {
                         type="text"
                         value={transactionCode}
                         onChange={handleTransactionCodeChange}
-                        className="transaction"
                       />
                     </div>
                   )}
                   <Button className="CashCancel" onClick={handleDialogClose}>
                     Cancel
                   </Button>
-                  <Button className="CashSave" onClick={() => handleRedirect(order.menu_id, order.table_number[0])}>
+                  <Button className="CashSave" onClick={() => handleRedirect( order.table_number[0], paymentMethod, transactionCode)}>
                     Continue
                   </Button>
                 </TableContainer>
@@ -308,7 +323,7 @@ const CashierDash = () => {
               )}
             </div>
             <br></br>
-            <Button className="PrintButton" onClick={()=> printInvoice()}>
+            <Button className="PrintButton" onClick={() => printInvoice(selectedOrder.table_number[0], paymentMethod, transactionCode)}>
               Print
             </Button>
           </div>
@@ -322,22 +337,13 @@ const CashierDash = () => {
             <button className="CloseButton" onClick={() => setShowQRCode(false)}>
               X
             </button>
-            <div className="Qr">
-            <img src={esewalogo} className="Qr-image" alt="" />
-            </div>
-             <p className="QRCodeDescription">Restaurant Management System</p>
-             <br></br>
-            <div className="Qr">
-            <img src={Qr} className="Qr-image" alt="" />
-            </div>
-            {/* <div className="QRCodeContainer">
+            <div className="QRCodeContainer">
               {selectedOrder && (
                 <QRCode
-                  value={`Table Number: ${selectedOrder.tableNumber}`}
+                  value={`Order Code: ${selectedOrder.code}\nTable Number: ${selectedOrder.tableNumber}`}
                 />
               )}
-            </div> */}<br></br>
-            
+            </div>
             <p className="QRCodeDescription">Scan QR Code to make payment</p>
           </div>
         </div>
