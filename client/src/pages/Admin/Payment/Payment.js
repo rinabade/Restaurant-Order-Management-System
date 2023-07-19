@@ -7,20 +7,18 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import '../Table.css'
-
-function createData(name, ID, Category, Price, Action) {
-  return { name, ID, Category, Price, Action };
-}
-
-const rows = [
-  createData("Veg", 18908424, "1", "200"),
-  createData("Chicken", 18908424, "2", "200"),
-  createData("buff", 18908424, "3", "200"),
-  createData("buff", 18908421, "4", "200"),
-];
-
+import { useState, useEffect } from "react";
+import { getPaymentDetail } from "../../../api/userAction";
 
 export default function BasicTable() {
+  const [data, setData] = useState([])
+  useEffect(() =>{
+    getPaymentDetail()
+    .then((response) => {
+      // console.log(response.data);
+      setData(response.data.data)
+    })
+  },[])
   return (
       <div className="Table">
       <h3>Payments</h3>
@@ -37,22 +35,28 @@ export default function BasicTable() {
                 <TableCell align="left">Transaction code</TableCell>
                 {/* <TableCell align="left">Price</TableCell> */}
                 <TableCell align="left">Date</TableCell>
+                <TableCell align="left">Status</TableCell>
               </TableRow>
             </TableHead>
             <TableBody style={{ color: "white" }}>
-              {rows.map((row,index) => (
+              {data.map((dataItem,index) => (
                 <TableRow
-                  key={row.name}
+                  key={dataItem.payment_id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                     <TableCell className="border">{index + 1}</TableCell>
-                  <TableCell align="left">{row.ID}</TableCell>
-                  <TableCell align="left">{row.Category}</TableCell>
+                  <TableCell align="left">{dataItem.table_number}</TableCell>
+                  <TableCell align="left">{dataItem.payment_method}</TableCell>
+                  <TableCell align="left">{dataItem.transactionCode}</TableCell>
+                  <TableCell align="left">{dataItem.createdAt}</TableCell>
+                  <TableCell align="left">complete</TableCell>
+
+
                   {/* <TableCell align="left">
                     <span className="status">{row.Price}</span>
                   </TableCell> */}
-                  <TableCell align="left" className="Details">Delete</TableCell>
-                  <TableCell align="left" className="Details">2023/17/7</TableCell>
+                  {/* <TableCell align="left" className="Details">Complete</TableCell> */}
+                  {/* <TableCell align="left" className="Details">2023/17/7</TableCell> */}
                 </TableRow>
               ))}
             </TableBody>
@@ -60,4 +64,4 @@ export default function BasicTable() {
         </TableContainer>
       </div>
   );
-}
+ }

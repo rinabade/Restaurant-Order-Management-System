@@ -25,8 +25,8 @@ const MenuSection = ({ item, table_number, handleClick }) => {
                   <b> Rs. {price}</b>
                 </li>
                 <li>
-                  <button className="dish-add-btn">
-                    <FaPlus onClick={() => handleClick(item, table_number)} />
+                  <button className="dish-add-btn"onClick={() => handleClick(item, table_number)}>
+                    <FaPlus  />
                   </button>
                 </li>
               </ul>

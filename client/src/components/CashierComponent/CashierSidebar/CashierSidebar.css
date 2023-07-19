@@ -4,7 +4,7 @@
   position: relative;
   padding-top: 2rem;
   transition: all 300ms ease;
-  background-color: #89ac9f;
+  background-color: #79af9b;
   overflow-x: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none; /* Internet Explorer and Edge */
@@ -14,12 +14,14 @@
     display: none;
   }
 }
+
 /* logo */
 .bars{
   display: none;
 }
 
-.logo {
+.cashierlogo {
+  color: #023f0c;
   display: flex;
   font-weight: bold;
   font-size: 22px;
@@ -82,7 +84,7 @@
 } */
 
 .cashactive {
-  background: #e4e2e2;
+  background: rgb(199, 247, 240);
   margin-left: 0;
 }
 .cashactive::before {

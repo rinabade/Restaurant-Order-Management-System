@@ -10,9 +10,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "react-bootstrap";
+import { getPaymentDetail } from "../../../api/userAction";
 
 const Billlist = () => {
   const [orders, setOrders] = useState([]);
+  const [data, setData] = useState([]);
+  // console.log("data----------", data)
 
   const calculateTotalPrice = (order) => {
     let totalPrice = 0;
@@ -54,6 +57,14 @@ const Billlist = () => {
     localStorage.setItem("cashierOrders", JSON.stringify(orders));
   }, [orders]);
 
+  useEffect(() =>{
+    getPaymentDetail()
+    .then((response) => {
+      // console.log(response.data);
+      setData(response.data.data)
+    })
+  },[])
+
   return (
     <div>
       <div className="title-icon mb-5 mt-5 dflex">
@@ -66,29 +77,29 @@ const Billlist = () => {
             <TableHead>
               <TableRow className="orderrow">
               <TableCell className="border">SN</TableCell>
-                <TableCell className="border">Order Code</TableCell>
+                {/* <TableCell className="border">Order Code</TableCell> */}
                 <TableCell className="border">Table Number</TableCell>
                 <TableCell className="border">Payment method</TableCell>
-                <TableCell className="border">Total Price</TableCell>
-                <TableCell className="border">Date</TableCell>
+                {/* <TableCell className="border">Total Price</TableCell> */}
+                <TableCell className="border">Payment Date</TableCell>
                 <TableCell align="left" className="border">
                   Status
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {orders.map((order,index) => (
-                <TableRow key={order.code} className="border">
+              {data.map((dataItem,index) => (
+                <TableRow key={dataItem.payment_id} className="border">
                   <TableCell>{index + 1}</TableCell>
-                  <TableCell className="border">{order.code}</TableCell>
-                  <TableCell className="border">{order.tableNumber}</TableCell>
-                  <TableCell className="border">{order.paymentMethod}</TableCell>
-                  <TableCell className="border">
+                  {/* <TableCell className="border">{order.code}</TableCell> */}
+                  <TableCell className="border">{dataItem.table_number}</TableCell>
+                  <TableCell className="border">{dataItem.payment_method}</TableCell>
+                  {/* <TableCell className="border">
                     {calculateTotalPrice(order)}
-                  </TableCell>
-                  <TableCell className="border">{order.date}</TableCell>
+                  </TableCell> */}
+                  <TableCell className="border">{dataItem.createdAt}</TableCell>
                   <TableCell align="left" className="border">
-                    <span className="status">pending</span>
+                    <span className="status">Complete</span>
                   </TableCell>
                 </TableRow>
               ))}

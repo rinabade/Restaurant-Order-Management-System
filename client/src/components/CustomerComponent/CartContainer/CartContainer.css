@@ -33,7 +33,7 @@ article{
   width: 700px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     margin-top: 20px;
     border-bottom: 2px solid rgb(114, 114, 114);
     padding-bottom: 5px;
@@ -172,5 +172,49 @@ article{
   background-color: #af4c4c;
  
 }
-
+@media screen and (max-width: 810px) {
+  .cart_img {
+    display: flex;
+    width: 300px;
+}
+.cart_box {
+  width: 700px;
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  margin-top: 20px;
+  border-bottom: 2px solid rgb(114, 114, 114);
+  padding-bottom: 5px;
+}
+}
+@media screen and (max-width: 495px) {
+  .cart_img {
+    display: flex;
+    width: 100px;
+}
+.cart_box {
+  width: 700px;
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  margin-top: 20px;
+  border-bottom: 2px solid rgb(114, 114, 114);
+  padding-bottom: 5px;
+}
+}
+@media screen and (max-width: 633px) {
+  .cart_img {
+    display: flex;
+    width: 200px;
+}
+.cart_box {
+  width: 700px;
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  margin-top: 20px;
+  border-bottom: 2px solid rgb(114, 114, 114);
+  padding-bottom: 5px;
+}
+}
 /* Rest of the CSS code */

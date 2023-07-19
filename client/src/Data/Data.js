@@ -30,11 +30,11 @@ export const SidebarData = [
     heading: "Menu",
     path: "/admin/AdminMenu",
   },
-  {
-    icon: FaClipboard,
-    heading: "AdminRole",
-    path: "/admin/AdminRole",
-  },
+  // {
+  //   icon: FaClipboard,
+  //   heading: "AdminRole",
+  //   path: "/admin/AdminRole",
+  // },
   // {
   //   icon: FaClipboard,
   //   heading: "Permission",
@@ -98,7 +98,7 @@ export const CashierSidebarData = [
   },
   {
     icon: FaClipboardList,
-    heading: "Bill List",
+    heading: "Payment List",
     path: "/Cashier/Billlist",
   },
   {

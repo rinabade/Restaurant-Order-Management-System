@@ -107,32 +107,32 @@ function KitchenLogin() {
     });
 };
     return (
-        <div className='login d-flex justify-content-center align-items-center vh-100'>
-            <div className='glass p-3 rounded w-45'>
-                <h2>Sign In</h2>
+        <div className='kitchenlogin d-flex justify-content-center align-items-center vh-100'>
+            <div className='kitchenglass p-3 rounded w-45'>
+                <h2>Sign in</h2>
                 <form className='mt-4' onSubmit={handleSubmit}>
                     <div className='mb-3'>
                         <label htmlFor="email"><strong>Email</strong></label>
                         <input type="email" placeholder='Enter Email' name='name'
-                            onChange={e => setEmail(e.target.value)} className="form-control rounded-0" required />
+                            onChange={e => setEmail(e.target.value)}  required />
                     </div>
                     <div className='mb-3'>
                         <label htmlFor="password"><strong>Password</strong></label>
                         <input type="password" placeholder='Enter Password' name='name'
-                             onChange={e => setPassword(e.target.value)} className="form-control rounded-0" required />
+                             onChange={e => setPassword(e.target.value)}  className="passwordfield" required />
                     </div >
                     {error && <p className="error">{error}</p>}
                     <div className='forget text-primary'>
                         <p onClick={() => setShowPopup(true)}>Forget Password?</p>
                     </div>
                     <div className="align-items-center d-flex justify-content-center">
-                        <button type='submit' className='btn btn3 w-50 rounded-12  mt-3 mb-3'>Log in</button>
+                        <button type='submit' className='btn kitchenbtn3 w-50 rounded-12  mt-3 mb-3'>Log in</button>
                     </div>
                 </form>
             </div>
             {showPopup && (
                 <div className="popup">
-                    <div className="popup-content">
+                    <div className="kitchenpopup-content">
                           <button
                             type="button"
                             className="btn btn-close"
@@ -152,14 +152,13 @@ function KitchenLogin() {
                                     name="reset-email"
                                     value={resetEmail.email}
                                     onChange={handleResetEmailChange}
-                                    className="form-control rounded-0"
                                     required
                                 />
                             </div>
                             <div className="align-items-center d-flex justify-content-center">
                                 <button
                                     type="button"
-                                    className="btn btn3 w-50 rounded-12 mt-3 mb-3"
+                                    className="btn kitchenbtn3 w-50 rounded-12 mt-3 mb-3"
                                     onClick={handleSendResetEmail}
                                 >
                                     Send

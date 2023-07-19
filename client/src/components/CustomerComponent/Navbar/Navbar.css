@@ -379,8 +379,8 @@
   padding: 10px;
   display: inline-block;
   border-radius: 60px;
-  background: linear-gradient(145deg, #ececec, #ffffff);
-  box-shadow: 28px 28px 55px #d4d4d4, -28px -28px 55px #ffffff;
+  background: linear-gradient(145deg, #eebe39f1, #f5bd46);
+  box-shadow: 28px 28px 55px #f7df9d, -28px -28px 55px #ffffff;
   position: relative;
   z-index: 2;
   transition: transform 0.3s ease;
@@ -451,6 +451,7 @@ display: inline-block;
 list-style: none;
 padding: 0;
 margin: 0;
+
 }
 
 .filters li {
@@ -458,7 +459,8 @@ display: inline-block;
 margin-right: 10px;
 cursor: pointer;
 padding: 5px 10px;
-background-color: #f2f2f2;
+/* background-color: #f2f2f2; */
+background: linear-gradient(145deg, #f7dd95f1, #ffda89);
 border-radius: 20px;
 transition: background-color 0.3s ease;
 }
@@ -466,8 +468,8 @@ transition: background-color 0.3s ease;
 .filters li:hover {
 background: linear-gradient(145deg, #e3a92b, #ffc933);
 }
-.filactive {
-  background: linear-gradient(145deg, #e3a92b, #ffc933);
+.filters li .filactive {
+  background: linear-gradient(145deg, #e3a92b, #ffc933)!important;
 }
 .menu-section{
   margin-left: 50px;

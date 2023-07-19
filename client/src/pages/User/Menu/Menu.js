@@ -73,8 +73,8 @@ function Menu() {
       )}
         {
 			warning &&
-			<div className='cart-overlay'>
-				<div className='cart-popup'>
+			<div className='warning-overlay'>
+				<div className='warning-popup'>
 
 				<p className='warning'>Item is already added to your cart</p>
 				</div>

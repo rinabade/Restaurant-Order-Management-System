@@ -104,7 +104,6 @@ function AdminLogin() {
               placeholder="Enter Email"
               name="name"
               onChange={(e) => setEmail(e.target.value)}
-              className="form-control rounded-0"
               required
             />
           </div>
@@ -117,7 +116,7 @@ function AdminLogin() {
               placeholder="Enter Password"
               name="name"
               onChange={(e) => setPassword(e.target.value)}
-              className="form-control rounded-0"
+              className="passwordfield"
               required
             />
           </div>
@@ -154,7 +153,6 @@ function AdminLogin() {
                   name="reset-email"
                   value={resetEmail.email}
                   onChange={handleResetEmailChange}
-                  className="form-control rounded-0"
                   required
                 />
               </div>

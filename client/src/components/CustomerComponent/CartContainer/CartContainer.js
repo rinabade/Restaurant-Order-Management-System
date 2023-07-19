@@ -90,7 +90,7 @@ const CartContainer = ({ cart, table_number, setCart, handleChange }) => {
           <div className="cart_img">
             <p>{item.item_name}</p>
           </div>
-          <div>
+          <div className="quantity">
             <button onClick={() => handleChange(item, +1)}> + </button>
             <button>{item.quantity}</button>
             <button onClick={() => handleChange(item, -1)}> - </button>

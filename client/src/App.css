@@ -11,7 +11,9 @@
   --activeItem: #f799a354;
 }
 @import url("https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap");
-
+body{
+  background-color: #f3ecc7!important;
+}
 .App {
   /* padding: 0.5rem 3.5rem; */
   color: var(--black);
@@ -77,6 +79,26 @@ h6 {
   width: 90%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+.warning-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+}
+.warning-popup {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 750px;
+  width: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
 
 .cart-close-btn {
   position: absolute;
@@ -101,22 +123,30 @@ font-weight: bold;
   } 
 }
 
-@media screen and (max-width: 768px) {
-  .AppGlass{
-    grid-template-columns: 1fr;
+@media screen and (max-width: 1032px) {
+  .cart-overlay {
+  margin-right: 50px;
+  }
+}
+@media screen and (max-width: 801px) {
+  .cart-popup {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 650px;
+    width: 90%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   } 
+
+}
+@media screen and (max-width: 810px) {
+  .cart-popup {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 650px;
+    width: 90%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
 }
 
-.warning{
-  height: 40px;
-  width: 250px;
-  position: absolute;
-  right: 0;
-  top: 10%;
-  background-color: rgb(210, 91, 91);
-  font-size: 1.1rem;
-  color: white;
-  font-family: cursive;
-  padding: 5px;
-  border-radius: 5px;
-}

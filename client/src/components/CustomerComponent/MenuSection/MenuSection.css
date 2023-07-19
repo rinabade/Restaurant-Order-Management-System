@@ -8,7 +8,7 @@
 
 .dish-box {
   border-radius: 30px;
-  background: linear-gradient(145deg, #ececec, #ffffff);
+  background: linear-gradient(145deg, hsla(32, 79%, 68%, 0.925), #db7516);
   box-shadow: 28px 28px 45px #d4d4d4, -28px -28px 45px #ffffff;
   display: flow-root;
   padding: 0 30px 10px;
@@ -28,7 +28,7 @@
 }
 
 .dist-img img {
-  box-shadow: 28px 28px 45px #d4d4d4, -28px -28px 45px #ffffff;
+  /* box-shadow: 28px 28px 45px #fde1a3, -28px -28px 45px #f1c573; */
   border-radius: 50%;
   overflow: hidden;
   height:200px;
@@ -116,10 +116,10 @@
   height: 40px;
   border: none;
   border-radius: 10px;
-  color: #ffffff;
+  color: #8f6008;
   transition: 0.3s;
-  background: linear-gradient(145deg, #ffc954, #ffbc00);
-  box-shadow: inset 4px 4px 8px #d6a029, inset -4px -4px 8px #ffd837;
+  background: linear-gradient(145deg, #f3dec2, #ee940df3);
+  box-shadow: inset 4px 4px 8px #fab650, inset -4px -4px 8px #f7cc8b;
 }
 
 .dish-add-btn i {

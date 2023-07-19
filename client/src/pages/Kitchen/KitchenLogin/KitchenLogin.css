@@ -1,22 +1,23 @@
-.login{
+.kitchenlogin{
     background-color: rgba(27, 4, 82, 0.596);
 }
 
-.glass{
+.kitchenglass{
     backdrop-filter: blur(20px) saturate(180%);
     background-color: rgba(222, 209, 238, 0.918);
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, .25);
     box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
-    width: 30%;
+    width: 40%;
 }
 .btn1{
    background-color: rgba(57, 41, 148, 0.705) !important;
    color: aliceblue !important;
    margin-left: 25%;
 }
- .btn3{
-    background-color: rgba(57, 41, 148, 0.705) !important;
+ .kitchenbtn3{
+   background: linear-gradient(145deg, #463c81, #50448f);
+   box-shadow: inset 4px 4px 8px #7668c5, inset -4px -4px 8px #3c3563;
     color: aliceblue !important;
     width: 20%;
  }
@@ -32,9 +33,9 @@
     align-items: center;
     z-index: 9999;
  }
- .popup-content{
+ .kitchenpopup-content{
     position: relative;
-    background-color: #b396d9;
+    background-color: rgba(222, 209, 238, 0.918);
     padding: 20px;
     border-radius: 4px;
     transform: translate(-50%, -50%);

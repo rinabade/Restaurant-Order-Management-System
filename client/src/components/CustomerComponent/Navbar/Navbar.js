@@ -15,6 +15,7 @@ import { gsap, Power2 } from 'gsap';
 import mixitup from 'mixitup';
 import { motion } from "framer-motion";
 import menu1 from "../../../imgs/menu-1.png";
+import aboutus from "../../../imgs/aboutus.jpg";
 import menu2 from "../../../imgs/menu-2.png";
 import menu3 from "../../../imgs/menu-3.png";
 import menu4 from "../../../imgs/menu-4.png";
@@ -262,7 +263,7 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
                 <p className="sec-sub-title mb-3">About Us</p>
                 <h2 className="h2-title">About our Restaurant</h2>
                 <div className="sec-title-shape mb-4">
-                  <img src="assets/images/title-shape.svg" alt="" />
+                  
                 </div>
                 <p>Garden and restaurant !! A magnificent dine out and hand out?! It is one of the best place
                   in town. It is counted as most happening restaurant with parking space and plenty of room for
@@ -277,7 +278,7 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
               <div className="about-video">
                 <div
                   className="about-video-img"
-                  style={{ backgroundImage: `url(${header})` }}
+                  style={{ backgroundImage: `url(${aboutus})` }}
                 ></div>
               </div>
             </div>

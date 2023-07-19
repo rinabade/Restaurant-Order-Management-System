@@ -20,7 +20,7 @@ import AdminLogin from './pages/Admin/AdminLogin/AdminLogin';
 // kitchen route
 import KitchenDash from './pages/Kitchen/KitchenDash/KitchenDash';
 import KitchenDashboard from './pages/Kitchen/KitchenDashboard/KitchenDashboard';
-import KitchenLogin from './pages/Admin/AdminLogin/AdminLogin';
+import KitchenLogin from './pages/Kitchen/KitchenLogin/KitchenLogin';
 import Kitchen_profile from './pages/Kitchen/Kitchen_profile/Kitchen_profile';
 
 

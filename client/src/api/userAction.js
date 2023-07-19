@@ -207,15 +207,19 @@ export const updateOrderStatus = (itemId, tableNumber) => {
     return axios.get(url);
   };
 
+// Payment
+export const createPayment = ({table_number,paymentMethod,transactionCode}) => {
+  let url = `${Config.BaseUrl}customer/payment`;
+  return axios.post(url, {table_number,paymentMethod,transactionCode});
+};
 
-  // Payment
-  export const createPayment = ({table_number,paymentMethod,transactionCode}) => {
-    let url = `${Config.BaseUrl}customer/payment`;
-    return axios.post(url, {table_number,paymentMethod,transactionCode});
-  };
+export const updatePaymentStatus = (transactionCode, table_number, paymentMethod,) => {
+  let url = `${Config.BaseUrl}customer/payment/${transactionCode}`;
+  const data = {table_number : table_number, paymentMethod: paymentMethod}
+  return axios.patch(url, data);
+}; 
 
-  export const updatePaymentStatus = (transactionCode, table_number, paymentMethod,) => {
-    let url = `${Config.BaseUrl}customer/payment/${transactionCode}`;
-    const data = {table_number : table_number, paymentMethod: paymentMethod}
-    return axios.patch(url, data);
-  }; 
+export const getPaymentDetail = () => {
+  let url =`${Config.BaseUrl}customer/payment`;
+  return axios.get(url);
+};

@@ -35,7 +35,7 @@ const CashierSidebar = () => {
     animate={window.innerWidth<=768?`${expanded}`:''}
     >
       {/* logo */}
-      <div className="logo">
+      <div className="cashierlogo">
         <span>
           <span>FOODIE</span>
         </span>
