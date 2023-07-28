@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { FiMail, FiMessageCircle , FiUser} from 'react-icons/fi';
-
 import "./Feedback.css";
 import { createFeedback } from '../../../api/userAction';
 import { Navigate } from 'react-router-dom';
@@ -34,7 +33,6 @@ const Feedback = () => {
     .catch((error) => {
       console.error(error);
     });
-    // setData([]);
   };
 
   return (
@@ -48,6 +46,7 @@ const Feedback = () => {
             placeholder="Full Name"
             value={data.fullname}
             onChange={handleChange}
+            autoComplete='off'
             required
           />
         </div>
@@ -59,6 +58,7 @@ const Feedback = () => {
             placeholder="Email"
             value={data.email}
             onChange={handleChange}
+            autoComplete='off'
             required
           />
         </div>
@@ -69,6 +69,7 @@ const Feedback = () => {
             name="message"
             value={data.message}
             onChange={handleChange}
+            autoComplete='off'
             required
           />
         </div>

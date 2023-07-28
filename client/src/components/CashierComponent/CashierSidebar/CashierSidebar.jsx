@@ -6,9 +6,7 @@ import { CashierSidebarData } from "../../../Data/Data";
 import { UilBars } from "@iconscout/react-unicons";
 import { motion } from "framer-motion";
 
-
-const CashierSidebar = () => {
- 
+const CashierSidebar = () => { 
 
   function handleLogout() {
     sessionStorage.clear();
@@ -21,23 +19,23 @@ const CashierSidebar = () => {
       left : '0'
     },
     false:{
-      left : '-60%'
+      left : '-100%'
     }
   }
   console.log(window.innerWidth)
   return (
     <>
-      <div className="bars" style={expanded?{left: '60%'}:{left: '5%'}} onClick={()=>setExpaned(!expanded)}>
+      <div className="bars" style={expanded?{left: '32%'}:{left: '5%'}} onClick={()=>setExpaned(!expanded)}>
         <UilBars />
       </div>
     <motion.div className='Cashiersidebar'
     variants={sidebarVariants}
-    animate={window.innerWidth<=768?`${expanded}`:''}
+    animate={window.innerWidth<=768|| window.innerWidth <= 1200?`${expanded}`:''}
     >
       {/* logo */}
       <div className="cashierlogo">
         <span>
-          <span>FOODIE</span>
+          <span>RMS</span>
         </span>
       </div>
 

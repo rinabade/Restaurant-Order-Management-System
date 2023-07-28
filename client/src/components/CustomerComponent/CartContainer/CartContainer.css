@@ -217,4 +217,13 @@ article{
   padding-bottom: 5px;
 }
 }
+
+@media screen and (max-width: 633px) {
+  .cart_img {
+    display: flex;
+    width: 150px;
+}
+
+}
+
 /* Rest of the CSS code */

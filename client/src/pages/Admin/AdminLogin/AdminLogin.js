@@ -12,7 +12,7 @@ function AdminLogin() {
 
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-    const [error, setError] = useState('');
+  const [error, setError] = useState()
 
   const { setToken } = useToken();
 
@@ -34,31 +34,11 @@ function AdminLogin() {
       });
   };
 
-  // const [values, setValues] = useState({
-  //     email: '',
-  //     password: ''
-  // })
-
   const [showPopup, setShowPopup] = useState(false);
 
   const [resetEmail, setResetEmail] = useState({
     email: ""
   });
-
-  // const handleSubmit = (event) => {
-  //     event.preventDefault();
-  //     loginUser(values)
-  //   .then((response) => {
-  //     // Handle successful response
-  //     console.log(response.data);
-  //     // Optionally, perform additional actions after successful post
-  //   })
-  //   .catch((error) => {
-  //     // Handle error response
-  //     console.error(error);
-  //     // Optionally, display an error message to the user
-  //   });
-  // };
 
   const handleResetEmailChange = (event) => {
     setResetEmail({ email: event.target.value });
@@ -71,9 +51,7 @@ function AdminLogin() {
         console.log(response.data);
       })
       .catch((error) => {
-        // Handle error response
         console.error(error);
-        // Optionally, display an error message to the user
       });
 
     // axios
@@ -104,6 +82,7 @@ function AdminLogin() {
               placeholder="Enter Email"
               name="name"
               onChange={(e) => setEmail(e.target.value)}
+              autoComplete='off'
               required
             />
           </div>
@@ -117,12 +96,15 @@ function AdminLogin() {
               name="name"
               onChange={(e) => setPassword(e.target.value)}
               className="passwordfield"
+              autoComplete='off'
               required
             />
           </div>
-          <div className="forget text-primary">
+          <p className="error">{error}</p> 
+
+          {/* <div className="forget text-primary">
             <p onClick={() => setShowPopup(true)}>Forget Password?</p>
-          </div>
+          </div> */}
           <div className="align-items-center d-flex justify-content-center">
             <button
               type="submit"
@@ -153,6 +135,7 @@ function AdminLogin() {
                   name="reset-email"
                   value={resetEmail.email}
                   onChange={handleResetEmailChange}
+                  autoComplete='off'
                   required
                 />
               </div>

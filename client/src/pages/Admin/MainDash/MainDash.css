@@ -1,4 +1,4 @@
-.MainDash{
+.adminMainDash{
     /* padding-top: 1rem; */
     display: flex;
     flex-direction: column;
@@ -14,15 +14,19 @@
 }
 
 @media screen and (max-width: 1200px) {
-    .MainDash{
+    .adminMainDash{
         justify-content:flex-start;
         margin-top: 2rem;
+        width: 50%;
+    margin-left: 30%;
     }
 }
 
 @media screen and (max-width: 768px)
 {
-    .MainDash{
+    .adminMainDash{
         align-items: center;
+        width: 50%;
+    margin-left: 30%;
     }
 }

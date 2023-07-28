@@ -7,14 +7,9 @@ import AdminRegister from './pages/Admin/AdminRegister/AdminRegister';
 import AdminMenu from './pages/Admin/AdminMenu/AdminMenu';
 import Category from './pages/Admin/Category/Category';
 import Orders from './pages/Admin/Orders/Orders';
-import Inventory from './pages/Admin/Inventory/Inventory';
 import Feedback from './pages/Admin/Feedback/Feedback';
 import Payment from './pages/Admin/Payment/Payment';
-import Suppliers_payment from './pages/Admin/Suppliers_payment/Suppliers_payment';
 import Admin_profile from './pages/Admin/Admin_profile/Admin_profile';
-import Suppliers from './pages/Admin/Suppliers/Suppliers';
-import Permission from './pages/Admin/Permission/Permission';
-import AdminRole from './pages/Admin/AdminRole/AdminRole';
 import AdminLogin from './pages/Admin/AdminLogin/AdminLogin';
 
 // kitchen route
@@ -51,7 +46,7 @@ function App() {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    setSocket(io("http://localhost:8000"));
+    setSocket(io("http://202.52.248.120:8000/"));
   }, []);
 
   // useEffect(() => {
@@ -71,15 +66,10 @@ function App() {
               <Route path="AdminRegister" element={<AdminRegister />} />
               <Route path="AdminMenu" element={<AdminMenu />} />
               <Route path="Orders" element={<Orders />} />
-              <Route path="Inventory" element={<Inventory />} />
               <Route path="Feedback" element={<Feedback />} />
               <Route path="Payment" element={<Payment />} />
-              <Route path="Suppliers_payment" element={<Suppliers_payment />} />
               <Route path="Admin_profile" element={<Admin_profile />} />
-              <Route path="Suppliers" element={<Suppliers />} />
               <Route path="Category" element={<Category />} />
-              <Route path="Permission" element={<Permission />} />
-              <Route path="AdminRole" element={<AdminRole />} />
             </Route>
            )} 
           

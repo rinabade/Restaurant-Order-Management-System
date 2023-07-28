@@ -39,35 +39,10 @@ const Kitchen_profile = () => {
     address: "",
   });
 
-  const [values, setValues] = useState([]);
-
   const refreshPage = () => {
     Navigate(0);
 }
   const { getToken } = useToken();
-
-  // useEffect((id) => {
-  //   getUser().then(
-  //     (success) => {
-  //       if (success.data) {
-  //         console.log(success.data.data);
-  //         // console.log(success.data.data.map(user => user.lastname));
-  //         setData(success.data.data);
-  //       } else {
-  //         console.log("Empty Error Response");
-  //       }
-  //     },
-  //     (error) => {
-  //       if (error.response) {
-  //         //Backend Error message
-  //         console.log(error.response);
-  //       } else {
-  //         //Server Not working Error
-  //         console.log("Server not working");
-  //       }
-  //     }
-  //   );
-  // }, []);
 
   useEffect(() => {
     const token = getToken();
@@ -77,7 +52,6 @@ const Kitchen_profile = () => {
         (success) => {
           if (success?.data?.data) {
             console.log(success.data.data[0]);
-            // console.log(success.data.data.map(user => user.lastname));
             if (success.data.data[0])
              setData(success.data.data[0]);
           } else {
@@ -86,10 +60,8 @@ const Kitchen_profile = () => {
         },
         (error) => {
           if (error.response) {
-            //Backend Error message
             console.log(error.response);
           } else {
-            //Server Not working Error
             console.log("Server not working");
           }
         }
@@ -129,10 +101,6 @@ const Kitchen_profile = () => {
   const closeDialog = () => {
     setShowDialog(false);
   };
-  
-  // const handleChangeInformation = () => {
-  //   setIsChangingInformation(true);
-  // };
 
   const handleChangeInformation = (employeeData) => {
     setEditItemId(employeeData);
@@ -151,10 +119,6 @@ const Kitchen_profile = () => {
         if (index > -1) {
           data[index] = editedItem;
           setData(data);
-          // setData((prevData) => ({
-          //   ...prevData,
-          //   ...editedItem,
-          // }));
           refreshPage();
         }
         handleCloseEdit();
@@ -169,7 +133,6 @@ const Kitchen_profile = () => {
   const handleChangePassword = (employeeData) => {
     setEditItemId(employeeData);
     setEditedItem({ ...employeeData });
-    console.log("cjdbchjb--------", editedItem);
     setIsChangingPassword(true);
   };
 
@@ -196,23 +159,6 @@ const Kitchen_profile = () => {
   const handleCloseEdit = () => {
     setEditItemId(null);
   };
-
-  // const handleChange = (event) => {
-  //   setValues({
-  //     ...values,
-  //     [event.target.name]: event.target.value,
-  //   });
-  // };
-
-  // const handleChangePassword = () => {
-  //   setIsChangingPassword(true);
-  // };
-
-  // const handleSubmitPassword = (event) => {
-  //   event.preventDefault();
-  //   // Handle form submission for change password
-  //   setIsChangingPassword(false);
-  // };
 
   return (
     <div className="d-flex align-items-center justify-content-center vh-100">
@@ -351,6 +297,7 @@ const Kitchen_profile = () => {
                       }
                       value={editedItem.firstname}
                       className="form-control rounded-0"
+                      autoComplete="off"
                       required
                     />
                   </div>
@@ -368,6 +315,7 @@ const Kitchen_profile = () => {
                       }
                       value={editedItem.lastname}
                       className="form-control rounded-0"
+                      autoComplete="off"
                       required
                     />
                   </div>
@@ -387,6 +335,7 @@ const Kitchen_profile = () => {
                       }
                       value={editedItem.email}
                       className="form-control rounded-0"
+                      autoComplete="off"
                       required
                     />
                   </div>
@@ -404,6 +353,7 @@ const Kitchen_profile = () => {
                       }
                       value={editedItem.address}
                       className="form-control rounded-0"
+                      autoComplete="off"
                       required
                     />
                   </div>
@@ -422,6 +372,7 @@ const Kitchen_profile = () => {
                     }
                     value={editedItem.phone}
                     className="form-control rounded-0"
+                    autoComplete="off"
                     required
                   />
                 </div>

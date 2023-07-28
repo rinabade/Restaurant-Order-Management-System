@@ -42,7 +42,7 @@ function Menu() {
     // Add the item to the cart or perform any other action
   }
 	const handleChange = (item, d) =>{
-		console.log("fkenen---------", item);
+		// console.log("fkenen---------", item);
 		let ind = -1;
 		cart.forEach((data, index)=>{
 			if (data.menu_id === item.menu_id)

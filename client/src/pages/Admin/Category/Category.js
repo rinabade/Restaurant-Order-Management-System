@@ -1,7 +1,5 @@
-// import * as React from "react";
 import { useEffect, useState } from "react";
 import * as React from "react";
-// import { useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,7 +7,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -70,9 +67,7 @@ export default function BasicTable() {
         refreshPage();
       })
       .catch((error) => {
-        // Handle error response
         console.error(error);
-        // Optionally, display an error message to the user
       });
   };
 
@@ -88,8 +83,6 @@ export default function BasicTable() {
     getAllCategory().then(
       (success) => {
         if (success.data) {
-          // console.log(success.data.data);
-          // console.log(success.data.data.map(user => user.lastname));
           setData(success.data.data);
         } else {
           console.log("Empty Error Response");
@@ -97,10 +90,8 @@ export default function BasicTable() {
       },
       (error) => {
         if (error.response) {
-          //Backend Error message
           console.log(error.response);
         } else {
-          //Server Not working Error
           console.log("Server not working");
         }
       }
@@ -109,8 +100,6 @@ export default function BasicTable() {
 
   const handleDeleteClick = (id) => {
     setDeleteItemId(id);
-    // const handleDeleteClick = (row) => {
-    //   setDeleteItemId(row);
     setConfirmDeleteDialogOpen(true);
   };
 
@@ -137,7 +126,6 @@ export default function BasicTable() {
           setDeleteItemId(null);
           setConfirmDeleteDialogOpen(false);
         });
-      // Add your delete logic here
       console.log("Delete item with ID:", deleteItemId);
 
       setDeleteItemId(null);
@@ -150,8 +138,6 @@ export default function BasicTable() {
     editCategory(editedItem.category_id, editedItem)
       .then((response) => {
         console.log("Category updated successfully");
-        // Optionally, perform additional actions after successful update
-        // For example, you can update the table data with the updated item
         let index = data.findIndex(o => o.category_id === editedItem.category_id)
         if(index > -1){
           data[index] = editedItem;
@@ -161,9 +147,7 @@ export default function BasicTable() {
         handleCancelEdit();
       })
       .catch((error) => {
-        // Handle error response
         console.error("An error occurred while updating the user");
-        // Optionally, display an error message to the user
       });
   };
 
@@ -255,8 +239,6 @@ export default function BasicTable() {
                   >
                     Delete
                   </Button>
-                  {/* <Button className=" bg-success" style={{border:"none"}}  onClick={() => handleEditClick(row)}>Edit</Button> 
-                    <Button style={{ marginLeft: "10px", backgroundColor: "#CD5C5C", border:"none"}} onClick={() => handleDeleteClick(row)}>Delete</Button>  */}
                 </TableCell>
               </TableRow>
             ))}
@@ -307,10 +289,6 @@ export default function BasicTable() {
           >
             Cancel
           </Button>
-          {/* <Button onClick={handleCancelDelete} style={{backgroundColor: "#CD5C5C", border:"none"}}>Cancel</Button>
-          <Button onClick={handleConfirmDelete} style={{color:"white", backgroundColor: "#044cd0", border:"none"}}>
-            Delete
-          </Button> */}
         </DialogActions>
       </Dialog>
 
@@ -340,6 +318,7 @@ export default function BasicTable() {
                   }
                   value={editedItem.category_name}
                   className="form-control rounded-0"
+                  autoComplete="off"
                   required
                   // disabled
                 />

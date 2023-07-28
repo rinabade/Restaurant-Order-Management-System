@@ -1,40 +1,83 @@
 .Cashierdashboard {
-background: linear-gradient(
-    106.37deg,
-    #e5ffbc 29.63%,
-    #eaffcf 51.55%,
-    #eff3c6 90.85%
-  );
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Inter', sans-serif;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "RocknRoll One", sans-serif !important;
-}
-
-.CashierdashboardGlass {
-  display: grid;
-  height: 97%;
-  width: 97%;
-  background: var(--glass);
-  border-radius: 2rem;
-  gap: 16px;
-  grid-template-columns: 14rem auto;
-  overflow: hidden;
-  overflow-x: scroll;
-  scrollbar-width: none;
-  -ms-overflow-style: none; /* Internet Explorer and Edge */
-   scroll-behavior: smooth;
-  /* WebKit (Chrome, Safari, and Opera) */
-  &::-webkit-scrollbar {
-    display: none;
+  background: linear-gradient(
+      106.37deg,
+      #e5ffbc 29.63%,
+      #eaffcf 51.55%,
+      #eff3c6 90.85%
+    );
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
   }
-}
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "RocknRoll One", sans-serif !important;
+  }
+  
+  .CashierdashboardGlass {
+    display: grid;
+    height: 97%;
+    width: 97%;
+    background: var(--glass);
+    border-radius: 2rem;
+    gap: 16px;
+    grid-template-columns: 14rem auto;
+    overflow: hidden;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none; /* Internet Explorer and Edge */
+     scroll-behavior: smooth;
+    /* WebKit (Chrome, Safari, and Opera) */
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  
+  @media screen and (max-width: 600px)
+  {
+    .CashierdashboardGlass {
+      display: grid;
+      height: 97%;
+      width: 97%;
+      background: var(--glass);
+      border-radius: 2rem;
+      gap: 16px;
+      grid-template-columns: 7rem auto;
+      overflow: hidden;
+      overflow-x: scroll;
+      scrollbar-width: none;
+      -ms-overflow-style: none; /* Internet Explorer and Edge */
+       scroll-behavior: smooth;
+      /* WebKit (Chrome, Safari, and Opera) */
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+  @media screen and (max-width: 480px)
+  {
+    .CashierdashboardGlass {
+      display: grid;
+      height: 97%;
+      width: 97%;
+      background: var(--glass);
+      border-radius: 2rem;
+      gap: 16px;
+      grid-template-columns: 7rem auto;
+      overflow: hidden;
+      overflow-x: scroll;
+      scrollbar-width: none;
+      -ms-overflow-style: none; /* Internet Explorer and Edge */
+       scroll-behavior: smooth;
+      /* WebKit (Chrome, Safari, and Opera) */
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }

@@ -4,11 +4,11 @@ import Table from "../../../components/AdminComponent/Table/Table";
 import "./MainDash.css";
 const MainDash = () => {
   return (
-    <div className="MainDash">
-      <div className="mb-5 mt-5">
+    <div className="adminMainDash">
+      <div className="mb-2 mt-5">
       <h1>Admin Dashboard</h1>
       </div>
-      <Cards />
+      {/* <Cards /> */}
       <Table />
     </div>
   );

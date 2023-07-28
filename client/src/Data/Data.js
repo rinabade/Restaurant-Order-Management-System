@@ -98,7 +98,7 @@ export const CashierSidebarData = [
   },
   {
     icon: FaClipboardList,
-    heading: "Payment List",
+    heading: "Daily Report",
     path: "/Cashier/Billlist",
   },
   {

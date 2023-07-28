@@ -10,12 +10,28 @@ import '../Table.css'
 import { useState, useEffect } from "react";
 import { getPaymentDetail } from "../../../api/userAction";
 
+const makeStyle=(status)=>{
+  if(status === 'complete')
+  {
+    return {
+      background: 'rgb(145 254 159 / 30%)',
+      color: 'green',
+    }
+  }
+  else if(status === 'pending')
+  {
+    return{
+      background: '#ffadad8f',
+      color: 'red',
+    }
+  }
+}
+
 export default function BasicTable() {
   const [data, setData] = useState([])
   useEffect(() =>{
     getPaymentDetail()
     .then((response) => {
-      // console.log(response.data);
       setData(response.data.data)
     })
   },[])
@@ -33,7 +49,6 @@ export default function BasicTable() {
                 <TableCell align="left">Table no.</TableCell>
                 <TableCell align="left">Payment mode</TableCell>
                 <TableCell align="left">Transaction code</TableCell>
-                {/* <TableCell align="left">Price</TableCell> */}
                 <TableCell align="left">Date</TableCell>
                 <TableCell align="left">Status</TableCell>
               </TableRow>
@@ -49,14 +64,9 @@ export default function BasicTable() {
                   <TableCell align="left">{dataItem.payment_method}</TableCell>
                   <TableCell align="left">{dataItem.transactionCode}</TableCell>
                   <TableCell align="left">{dataItem.createdAt}</TableCell>
-                  <TableCell align="left">complete</TableCell>
-
-
-                  {/* <TableCell align="left">
-                    <span className="status">{row.Price}</span>
-                  </TableCell> */}
-                  {/* <TableCell align="left" className="Details">Complete</TableCell> */}
-                  {/* <TableCell align="left" className="Details">2023/17/7</TableCell> */}
+                  <TableCell align="left">
+                    <span className="status" style={makeStyle(dataItem.payment_status)}>{dataItem.payment_status}</span>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

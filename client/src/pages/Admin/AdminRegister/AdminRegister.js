@@ -13,9 +13,7 @@ function AdminRegister() {
 
   const refreshPage = () => {
     navigate(0);
-}
-  
-
+  }
   const [values, setValues] = useState({
     firstname: "",
     lastname: "",
@@ -30,23 +28,15 @@ function AdminRegister() {
     employee_status: "",
   });
 
-  const handleRegisterClick = () => {
-    navigate("/admin/Employees");
-  };
-
-
   const handleSubmit = (event) => {
     event.preventDefault();
     createUser(values)
       .then((response) => {
-        // Handle successful response
         console.log(response.data);
         refreshPage();
       })
       .catch((error) => {
-        // Handle error response
         console.error(error);
-        // Optionally, display an error message to the user
       });
   };
 
@@ -100,6 +90,7 @@ function AdminRegister() {
                 onChange={handleChange}
                 value={values.firstname}
                 className="form-control rounded-0"
+                autoComplete="off"
                 required
               />
             </div>
@@ -114,6 +105,7 @@ function AdminRegister() {
                 onChange={handleChange}
                 value={values.lastname}
                 className="form-control rounded-0"
+                autoComplete="off"
                 required
               />
             </div>
@@ -130,6 +122,7 @@ function AdminRegister() {
                 onChange={handleChange}
                 value={values.email}
                 className="form-control rounded-0"
+                autoComplete="off"
                 required
               />
             </div>
@@ -144,6 +137,7 @@ function AdminRegister() {
                 onChange={handleChange}
                 value={values.password}
                 className="form-control rounded-0"
+                autoComplete="off"
                 required
               />
             </div>
@@ -160,6 +154,7 @@ function AdminRegister() {
                 onChange={handleChange}
                 value={values.address}
                 className="form-control rounded-0"
+                autoComplete="off"
                 required
               />
             </div>
@@ -174,6 +169,7 @@ function AdminRegister() {
                 onChange={handleChange}
                 value={values.phone}
                 className="form-control rounded-0"
+                autoComplete="off"
                 required
               />
             </div>
@@ -221,17 +217,6 @@ function AdminRegister() {
               <option value="kitchen">Kitchen</option>
               <option value="cashier">Cashier</option>
             </select>
-
-            {/* <Dropdown>
-                  <Dropdown.Toggle  id="dropdown-basic">
-                    Choose job title
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    <Dropdown.Item href="#/action-1">Admin</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">Kitchen</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">Cashier</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown> */}
           </div>
 
           <div className="d-flex flex-row justify-content-around">
@@ -260,6 +245,7 @@ function AdminRegister() {
                 onChange={handleChange}
                 value={values.salary_information}
                 className="form-control rounded-0"
+                autoComplete="off"
                 required
               />
             </div>
@@ -295,8 +281,6 @@ function AdminRegister() {
             </div>
           </div>
 
-          {/* <p><input className="form-check-input mb-3" type="checkbox" value="option1" /> &nbsp; I have read and accept the terms and policies</p> */}
-          {/* <label type="hidden"> Checkbox is: {isChecked ? "True" : "False"} </label> */}
           <p>
             {" "}
             <input
@@ -312,7 +296,6 @@ function AdminRegister() {
           <button
             type="submit"
             className="btn btn1 w-50 rounded-12 mb-3"
-            // onClick={handleRegisterClick}
           >
             Register
           </button>

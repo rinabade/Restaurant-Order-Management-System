@@ -1,8 +1,8 @@
 .kitchendashboard {
-background: linear-gradient(
+  background: linear-gradient(
     106.37deg,
-    #bcffff 29.63%,
-    #d2cfff 51.55%,
+    #bcdbff 29.63%,
+    #cfdeff 51.55%,
     #c6cdf3 90.85%
   );
   height: 100vh;
@@ -36,5 +36,48 @@ h6 {
   /* WebKit (Chrome, Safari, and Opera) */
   &::-webkit-scrollbar {
     display: none;
+  }
+}
+
+@media screen and (max-width: 600px)
+{
+  .kitchendashboardGlass {
+    display: grid;
+    height: 97%;
+    width: 97%;
+    background: var(--glass);
+    border-radius: 2rem;
+    gap: 16px;
+    grid-template-columns: 7rem auto;
+    overflow: hidden;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none; /* Internet Explorer and Edge */
+     scroll-behavior: smooth;
+    /* WebKit (Chrome, Safari, and Opera) */
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+@media screen and (max-width: 480px)
+{
+  .kitchendashboardGlass {
+    display: grid;
+    height: 97%;
+    width: 97%;
+    background: var(--glass);
+    border-radius: 2rem;
+    gap: 16px;
+    grid-template-columns: 7rem auto;
+    overflow: hidden;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none; /* Internet Explorer and Edge */
+     scroll-behavior: smooth;
+    /* WebKit (Chrome, Safari, and Opera) */
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }

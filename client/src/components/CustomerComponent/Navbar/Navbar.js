@@ -1,27 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
-// import { cartItems } from '../../../Data/Data';
 import header from "../../../imgs/header.jpg";
 import berry from "../../../imgs/berry.png";
 import leaf from "../../../imgs/leaf.png";
 import MenuSection from '../MenuSection/MenuSection';
-import { FaSistrix, FaUser, FaBars, FaTimes } from 'react-icons/fa';
-import { FaCartShopping } from 'react-icons/fa6';
+import { FaSistrix, FaBars, FaTimes } from 'react-icons/fa';
 import { BsCartPlusFill } from "react-icons/bs";
 import Feedback from '../Feedback/Feedback';
 import Footer from '../Footer/Footer';
-import { gsap, Power2 } from 'gsap';
-import mixitup from 'mixitup';
-import { motion } from "framer-motion";
+import { gsap } from 'gsap';
 import menu1 from "../../../imgs/menu-1.png";
 import aboutus from "../../../imgs/aboutus.jpg";
-import menu2 from "../../../imgs/menu-2.png";
-import menu3 from "../../../imgs/menu-3.png";
-import menu4 from "../../../imgs/menu-4.png";
-import { FaAngleLeft, FaAngleRight, FaPlus, FaMinus } from "react-icons/fa";
-import { getAllCategory, getMenu, getSearchFood, searchFood } from "../../../api/userAction";
-
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import { getAllCategory, getMenu, searchFood } from "../../../api/userAction";
+import { useLocation } from 'react-router-dom';
 
 
 const Navbar = ({ size, handleClick, toggleCart }) => {
@@ -48,10 +41,15 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
   };
 
   const [filterCategory, setFilterCategory] = useState([]);
-  const [items, setItems] = useState([]);
   const [menuCategories, setMenuCategories] = useState([]);
+
+  // Fetch the URL parameters using useLocation
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const table_number = searchParams.get('table');
+
+  // console.log('Table Number:', table_number);
   
-  const table_number = "A1";
 
   useEffect(() => {
     getAllCategory().then(
@@ -59,7 +57,6 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
         if (success.data) {
           const _data = success.data.data;
           setMenuCategories(_data);
-          console.log("category-------", menuCategories);
           if (_data[0]) {
             filterItem(_data[0].category_id);
           }
@@ -161,14 +158,13 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
     });
   };
 
-
   return (
     <>
       <header className="site-header">
         <nav className="navbar">
           <div className="navbar-container">
             <div className="navbar-logo">
-              <Link to="/">FOODIE</Link>
+              <Link to="/">RMS</Link>
             </div>
             <div className="navbar-menu1">
               <div className={`navbar-menu ${isMenuOpen ? 'active' : ''}`}>
@@ -191,7 +187,7 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
                 </ul>
               </div>
               <div className="navbar-search">
-                <form  class="header-search-form for-des">
+                <form  className="header-search-form for-des">
                   <input 
                     type="search"
                     className="form-input"
@@ -206,7 +202,6 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
               </div>
               <div className="navbar-icons">
                 <div className="navbar-icon" onClick={toggleCart}>
-                  {/* <FaCartPlus /> */}
                   <BsCartPlusFill style={{ fontSize: "100px" }} />
                   <span>{size}</span>
                 </div>

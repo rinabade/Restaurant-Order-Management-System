@@ -12,79 +12,31 @@ function KitchenLogin() {
 
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    const [error, setError] = useState('');
 
     const { setToken } = useToken();
-    // const handleSubmit = async e => {
-    //     e.preventDefault();
-
-    //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    //     if (!emailRegex.test(email)) {
-    //       setError(" Email is invalid ");
-    //       return;
-    //     }
-    //     try {
-    //         const token = await loginUser({
-    //           email,
-    //           password
-    //         });
-    //         setToken(token);
-    //       } catch (error) {
-    //         setError('Password is incorrect');
-    //       }
-    //     }
 
     const refreshPage = () => {
         navigate(0);
     }
 
-    const handleSubmit = async e => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-          setError(" Email is invalid ");
-          return;
-        }
         await loginUser({email,password})
         .then((response) => {
-              // Handle successful response
-                console.log("here", response)
-              // console.log(response.data.token);
-              // // Optionally, perform additional actions after successful post
-              setToken(response.data);
+            setToken(response.data);
 
-              refreshPage();
-              console.log("Token-----------", setToken);
-            })
-            .catch((error) => {
-              // Handle error response
-            setError('Password is incorrect');
-
-            //   console.error(error);
-              // Optionally, display an error message to the user
-            });
-      }
+            refreshPage();
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    }
 
     const [showPopup, setShowPopup] = useState(false);
     
     const [resetEmail, setResetEmail] = useState({
         email : ""
     })
-
-    // const handleSubmit = (event) => {
-    //     event.preventDefault();
-    //     loginUser(values)
-    //   .then((response) => {
-    //     // Handle successful response
-    //     console.log(response.data);
-    //     // Optionally, perform additional actions after successful post
-    //   })
-    //   .catch((error) => {
-    //     // Handle error response
-    //     console.error(error);
-    //     // Optionally, display an error message to the user
-    //   });
-    // };
 
     const handleResetEmailChange = (event) => {
         setResetEmail(event.target.value);
@@ -114,14 +66,13 @@ function KitchenLogin() {
                     <div className='mb-3'>
                         <label htmlFor="email"><strong>Email</strong></label>
                         <input type="email" placeholder='Enter Email' name='name'
-                            onChange={e => setEmail(e.target.value)}  required />
+                            onChange={e => setEmail(e.target.value)} autoComplete='off'  required />
                     </div>
                     <div className='mb-3'>
                         <label htmlFor="password"><strong>Password</strong></label>
                         <input type="password" placeholder='Enter Password' name='name'
-                             onChange={e => setPassword(e.target.value)}  className="passwordfield" required />
+                             onChange={e => setPassword(e.target.value)}  className="passwordfield" autoComplete='off' required />
                     </div >
-                    {error && <p className="error">{error}</p>}
                     <div className='forget text-primary'>
                         <p onClick={() => setShowPopup(true)}>Forget Password?</p>
                     </div>
@@ -152,6 +103,7 @@ function KitchenLogin() {
                                     name="reset-email"
                                     value={resetEmail.email}
                                     onChange={handleResetEmailChange}
+                                    autoComplete='off'
                                     required
                                 />
                             </div>

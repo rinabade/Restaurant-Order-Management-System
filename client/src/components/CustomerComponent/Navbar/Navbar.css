@@ -25,7 +25,7 @@
   border-color: #f2f2f2;
   backdrop-filter: blur(20px);
    
-    height: 60px;
+    height: 65px;
     width: 100%;
   
   }
@@ -43,7 +43,7 @@
   .navbar-logo a {
     color: #000;
     font-weight: 700;
-    font-size: 1.2rem;
+    font-size: 2.2rem;
     text-decoration: none;
   }
   .navbar-menu1 {
@@ -109,7 +109,7 @@
     border: none;
     padding: 0;
     position: absolute;
-    right: 250px;
+    right: 170px;
     top: 50%;
     transform: translate(0, -50%);
     width: 20px;
@@ -202,7 +202,7 @@
   .main-banner {
     position: relative; /* Change position to relative */
     padding: 155px 0 90px;
-    min-height: 100vh;
+    min-height: 95vh;
    
 }
 
@@ -334,8 +334,8 @@
 .sec-sub-title {
   text-transform: uppercase;
   display: inline-block;
-  background: #f3f3f5;
-  box-shadow: 9px 9px 12px #e4e4e4, -9px -9px 12px #ffffff;
+  background: #e9e9f0;
+  box-shadow: 9px 9px 12px #ece1e1, -9px -9px 12px #cabbbb;
   padding: 10px 15px;
   border-radius: 60px;
   color: #ff8243;
@@ -369,7 +369,7 @@
 
 .menu-tab-wp {
 
-  margin-bottom: 80px;
+  margin-bottom: 30px;
 }
 
 .menu-tab ul {
@@ -379,8 +379,8 @@
   padding: 10px;
   display: inline-block;
   border-radius: 60px;
-  background: linear-gradient(145deg, #eebe39f1, #f5bd46);
-  box-shadow: 28px 28px 55px #f7df9d, -28px -28px 55px #ffffff;
+  background: linear-gradient(145deg, #eeeeeb, #f1f0ed);
+  box-shadow: 28px 28px 55px #d3c397, -28px -28px 55px #ffffff;
   position: relative;
   z-index: 2;
   transition: transform 0.3s ease;
@@ -460,7 +460,7 @@ margin-right: 10px;
 cursor: pointer;
 padding: 5px 10px;
 /* background-color: #f2f2f2; */
-background: linear-gradient(145deg, #f7dd95f1, #ffda89);
+background: linear-gradient(145deg, #ede6d5f1, #d6d2c7f1);
 border-radius: 20px;
 transition: background-color 0.3s ease;
 }
@@ -608,3 +608,25 @@ background: linear-gradient(145deg, #e3a92b, #ffc933);
       
     }
 }
+
+@media (max-width: 414px) {
+  
+  .top-footer {
+    border-top: 1px solid rgb(204 204 204 / 40%);
+    position: relative;
+    padding-bottom: 1.5rem;
+    width: 140%;
+    background-color: white;
+  }
+  .footer-flex-box {
+    display:block!important;
+  }
+  .footer-info {
+    text-align: center;
+    margin-top: 50px;
+  }
+  .footer-table-info {
+    margin-top: 1rem;
+    margin-left: 0rem!important;
+  }
+  }

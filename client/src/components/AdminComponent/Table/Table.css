@@ -22,7 +22,13 @@ th {
 .Details {
   color: #00b5ff !important;
 }
-
+.admin-recents{
+  background-color: #a8c6d2;
+}
+.table-admin{
+  box-shadow: 5px 5px 5px 5px rgba(19, 18, 18, 0.5)!important;
+  margin-bottom: 20px;
+}
 @media screen and (max-width: 1200px) {
   .Table {
     width: 170%;

@@ -20,7 +20,6 @@ export default function BasicTable() {
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false);
 
-
   useEffect(() => {
     getAllFeedback().then(
       (success) => {
@@ -39,8 +38,6 @@ export default function BasicTable() {
 
   const handleDeleteClick = (id) => {
     setDeleteItemId(id);
-    // const handleDeleteClick = (row) => {
-    //   setDeleteItemId(row);
     setConfirmDeleteDialogOpen(true);
   };
 

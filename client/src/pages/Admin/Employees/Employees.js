@@ -197,7 +197,7 @@ export default function BasicTable() {
 
   return (
     <>
-      <div className="Table">
+      <div className="adminTable">
         <h3>Employees</h3>
         <div className="registerbtn mb-5 mt-5">
           <Button
@@ -442,7 +442,7 @@ export default function BasicTable() {
                 <label htmlFor="gender" className=" mr-5">
                   <strong>Gender:</strong>
                 </label>
-                <div class="form-check form-check-inline mb-3">
+                <div className="form-check form-check-inline mb-3">
                   <input
                     className="form-check-input"
                     type="radio"
@@ -544,7 +544,7 @@ export default function BasicTable() {
                   <strong>Employee Status:</strong>
                 </label>
 
-                <div class="form-check form-check-inline">
+                <div className="form-check form-check-inline">
                   <input
                     className="form-check-input"
                     type="radio"
@@ -556,7 +556,7 @@ export default function BasicTable() {
                     Part-time
                   </label>
                 </div>
-                <div class="form-check form-check-inline mb-3">
+                <div className="form-check form-check-inline mb-3">
                   <input
                     className="form-check-input"
                     type="radio"

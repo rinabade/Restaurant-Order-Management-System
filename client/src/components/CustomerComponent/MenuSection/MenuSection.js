@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./MenuSection.css";
-import header from "../../../imgs/header.jpg";
 import { FaAngleLeft, FaAngleRight, FaPlus, FaMinus } from "react-icons/fa";
 import {Config} from "../../../Config";
 

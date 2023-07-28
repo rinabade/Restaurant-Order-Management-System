@@ -1,10 +1,18 @@
 .glass1{
-    backdrop-filter: blur(20px) saturate(180%);
-    background-color: rgba(110, 63, 139, 0.2);
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, .25);
-    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
-    width: 60%;
+   backdrop-filter: blur(20px) saturate(180%);
+   background-color: rgba(110, 63, 139, 0.2);
+   border-radius: 12px;
+   border: 1px solid rgba(255, 255, 255, .25);
+   box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
+   width: 60%;
+   overflow-x: scroll;
+   scrollbar-width: none;
+   -ms-overflow-style: none; /* Internet Explorer and Edge */
+    scroll-behavior: smooth;
+   /* WebKit (Chrome, Safari, and Opera) */
+   &::-webkit-scrollbar {
+     display: none;
+   }
 }
 .btn1{
    background-color: rgba(57, 41, 148, 0.705) !important;

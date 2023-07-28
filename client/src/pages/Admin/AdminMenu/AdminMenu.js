@@ -34,8 +34,6 @@ export default function Menu() {
   const [newData, setNewData] = useState({})
   const [values, setValues] = useState([]);
 
-  // const [dropdown, setDropdown] = useState("select");
-  // const [menuData, setMenuData] = useState(null);
   const [deleteItemId, setDeleteItemId] = useState('');
   const [editItemId, setEditItemId] = useState('');
   const [editedItem, setEditedItem] = useState({
@@ -50,8 +48,6 @@ export default function Menu() {
     // file: [],
   });
 
-  // const [categoryId, setCategoryId] = useState([]);
-  // const [category, setCategory] = useState([]);
   const [Allcategory, setAllCategory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [item, setItem] = useState("");
@@ -85,12 +81,6 @@ export default function Menu() {
       setCurrentPage(currentPage + 1);
     }
   };
-
-
-  // function handleImage(e) {
-  //   console.log(e.target.files);
-  //   setImage(e.target.files[0]);
-  // }
 
   const handleOpen = () => {
     setOpen(true);
@@ -137,13 +127,6 @@ export default function Menu() {
 
       }
   };
-  //   const handleInputChange = (event) => {
-  //     const { name, value } = event.target;
-  //     setNewItem((prevItem) => ({
-  //       ...prevItem,
-  //       [name]: value,
-  //     }));
-  //   };
 
   const handleAddItem = (e) => {
     e.preventDefault();
@@ -155,8 +138,6 @@ export default function Menu() {
         if(response?.data){
             setNewData({})
         }
-        // setData(response.data);
-
         refreshPage();
       })
       .catch((error) => {
@@ -391,6 +372,7 @@ export default function Menu() {
               onChange={(e) => setNewData({...newData, "item":e.target.value})}
               fullWidth
               margin="normal"
+              autoComplete="off"
             />
             <TextField
               name="description"
@@ -399,6 +381,7 @@ export default function Menu() {
               onChange={(e) => setNewData({...newData, "description":e.target.value})}
               fullWidth
               margin="normal"
+              autoComplete="off"
             />
             <TextField
               name="price"
@@ -407,6 +390,7 @@ export default function Menu() {
               onChange={(e) => setNewData({...newData, "price":e.target.value})}
               fullWidth
               margin="normal"
+              autoComplete="off"
             />
             <div
               className="upload-image-container"
@@ -504,6 +488,7 @@ export default function Menu() {
               }
               fullWidth
               margin="normal"
+              autoComplete="off"
             />
             <TextField
               name="description"
@@ -518,12 +503,12 @@ export default function Menu() {
               }
               fullWidth
               margin="normal"
+              autoComplete="off"
             />
             <TextField
               name="price"
               label="Enter Price"
               value={editedItem ? editedItem.price : ''}
-              // onChange={(e) => setPrice(e.target.value)}
               onChange={(e) =>
                 setEditedItem((prevItem) => ({
                   ...prevItem,
@@ -532,6 +517,7 @@ export default function Menu() {
               }
               fullWidth
               margin="normal"
+              autoComplete="off"
             />
 
               <div
@@ -545,7 +531,6 @@ export default function Menu() {
                       type="file"
                       name="image"
                       accept="image/*"
-                      // value={selectedImage}
                       onChange={handleImageEdit}
                       className="upload-image-input"
                       id="upload-image"

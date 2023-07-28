@@ -10,7 +10,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "react-bootstrap";
-import Box from "@mui/material/Box";
 import QRCode from "react-qr-code"; // Import QRCode component
 import { createPayment } from "../../../api/userAction";
 import Qr from "../../../imgs/Qr.JPG";
@@ -25,10 +24,8 @@ const CashierDash = () => {
   const [showQRCode, setShowQRCode] = useState(false);
   const [transactionCode, setTransactionCode] = useState(""); // New state for transaction code input field
 
-  console.log("rfnkernj---------", selectedOrder);
-
   useEffect(() => {
-    const socket = io("http://localhost:8000");
+    const socket = io("http://202.52.248.120:8000");
 
     socket.on("connect", () => {
       console.log("Connected to server");
@@ -38,9 +35,15 @@ const CashierDash = () => {
       console.log("Disconnected from server");
     });
 
-    socket.on("newOrder", (order) => {
-      // console.log("Received new order:", order);
+    socket.on("neworderDoneNotification", (order) => {
+      console.log("Received order done notification:", order);
       setOrders((prevOrders) => [order, ...prevOrders]);
+      // Find the order in the state and update its cart
+      // setOrders((prevOrders) =>
+      //   prevOrders.map((prevOrder) =>
+      //     prevOrder.code === order.code ? { ...prevOrder, cart: order.cart } : prevOrder
+      //   )
+      // );
     });
 
     return () => {
@@ -61,27 +64,24 @@ const CashierDash = () => {
 
   const handleOrderToggle = (order) => {
     setSelectedOrder((prevOrder) => (prevOrder === order ? null : order));
-    // console.log("selectedOrder-------", selectedOrder);
   };
 
-  const handleRedirect = (table_number, paymentMethod, transactionCode) => {
-    setIsDialogOpen(false);
+  const handleRedirect = (table_number, paymentMethod, transactionCode, totalPrice) => {
+    setIsDialogOpen(true);
     if (paymentMethod === "cash") {
       setShowInvoice(true);
-
+      
     } else if (paymentMethod === "fonepay") {
       setShowInvoice(true);
     }
-
-    createPayment({table_number, paymentMethod, transactionCode})
+    
+    createPayment({table_number, paymentMethod, transactionCode, totalPrice})
     .then(response => {
       console.log(response.data);
     })
     .catch(error => {
       console.log(error);
     })
-
-
   };
 
   const handleDialogClose = () => {
@@ -111,8 +111,7 @@ const CashierDash = () => {
     return totalPrice;
   };
 
-  const printInvoice = (table_number, paymentMethod, transactionCode) => {
-    
+  const printInvoice = () => {    
     const invoiceElement = document.getElementById("invoice");
     if (invoiceElement) {
       const printWindow = window.open("", "_blank");
@@ -129,7 +128,6 @@ const CashierDash = () => {
     }
   };
 
-  // const UniqueCodeGenerator = () => {
     const generateUniqueCode = (table_number) => {
       const currentDate = new Date();
       const currentTime = currentDate.getTime();
@@ -140,8 +138,6 @@ const CashierDash = () => {
       const limitedCode = uniqueCode.substring(0, 8)
       console.log(limitedCode); // Output the unique code to the console (optional)
       return limitedCode
-  
-      // You can use the uniqueCode variable in your React component as needed
     };
 
   return (
@@ -163,17 +159,18 @@ const CashierDash = () => {
           <div key={order.code}>
             <Button
               variant="secondary"
-              className="table-button"
+              className="cashiertable-button"
               onClick={() => handleOrderToggle(order)}
             >
-              Table {order.table_number[0]}
+              Table {order.tableNumber}
             </Button>
             {selectedOrder === order && (
               <div className="order-details">
-                <h4>Order Code: {order.code}</h4>
+                {/* <h4>Order Code: {order.code}</h4> */}
                 <TableContainer
+                className="cashtableorder"
                   component={Paper}
-                  style={{ boxShadow: "0px 13px 20px 0px #80808029" }}
+                  
                 >
                   <Table
                     sx={{ minWidth: 650 }}
@@ -181,7 +178,7 @@ const CashierDash = () => {
                     className="cash-table"
                   >
                     <TableHead>
-                      <TableRow>
+                      <TableRow className="cashorderrow">
                         <TableCell className="border">SN</TableCell>
                         <TableCell className="border">Ordered item</TableCell>
                         <TableCell align="left" className="border">Quantity</TableCell>
@@ -227,6 +224,7 @@ const CashierDash = () => {
                       <option value="fonepay">Fonepay</option>
                     </select>
                   </div>
+
                   {/* transition code */}
                   {paymentMethod === "fonepay" && (
                     <div className="TransactionCodeContainer">
@@ -241,8 +239,8 @@ const CashierDash = () => {
                   <Button className="CashCancel" onClick={handleDialogClose}>
                     Cancel
                   </Button>
-                  <Button className="CashSave" onClick={() => handleRedirect( order.table_number[0], paymentMethod, transactionCode)}>
-                    Continue
+                  <Button className="CashSave" onClick={() => handleRedirect( order.tableNumber, paymentMethod, transactionCode, calculateTotalPrice(selectedOrder))}>
+                   Continue
                   </Button>
                 </TableContainer>
               </div>
@@ -265,8 +263,8 @@ const CashierDash = () => {
               <p className="foodie">Resturant Management System</p>
               {selectedOrder && (
                 <>
-                  <p className="bill-details">Invoice Number: {generateUniqueCode(selectedOrder.table_number[0])}</p>
-                  <p className="bill-details">Table Number: {selectedOrder.table_number[0]}</p>
+                  <p className="bill-details">Invoice Number: {generateUniqueCode(selectedOrder.tableNumber)}</p>
+                  <p className="bill-details">Table Number: {selectedOrder.tableNumber}</p>
                   <p className="bill-details">Payment method: {paymentMethod}</p>
                   {paymentMethod === "fonepay" && (
                     <p className="bill-details">Transaction Code: {transactionCode}</p>
@@ -311,7 +309,7 @@ const CashierDash = () => {
               )}
             </div>
             <br></br>
-            <Button className="PrintButton" onClick={() => printInvoice()}>
+            <Button className="Printbtn" onClick={() => printInvoice()}>
               Print
             </Button>
           </div>
@@ -333,12 +331,6 @@ const CashierDash = () => {
             <div className="Qr">
             <img src={Qr} className="Qr-image" alt="" />
             </div>
-            {/* <div className="QRCodeContainer">
-              {/* {selectedOrder && (
-                // <QRCode
-                //   value={`Order Code: ${selectedOrder.code}\nTable Number: ${selectedOrder.tableNumber}`}
-                // />
-              )} */}
            <br></br>
             <p className="QRCodeDescription">Scan QR Code to make payment</p>
           </div>

@@ -169,7 +169,7 @@ const Admin_profiledata = () => {
 
   return (
     <div className="d-flex align-items-center justify-content-center vh-100">
-      <div className="glass p-3 rounded w-50">
+      <div className="cashproglass p-3 rounded w-50">
         <div className="profile_img text-center p-4">
           <div className="flex flex-column justify-content-center align-items-center ">
             <img
@@ -180,6 +180,7 @@ const Admin_profiledata = () => {
                 objectFit: "cover",
                 border: "4px solid green",
               }}
+              className="proimg"
               onClick={openDialog}
               src={profileFinal || img}
               // src={`${Config.BaseUrl}${image}`}
@@ -188,7 +189,7 @@ const Admin_profiledata = () => {
             />
             <br />
 
-            <label htmlFor="" className="mt-3 fw-bold fs-2">
+            <label htmlFor="" className="proname mt-3 fw-bold">
               {`${data.firstname} ${data.lastname}`}
             </label>
 
@@ -236,7 +237,7 @@ const Admin_profiledata = () => {
           </div>
         </div>
         <form>
-          <div className="mb-3 d-flex justify-content-around">
+          <div className="prodetails d-flex justify-content-around">
             <label htmlFor="name">
               <strong>First name :-</strong> {data.firstname}
             </label>
@@ -247,7 +248,7 @@ const Admin_profiledata = () => {
           </div>
           <br></br>
 
-          <div className="mb-3 d-flex justify-content-around">
+          <div className="prodetails d-flex justify-content-around">
             <label htmlFor="email">
               <strong>Email :-</strong> {data.email}
             </label>
@@ -257,7 +258,7 @@ const Admin_profiledata = () => {
           </div>
           <br></br>
 
-          <div className="mb-3 d-flex justify-content-around">
+          <div className="prodetails d-flex justify-content-around">
             <label htmlFor="phone">
               <strong>Phone number :-</strong> {data.phone}
             </label>

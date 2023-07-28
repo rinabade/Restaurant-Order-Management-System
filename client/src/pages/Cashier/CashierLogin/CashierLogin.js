@@ -1,5 +1,5 @@
 import React from 'react'
-import './KitchenLogin.css'
+import './CashierLogin.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import axios from 'axios'
@@ -12,49 +12,13 @@ function CashierLogin() {
 
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    const [error, setError] = useState('');
+  const [error, setError] = useState()
 
     const { setToken } = useToken();
-    // const handleSubmit = async e => {
-    //     e.preventDefault();
-    //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    //     if (!emailRegex.test(email)) {
-    //       setError(" Email is invalid ");
-    //       return;
-    //     }
-    //     try {
-    //         const token = await loginUser({
-    //           email,
-    //           password
-    //         });
-    //         setToken(token);
-    //       } catch (error) {
-    //         setError('Password is incorrect');
-    //       }
-    //     }
 
     const refreshPage = () => {
         navigate(0);
     }
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    //     if (!emailRegex.test(email)) {
-    //       setError(" Email is invalid ");
-    //       return;
-    //     }
-    //     await loginUser({email,password})
-    //     .then((response) => {
-    //           setToken(response.data);
-
-    //           refreshPage();
-    //         })
-    //         .catch((error) => {
-    //             setError('Password is incorrect');
-
-    //         });
-    //   }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -98,26 +62,28 @@ function CashierLogin() {
     });
 };
     return (
-        <div className='login d-flex justify-content-center align-items-center vh-100'>
-            <div className='glass p-3 rounded w-45'>
+        <div className='cashierlogin d-flex justify-content-center align-items-center vh-100'>
+            <div className='cashierglass p-3 rounded w-45'>
                 <h2>Sign In</h2>
                 <form className='mt-4' onSubmit={handleSubmit}>
+                    {error && <p className="error">{error}</p> }
+
                     <div className='mb-3'>
                         <label htmlFor="email"><strong>Email</strong></label>
                         <input type="email" placeholder='Enter Email' name='name'
-                            onChange={e => setEmail(e.target.value)} className="form-control rounded-0" required />
+                            onChange={e => setEmail(e.target.value)} className="form-control rounded-0" autoComplete='off' required />
                     </div>
                     <div className='mb-3'>
                         <label htmlFor="password"><strong>Password</strong></label>
                         <input type="password" placeholder='Enter Password' name='name'
-                             onChange={e => setPassword(e.target.value)} className="form-control rounded-0" required />
+                             onChange={e => setPassword(e.target.value)} className="form-control rounded-0" autoComplete='off' required />
                     </div >
                      <p className="error">{error}</p>
                     <div className='forget text-primary'>
                         <p onClick={() => setShowPopup(true)}>Forget Password?</p>
                     </div>
                     <div className="align-items-center d-flex justify-content-center">
-                        <button type='submit' className='btn btn3 w-50 rounded-12  mt-3 mb-3'>Log in</button>
+                        <button type='submit' className='btn cashbtn3 w-50 rounded-12  mt-3 mb-3'>Log in</button>
                     </div>
                 </form>
             </div>
@@ -144,13 +110,14 @@ function CashierLogin() {
                                     value={resetEmail.email}
                                     onChange={handleResetEmailChange}
                                     className="form-control rounded-0"
+                                    autoComplete='off'
                                     required
                                 />
                             </div>
                             <div className="align-items-center d-flex justify-content-center">
                                 <button
                                     type="button"
-                                    className="btn btn3 w-50 rounded-12 mt-3 mb-3"
+                                    className="btn cashbtn3 w-50 rounded-12 mt-3 mb-3"
                                     onClick={handleSendResetEmail}
                                 >
                                     Send
@@ -165,18 +132,8 @@ function CashierLogin() {
     );
 };
 
-// CashierLogin.propTypes = {
-//     setToken: PropTypes.func.isRequired
-//   }
+CashierLogin.propTypes = {
+    setToken: PropTypes.func.isRequired
+  }
 
 export default CashierLogin
-
-
-
-
-
-
-
-
-
-

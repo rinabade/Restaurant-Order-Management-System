@@ -37,7 +37,7 @@ const Sidebar = () => {
       {/* logo */}
       <div className="logo">
         <span>
-          <span>FOODIE</span>
+          <span>RMS</span>
         </span>
       </div>
 
