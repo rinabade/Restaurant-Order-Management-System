@@ -51,7 +51,7 @@ const Footer = () => {
                                         </div>
                                         <div className="footer-menu">
                                         <div className="copyright-text">
-                                    <p>Copyright &copy; 2021 <span className="name">TechieCoder.</span>All Rights Reserved.
+                                    <p>Copyright &copy; 2021 <span className="name">RMS.</span>All Rights.
                                     </p>
                                 </div>
                                         </div>

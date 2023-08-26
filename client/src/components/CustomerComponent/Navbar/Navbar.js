@@ -13,11 +13,21 @@ import { gsap } from 'gsap';
 import menu1 from "../../../imgs/menu-1.png";
 import aboutus from "../../../imgs/aboutus.jpg";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
-import { getAllCategory, getMenu, searchFood } from "../../../api/userAction";
+import { createReservation, getAllCategory, getMenu, searchFood } from "../../../api/userAction";
 import { useLocation } from 'react-router-dom';
+import { Button } from "react-bootstrap";
 
 
 const Navbar = ({ size, handleClick, toggleCart }) => {
+
+  const [values, setValues] = useState({
+    table : "",
+    name: "",
+    email: "",
+    phoneNumber: "",
+    reservationDate:"",
+    reservationTime: "",
+  });
 
   const sliderRef = useRef(null);
   const menuSectionRef = useRef(null);
@@ -42,6 +52,8 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
 
   const [filterCategory, setFilterCategory] = useState([]);
   const [menuCategories, setMenuCategories] = useState([]);
+  const [reservationError, setReservationError] = useState("");
+  const [reservationSuccess, setReservationSuccess] = useState("");
 
   // Fetch the URL parameters using useLocation
   const location = useLocation();
@@ -157,6 +169,100 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
       duration: 0.3,
     });
   };
+  const [isTablePopupOpen, setIsTablePopupOpen] = useState(false);
+  const [selectedTable, setSelectedTable] = useState(null);
+  const [isTableSelectionPopupOpen, setIsTableSelectionPopupOpen] = useState(false);
+  const [isBookedPopupOpen, setIsBookedPopupOpen] = useState(false);
+
+  // console.log("table_number-----------", selectedTable);
+
+  
+  const toggleTablePopup = () => {
+    setIsTablePopupOpen(!isTablePopupOpen);
+  };
+  const handleTableClick = (tableNumber, available) => {
+    if (available) {
+      setSelectedTable(tableNumber);
+      setIsTablePopupOpen(true); // Open reservation form popup
+    } 
+    
+    // Close the table selection popup
+    setIsTableSelectionPopupOpen(false);
+  };
+  
+  const tables = [
+    { number: "A1", seats: 4, available: true },
+    { number: "A2", seats: 6, available: true },
+    { number: "A3", seats: 2, available: true },
+    { number: "A4", seats: 8, available: true },
+    
+  ];
+
+  const dataToSend = {
+    ...values,
+    table: selectedTable // Include the selectedTable value
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+  
+    // Check if there's already a reservation for the same table, date, and time
+    // const existingReservation = filterCategory.some((item) => {
+    //   return (
+    //     item.table === selectedTable &&
+    //     item.reservationDate === values.reservationDate &&
+    //     item.reservationTime === values.reservationTime
+    //   );
+    // });
+  
+    // if (existingReservation) {
+    //   // Show popup for already booked reservation
+    //   console.log("Reservation already exists.");
+    //   setReservationError("Reservation is already booked for the selected time."); // Set the error message
+    //   setIsBookedPopupOpen(true);
+    
+    // } else {
+      // Proceed with making the reservation
+      createReservation(dataToSend)
+        .then((response) => {
+          if (response.data.type === "SUCCESS") {
+            setReservationSuccess(response.data.message)
+            console.log(response.data.message); // Log success message
+            setBookingSuccess(true);
+          } else {
+            setReservationError(response.data.message)
+            console.error(response.data.message); // Log error message
+            setIsBookedPopupOpen(true);
+            // Handle the error message here, e.g., show an error popup or message
+          }
+          // console.log(response.data);
+          // setBookingSuccess(true); // Set booking success to true
+        })
+        .catch((error) => {
+          setReservationError("An error occurred while making the reservation."); // Set the error message
+          console.error(error);
+          setIsBookedPopupOpen(true);
+        });
+  
+      setSelectedTable(null);
+    // }
+  };
+  
+  
+
+  const handleChange = (event) => {
+    setValues({
+      ...values,
+      [event.target.table]: event.target.value,
+      [event.target.name]: event.target.value,
+      [event.target.email]: event.target.value,
+      [event.target.phoneNumber]: event.target.value,
+      [event.target.reservationDate]: event.target.value,
+      [event.target.reservationTime]: event.target.value,
+    });
+  };
+  const [bookingSuccess, setBookingSuccess] = useState(false);
+
 
   return (
     <>
@@ -182,6 +288,11 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
                   <li onClick={() => scrollToSection(contact)} className="navbar-item">
                     <Link className="navbar-link" >
                       Feedback
+                    </Link>
+                  </li>
+                  <li onClick={() => setIsTableSelectionPopupOpen(true)} className="navbar-item">
+                    <Link className="navbar-link" >
+                      Table
                     </Link>
                   </li>
                 </ul>
@@ -360,6 +471,170 @@ const Navbar = ({ size, handleClick, toggleCart }) => {
         </div>
 
         <Feedback />
+      </section>
+      
+      <section>
+       {/* Table Popup */}
+       {isTablePopupOpen && selectedTable !== null && (
+        <div className='table-overlay'>
+        <div className="table-popup">
+          <form onSubmit={handleSubmit}>
+          <h3>Table {selectedTable}</h3>
+          
+          <input
+                type="hidden"
+                id="table"
+                name="table"
+                onChange={handleChange}
+                value={selectedTable}
+                
+              />          
+
+            <div className="form-group">
+              <label htmlFor="name">Customer's FullName:</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                onChange={handleChange}
+                value={values.name}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="email">Email Address:</label>
+              <input
+               type='text'
+                id="email"
+                name="email"
+                onChange={handleChange}
+                value={values.email}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="phoneNumber">Phone Number:</label>
+              <input
+                type="tel"
+                id="phoneNumber"
+                name="phoneNumber"
+                onChange={handleChange}
+                value={values.phoneNumber}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="reservationDate">Reservation Date:</label>
+              <input
+                type="date"
+                id="reservationDate"
+                name="reservationDate"
+                onChange={handleChange}
+                value={values.reservationDate}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="reservationTime">Reservation Time:</label>
+              <input
+                type="time"
+                id="reservationTime"
+                name="reservationTime"
+                onChange={handleChange}
+                value={values.reservationTime}
+                required
+              />
+            </div>
+            <button className="bookinbtn" type="submit">Confirm</button>
+          </form>
+          <button className="close-popup1" onClick={() => setIsTablePopupOpen(false)}> <FaTimes /> </button>
+        </div></div>
+      )}
+
+{isTableSelectionPopupOpen && (
+  // Table selection popup
+  <div className='table-overlay'>
+    <div className="table-popup">
+      <h3>Select a Table</h3>
+      <br></br>
+      {tables.map((table) => (
+        <button
+          key={table.number}
+          className={`table-button1 ${table.available ? 'available' : 'not-available'}`}
+          onClick={() => handleTableClick(table.number, table.available)}
+        >
+          Table {table.number} 
+          <br></br>
+          Seats: {table.seats}
+        </button>
+      ))}
+      <button className="close-popup" onClick={() => setIsTableSelectionPopupOpen(false)}><FaTimes /> </button>
+    </div>
+  </div>
+)}
+{bookingSuccess && (
+  // Booking success popup
+  <div className='table-overlay'>
+    <div className="table-popup">
+      <h3>Booking Successful</h3>
+      <br></br>
+      <p   style={{
+            color: "green",
+            fontSize:"20px",
+            marginLeft:"190px",
+          }}>{reservationSuccess}</p>
+
+      <Button
+          onClick={() => {
+            setBookingSuccess(false);
+            window.location.reload(); 
+          }}
+          style={{
+            color: "white",
+            backgroundColor: "#044cd0",
+            border: "none",
+            marginLeft:"300px",
+           
+          }}
+        >
+          OK
+        </Button>
+    </div>
+  </div>
+)}
+{isBookedPopupOpen && (
+  // Already booked popup
+  <div className='table-overlay'>
+    <div className="table-popup">
+    <h3>Booking Failed</h3>
+    <br></br>
+    <p   style={{
+            color: "red",
+            fontSize:"20px",
+            marginLeft:"190px",
+          }}>{reservationError}</p>
+          <Button
+          onClick={() => {
+            setBookingSuccess(false);
+            window.location.reload(); 
+          }}
+          style={{
+            color: "white",
+            backgroundColor: "#044cd0",
+            border: "none",
+            marginLeft:"300px",
+           
+          }}
+        >
+          OK
+        </Button>
+      {/* <h3>This table is already booked for the selected date and time.</h3> */}
+      {/* <button className="close-popup" onClick={() => setIsBookedPopupOpen(false)}>
+        <FaTimes />
+      </button> */}
+    </div>
+  </div>
+)}
       </section>
       <section>
         <Footer />

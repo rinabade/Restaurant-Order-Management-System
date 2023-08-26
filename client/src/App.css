@@ -155,4 +155,14 @@ font-weight: bold;
    grid: none;
   }
 }
+@media screen and (max-width: 495px) {
+  .cart-close-btn {
+
+    color: #fff;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    top: 10px; 
+    right: 10px;
+    font-size: 24px; 
+  }
+}
 

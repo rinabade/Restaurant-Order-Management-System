@@ -46,15 +46,19 @@ background-color: #a6cbfc;
 .alldonebtn{
   margin-left: 90px;
   margin-bottom: 10px;
+  padding: 10px 25px 10px 25px!important ;
 }
 .alldonebtn:hover{
-  box-shadow:0px 5px 5px 5px #22212129;
+  box-shadow:0px 5px 5px 5px rgba(0,0, 0,0.3);
+}
+.kitconfirm:hover{
+  box-shadow:0px 5px 5px 5px rgba(0,0, 0,0.3);
 }
 .kitcancel{
   margin-left: 10px;
 }
 .kitcancel:hover{
-  box-shadow:0px 5px 5px 5px #22212129;
+  box-shadow:0px 5px 5px 5px rgba(0,0, 0,0.3);
 }
 .bell-icon {
   width: 50px;

@@ -234,7 +234,7 @@ const KitchenDash = () => {
                           <TableCell align="left"  className="border">{item.quantity}</TableCell>
                           <TableCell align="left"  className="border">
                             <Button
-                              className="bg-success"
+                              className="kitconfirm bg-success"
                               style={{ border: "none" }}
                               onClick={() =>
                                 handleOrderDone(order.code, item.menu_id, order.table_number[0])

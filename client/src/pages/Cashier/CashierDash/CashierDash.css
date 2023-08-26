@@ -70,6 +70,10 @@ background-color: #cee9d6e0;
   color: white!important;
   font-weight: bold!important;
 }
+.cashiertable-button:hover{
+  box-shadow: inset 6px 6px 8px #00000029, inset -6px -6px 8px #00000029!important;
+
+}
 .CashButton:hover {
   background-color: #ddd;
 }
@@ -113,6 +117,9 @@ margin-bottom : 1rem;
   margin-left:  20px;
 margin-right: 20px;
 }
+.CashSave:hover{
+  box-shadow:0px 5px 5px 5px #22212129;
+}
 .CashCancel{
   background-color: #944747!important;
   color: white!important;
@@ -127,7 +134,15 @@ margin-right: 20px;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   align-items: center;
-  justify-content: center;    
+  justify-content: center;  
+  overflow-x: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none; /* Internet Explorer and Edge */
+   scroll-behavior: smooth;
+  /* WebKit (Chrome, Safari, and Opera) */
+  &::-webkit-scrollbar {
+    display: none;
+  }  
 }
 
 .InvoiceDetails {
@@ -136,7 +151,7 @@ margin-right: 20px;
   height: auto;
   padding: 20px 20px 0px 30px;
   border-radius: 8px;
-  margin: 120px 0px 0px 500px;
+  margin: 60px 0px 60px 500px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 .foodie{
@@ -166,7 +181,7 @@ margin-right: 20px;
 }
 
 .Printbtn {
- margin:10px 0 30px 230px;
+ margin:10px 0 30px 200px;
   padding: 10px 26px 10px 26px!important;
   background-color: #149712!important;
   color: white;
@@ -209,7 +224,7 @@ margin-right: 20px;
   cursor: pointer;
   font-size: 18px;
   color: #101010;
- margin: 0 0 0 550px;
+ margin: 0 0 0 470px;
 }
 /* .css-11xur9t-MuiPaper-root-MuiTableContainer-root {
 
@@ -220,6 +235,34 @@ margin-right: 20px;
 } */
 .bill-tab{
   width: 100%!important;
+
+}
+.Dailypayment{
+    overflow-x: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none; /* Internet Explorer and Edge */
+   scroll-behavior: smooth;
+  /* WebKit (Chrome, Safari, and Opera) */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+.total-cell{
+  margin-right: 100px;
+  font-weight: bold!important;
+ 
+}
+.grandtotal-cell{
+  margin-right: 100px;
+  font-weight: bold!important;
+  font-size: 20px!important;
+}
+.status-total{
+  font-weight: bold!important;
+}
+.grandstatus-total{
+  font-weight: bold!important;
+  font-size: 20px!important;
 }
 .bill-list-button{
   width: 10%;
@@ -233,6 +276,13 @@ margin-right: 20px;
   border-radius: 8px;
   margin: 10px 0px 0px 50px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  overflow-x: scroll;
+  scrollbar-width: 1px;
+  -ms-overflow-style: none; /* Internet Explorer and Edge */
+   scroll-behavior: smooth;
+  /* WebKit (Chrome, Safari, and Opera) */
+
+ 
 }
 .CrossButton {
   background-color: transparent;
@@ -365,16 +415,7 @@ box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   margin: 20px 0 0 30px;
   font-size: 14px;
 }
-/* .PrintButton {
-  margin:0 0 0 400px;
-   padding: 8px 16px;
-   background-color: #149712!important;
-   color: white;
-   border: none;
-   border-radius: 4px;
-   cursor: pointer;
-   margin-left: 140px;
- } */
+
   .CloseButton {
     background-color: transparent;
     border: none;

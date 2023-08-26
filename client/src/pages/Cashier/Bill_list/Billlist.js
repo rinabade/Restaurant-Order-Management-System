@@ -12,34 +12,13 @@ import Paper from "@mui/material/Paper";
 import { Button } from "react-bootstrap";
 import { getPaymentDetail } from "../../../api/userAction";
 
-const makeStyle=(status)=>{
-  if(status === 'complete')
-  {
-    return {
-      background: 'rgb(145 254 159 / 47%)',
-      color: 'green',
-    }
-  }
-  else if(status === 'pending')
-  {
-    return{
-      background: '#ffadad8f',
-      color: 'red',
-    }
-  }
-}
 
 const Billlist = () => {
   const [orders, setOrders] = useState([]);
   const [data, setData] = useState([]);
+  const [cashTotal, setCashTotal] = useState(0);
+  const [fonepayTotal, setFonepayTotal] = useState(0);
 
-  const calculateTotalPrice = (order) => {
-    let totalPrice = 0;
-    for (const item of order.cart) {
-      totalPrice += item.quantity * item.price;
-    }
-    return totalPrice;
-  };
 
   useEffect(() => {
     const storedOrders = localStorage.getItem("cashierOrders");
@@ -58,9 +37,25 @@ const Billlist = () => {
       setData(response.data.data)
     })
   },[])
+  useEffect(() => {
+    // Calculate cash and fonepay totals
+    let cashTotal = 0;
+    let fonepayTotal = 0;
+    data.forEach((dataItem) => {
+      if (dataItem.payment_method === "cash") {
+        cashTotal += dataItem.Total_price;
+      } else if (dataItem.payment_method === "fonepay") {
+        fonepayTotal += dataItem.Total_price;
+      }
+    });
+    setCashTotal(cashTotal);
+    setFonepayTotal(fonepayTotal);
+  }, [data]);
+
+  const grandTotal = cashTotal + fonepayTotal;
 
   return (
-    <div>
+    <div className="Dailypayment">
       <div className="title-icon mb-5 mt-5 dflex">
         <h3>Daily Report</h3>
       </div>
@@ -89,10 +84,34 @@ const Billlist = () => {
                   <TableCell className="border">{dataItem.transactionCode}</TableCell>
                   <TableCell className="border">{dataItem.createdAt}</TableCell>
                   <TableCell align="left" className="border">
-                    <span className="status" style={makeStyle(dataItem.payment_status)}>{dataItem.payment_status}</span>
+                    <span className="status" >{dataItem.Total_price}</span>
                   </TableCell>
                 </TableRow>
               ))}
+                 {/*cash payment */}
+                 <TableRow>
+                <TableCell colSpan={4}></TableCell>
+                <TableCell className="total-cell">Cash Payment Total:</TableCell>
+                <TableCell align="left" className="border">
+                  <span className="status-total">{cashTotal}</span>
+                </TableCell>
+              </TableRow>
+              {/*fonepay payment */}
+              <TableRow>
+                <TableCell colSpan={4}></TableCell>
+                <TableCell className="total-cell">Fonepay Payment Total:</TableCell>
+                <TableCell align="left" className="border">
+                  <span className="status-total">{fonepayTotal}</span>
+                </TableCell>
+              </TableRow>
+              {/*grand total */}
+              <TableRow>
+                <TableCell colSpan={4}></TableCell>
+                <TableCell className="grandtotal-cell">Grand Total:</TableCell>
+                <TableCell align="left" className="border">
+                  <span className="grandstatus-total">{grandTotal}</span>
+                </TableCell>
+              </TableRow>
             </TableBody>
           </Table>
         </TableContainer>

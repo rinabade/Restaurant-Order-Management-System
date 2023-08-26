@@ -3,7 +3,7 @@
 
 // Analytics Cards imports
 import { FaBars,FaCalendarMinus, FaUserAlt, FaHome, FaUsers, FaClipboard, FaClipboardList, FaCubes, FaHandshake, FaChevronCircleRight, FaRegCreditCard, FaMoneyCheck } from "react-icons/fa";
-import header from "../imgs/header.jpg";
+// import header from "../imgs/header.jpg";
 
 
 // Sidebar Data
@@ -30,11 +30,11 @@ export const SidebarData = [
     heading: "Menu",
     path: "/admin/AdminMenu",
   },
-  // {
-  //   icon: FaClipboard,
-  //   heading: "AdminRole",
-  //   path: "/admin/AdminRole",
-  // },
+  {
+    icon: FaClipboard,
+    heading: "Table Booking",
+    path: "/admin/AdminTablebook",
+  },
   // {
   //   icon: FaClipboard,
   //   heading: "Permission",
@@ -100,6 +100,11 @@ export const CashierSidebarData = [
     icon: FaClipboardList,
     heading: "Daily Report",
     path: "/Cashier/Billlist",
+  },
+  {
+    icon: FaClipboard,
+    heading: "Table Booking",
+    path: "/cashier/CashierTablebook",
   },
   {
     icon: FaUserAlt,

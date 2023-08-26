@@ -181,3 +181,22 @@ export const getOrders = () => {
   let url = `${Config.BaseUrl}customer/customerOrder`;
   return axios.get(url);
 };
+
+
+export const createReservation = (data) => {
+  let url = `${Config.BaseUrl}customer/reservation`;
+  // const data = {item, selectedTable}
+  console.log(data)
+  return axios.post(url, data);
+};
+
+export const getReservation = () => {
+  let url = `${Config.BaseUrl}customer/reservation`;
+  return axios.get(url);
+};
+
+export const deleteReservation = (id) => {
+  let url = `${Config.BaseUrl}customer/reservation/${id}`;
+  // const data = { table_number: tableNumber };
+  return axios.delete(url);
+};

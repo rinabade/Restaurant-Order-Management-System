@@ -11,6 +11,7 @@ import Feedback from './pages/Admin/Feedback/Feedback';
 import Payment from './pages/Admin/Payment/Payment';
 import Admin_profile from './pages/Admin/Admin_profile/Admin_profile';
 import AdminLogin from './pages/Admin/AdminLogin/AdminLogin';
+import Tablebook from './pages/Admin/Tablebook/Tablebook';
 
 // kitchen route
 import KitchenDash from './pages/Kitchen/KitchenDash/KitchenDash';
@@ -70,6 +71,7 @@ function App() {
               <Route path="Payment" element={<Payment />} />
               <Route path="Admin_profile" element={<Admin_profile />} />
               <Route path="Category" element={<Category />} />
+              <Route path="AdminTablebook" element={<Tablebook/>}/>
             </Route>
            )} 
           
@@ -93,6 +95,7 @@ function App() {
               <Route path="Cashierdash" element={<CashierDash />} />
               <Route path="Cashier_profile" element={<Cashier_profile />} />
               <Route path="Billlist" element={<Billlist />} />
+              <Route path="CashierTablebook" element={<Tablebook/>}/>
               <Route path="Cashier_profile" element={<Cashier_profile />} />
             </Route>
           )}
